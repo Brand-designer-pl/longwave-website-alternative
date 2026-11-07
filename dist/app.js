@@ -25,18 +25,44 @@ if(window.gsap&&window.ScrollTrigger){
  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)',()=>{
   gsap.from('.hero-line > span',{yPercent:110,opacity:0,duration:1.1,stagger:.12,ease:'power3.out'});
   gsap.from('.hero-enter',{y:20,opacity:0,duration:.8,delay:.35,stagger:.12,clearProps:'all'});
+  document.querySelector('#offers').classList.add('reveal');
   document.querySelectorAll('.reveal').forEach(el=>{
-   gsap.fromTo(el,{y:30,opacity:0},{y:0,opacity:1,duration:.75,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 94%',toggleActions:'play none none reverse'}});
-  });
-  document.querySelectorAll('.section h2, .closing-content, .spot-intro').forEach(el=>{
-   gsap.to(el,{y:-25,scrollTrigger:{trigger:el,start:'bottom 22%',end:'bottom top',scrub:.5}});
+   const siblings=[...el.parentElement.children].filter(node=>node.classList.contains('reveal'));
+   const stagger=Math.min(siblings.indexOf(el),3)*2;
+   const distance=innerWidth<700?32:55;
+   // One timeline owns both entrance and exit: no competing transforms.
+   const tl=gsap.timeline({scrollTrigger:{trigger:el,start:()=>`top ${97-stagger}%`,end:'bottom 3%',scrub:.35,invalidateOnRefresh:true}});
+   tl.fromTo(el,{y:distance,opacity:0},{y:0,opacity:1,duration:.2,ease:'power2.out'})
+     .to(el,{y:0,opacity:1,duration:.66})
+     .to(el,{y:-distance*.7,opacity:0,duration:.14,ease:'power1.in'});
   });
   document.querySelectorAll('.parallax').forEach(el=>gsap.fromTo(el,{yPercent:-3},{yPercent:3,ease:'none',scrollTrigger:{trigger:el.parentElement,start:'top bottom',end:'bottom top',scrub:.5}}));
+  document.querySelectorAll('.scene-panel, .closing').forEach(el=>{
+   gsap.fromTo(el,{scale:.94,borderRadius:48},{scale:1,borderRadius:24,ease:'power1.out',scrollTrigger:{trigger:el,start:'top 95%',end:'top 25%',scrub:.4}});
+  });
   gsap.to('.hero-content',{y:-60,opacity:0,scrollTrigger:{trigger:'.hero',start:'bottom 45%',end:'bottom top',scrub:.5}});
  });
  document.querySelectorAll('.faq-item').forEach(el=>el.addEventListener('toggle',()=>ScrollTrigger.refresh()));
  window.addEventListener('load',()=>ScrollTrigger.refresh());
  document.fonts.ready.then(()=>ScrollTrigger.refresh());
  // Keyboard navigation must never land on a transparent entrance state.
- document.addEventListener('focusin',e=>{const el=e.target.closest('.reveal');if(el)gsap.to(el,{opacity:1,y:0,duration:0,overwrite:true});});
+ // CSS :focus-within reveals controls without killing their scroll timeline.
 }
+
+// Muted inline video progressively replaces the poster; playback never gates scrolling.
+const heroVideo=document.querySelector('.hero-video');
+const videoToggle=document.querySelector('.video-toggle');
+let heroVisible=true,userPaused=false;
+function playHero(){
+ if(reduced.matches||document.hidden||!heroVisible||userPaused)return;
+ if(!heroVideo.src){heroVideo.src=matchMedia('(max-width: 700px)').matches?'assets/hero-mobile.mp4':'assets/hero-desktop.mp4';heroVideo.muted=true;heroVideo.defaultMuted=true;heroVideo.load();}
+ heroVideo.play().catch(()=>{ /* Keep the poster when the OS blocks autoplay. */ });
+}
+heroVideo.addEventListener('playing',()=>{heroVideo.classList.add('is-playing');videoToggle.hidden=false;});
+videoToggle.addEventListener('click',()=>{userPaused=!userPaused;videoToggle.textContent=userPaused?'Wznów tło':'Wstrzymaj tło';videoToggle.setAttribute('aria-label',userPaused?'Wznów wideo w tle':'Wstrzymaj wideo w tle');if(userPaused)heroVideo.pause();else playHero();});
+new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;if(heroVisible)playHero();else heroVideo.pause();},{threshold:0}).observe(document.querySelector('.hero'));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)heroVideo.pause();else playHero();});
+reduced.addEventListener('change',()=>{if(reduced.matches){heroVideo.pause();heroVideo.classList.remove('is-playing');videoToggle.hidden=true;}else playHero();});
+// A first normal touch retries blocked playback without a dedicated start overlay.
+document.addEventListener('touchstart',playHero,{passive:true});
+playHero();
