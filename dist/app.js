@@ -51,18 +51,16 @@ if(window.gsap&&window.ScrollTrigger){
 
 // Muted inline video progressively replaces the poster; playback never gates scrolling.
 const heroVideo=document.querySelector('.hero-video');
-const videoToggle=document.querySelector('.video-toggle');
-let heroVisible=true,userPaused=false;
+let heroVisible=true;
 function playHero(){
- if(reduced.matches||document.hidden||!heroVisible||userPaused)return;
+ if(reduced.matches||document.hidden||!heroVisible)return;
  if(!heroVideo.src){heroVideo.src=matchMedia('(max-width: 700px)').matches?'assets/hero-mobile.mp4':'assets/hero-desktop.mp4';heroVideo.muted=true;heroVideo.defaultMuted=true;heroVideo.load();}
  heroVideo.play().catch(()=>{ /* Keep the poster when the OS blocks autoplay. */ });
 }
-heroVideo.addEventListener('playing',()=>{heroVideo.classList.add('is-playing');videoToggle.hidden=false;});
-videoToggle.addEventListener('click',()=>{userPaused=!userPaused;videoToggle.textContent=userPaused?'Wznów tło':'Wstrzymaj tło';videoToggle.setAttribute('aria-label',userPaused?'Wznów wideo w tle':'Wstrzymaj wideo w tle');if(userPaused)heroVideo.pause();else playHero();});
+heroVideo.addEventListener('playing',()=>{heroVideo.classList.add('is-playing');});
 new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;if(heroVisible)playHero();else heroVideo.pause();},{threshold:0}).observe(document.querySelector('.hero'));
 document.addEventListener('visibilitychange',()=>{if(document.hidden)heroVideo.pause();else playHero();});
-reduced.addEventListener('change',()=>{if(reduced.matches){heroVideo.pause();heroVideo.classList.remove('is-playing');videoToggle.hidden=true;}else playHero();});
+reduced.addEventListener('change',()=>{if(reduced.matches){heroVideo.pause();heroVideo.classList.remove('is-playing');}else playHero();});
 // A first normal touch retries blocked playback without a dedicated start overlay.
 document.addEventListener('touchstart',playHero,{passive:true});
 playHero();
