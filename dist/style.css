@@ -16,3 +16,18 @@
 
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0;transition:opacity .7s;pointer-events:none}.hero-video.is-playing{opacity:1}.video-toggle{position:absolute;right:var(--pad);top:130px;z-index:2;padding:11px 16px;border-radius:30px;color:var(--ink);font-size:11px;min-height:44px}.video-toggle[hidden]{display:none}.reveal:focus-within{opacity:1!important;transform:none!important}
 @media(max-width:600px){.video-toggle{top:95px;right:24px}.hero-video{object-position:48% center}}
+/* Larger navigation; font-size participates in layout so neighbours make room. */
+.desktop-nav .nav-group>summary{font-size:15px;white-space:nowrap;padding-inline:2px}
+.desktop-nav .nav-dropdown a{font-size:15px}
+.mobile-menu .nav-group>summary{font-size:28px}
+.mobile-menu .nav-dropdown a{font-size:16px}
+.nav-group>summary,.nav-dropdown a{transition:font-size .25s ease,color .25s ease,padding .25s ease}
+@media(hover:hover) and (pointer:fine){
+ .desktop-nav .nav-group>summary:hover,.desktop-nav .nav-group>summary:focus-visible{font-size:17px;color:var(--sea)}
+ .mobile-menu .nav-group>summary:hover,.mobile-menu .nav-group>summary:focus-visible{font-size:31px;padding-block:18px;color:var(--sea)}
+ .nav-dropdown a:hover,.nav-dropdown a:focus-visible{font-size:17px;padding-block:4px}
+}
+@media(min-width:901px) and (max-width:1120px){
+ .desktop-nav{display:none}.header-actions{margin-left:auto}.header-actions>.button{display:none}.menu-toggle{display:flex}.header-actions .account span{display:block}
+}
+@media(prefers-reduced-motion:reduce){.nav-group>summary,.nav-dropdown a{transition:none}}
