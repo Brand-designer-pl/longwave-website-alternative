@@ -36,3 +36,30 @@
 .header{top:calc(20px + env(safe-area-inset-top,0px))}
 @media(max-width:900px){.header{top:calc(14px + env(safe-area-inset-top,0px))}}
 @media(max-width:600px){.header{top:calc(12px + env(safe-area-inset-top,0px))}}
+
+/* Symmetric columns keep the larger logo on the viewport centre. */
+.header{display:grid;grid-template-columns:minmax(0,1fr) 160px minmax(0,1fr);gap:20px;padding-block:9px}
+.header>.brand{grid-column:2;grid-row:1;justify-self:center}
+.header>.brand img{width:145px;height:76px}
+.header .nav-left{grid-column:1;grid-row:1;margin:0;justify-content:flex-start}
+.header-right{grid-column:3;grid-row:1;display:flex;justify-content:flex-end;align-items:center;gap:22px}
+.header .nav-right{margin:0;gap:18px}
+.header .header-actions{margin:0;gap:14px}
+.header .account span{display:none}
+html{scroll-padding-top:135px}
+@media(max-width:1280px){
+ .header{grid-template-columns:minmax(0,1fr) 140px minmax(0,1fr);min-height:88px}
+ .header .desktop-nav{display:none}.header-right,.header .header-actions{display:contents}
+ .header .header-actions>.button{display:none}
+ .header .menu-toggle{display:flex;grid-column:1;grid-row:1;justify-self:start}
+ .header .account{grid-column:3;grid-row:1;justify-self:end;min-width:44px;justify-content:center}
+ .header .account span{display:none}
+ .header>.brand img{width:128px;height:70px}
+}
+@media(max-width:600px){
+ .header{grid-template-columns:minmax(0,1fr) 116px minmax(0,1fr);gap:8px;min-height:82px;padding:6px 14px}
+ .header>.brand img{width:116px;height:68px}
+ .header .menu-toggle{gap:7px}.header .account .icon{width:22px;height:22px}
+ html{scroll-padding-top:calc(116px + env(safe-area-inset-top,0px))}
+ .video-toggle{top:112px}
+}
