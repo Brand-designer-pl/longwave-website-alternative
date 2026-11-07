@@ -75,3 +75,6 @@ html{scroll-padding-top:135px}
  .hero-media,.panel-photo,.closing-photo{transform:none!important}
  .scene-panel,.closing{transform:none!important}
 }
+
+.socials{flex-wrap:wrap}.socials a{min-height:44px;gap:8px}.socials .social-mark{width:21px;height:21px;flex-shrink:0}.socials a:hover .social-mark{transform:translateY(-2px) scale(1.08)}
+@media(max-width:600px){.socials{column-gap:20px;row-gap:5px}}
