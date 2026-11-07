@@ -28,34 +28,31 @@ if(window.gsap&&window.ScrollTrigger){
   gsap.from('.hero-line > span',{yPercent:110,opacity:0,duration:1.1,stagger:.12,ease:'power3.out'});
   gsap.from('.hero-enter',{y:20,opacity:0,duration:.8,delay:.35,stagger:.12,clearProps:'all'});
   document.querySelector('#offers').classList.add('reveal');
-  let mobileObserver;
   if(mobile){
-   const targets=[...document.querySelectorAll('.reveal')];
-   // The observer runs only at viewport boundaries, not on every scroll frame.
-   const moves=new Map();
-   targets.forEach(el=>{
-    const r=el.getBoundingClientRect();
-    if(r.top>innerHeight-24)gsap.set(el,{opacity:0,y:24});
-    moves.set(el,{opacity:gsap.quickTo(el,'opacity',{duration:.45,ease:'power2.out'}),y:gsap.quickTo(el,'y',{duration:.5,ease:'power2.out'})});
-   });
-   mobileObserver=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-     const move=moves.get(entry.target),visible=entry.isIntersecting;
-     move.opacity(visible?1:0);
-     move.y(visible?0:(entry.boundingClientRect.bottom<80?-20:24));
+   document.querySelectorAll('.reveal').forEach(el=>{
+    const below=el.getBoundingClientRect().top>innerHeight*.94;
+    if(below)gsap.set(el,{opacity:0,y:20});
+    // Stable scroll boundaries do not move with the animated element.
+    // Reuse the same tweens; no continuous scrubbing or observer feedback.
+    const opacity=gsap.quickTo(el,'opacity',{duration:.75,ease:'power2.inOut'});
+    const move=gsap.quickTo(el,'y',{duration:.75,ease:'power2.inOut'});
+    const show=()=>{opacity(1);move(0);};
+    ScrollTrigger.create({trigger:el,start:'top 94%',end:'bottom 8%',
+     onEnter:show,onEnterBack:show,
+     onLeave:()=>{opacity(0);move(-16);},
+     onLeaveBack:()=>{opacity(0);move(20);}
     });
-   },{rootMargin:'-80px 0px -24px 0px',threshold:0});
-   targets.forEach(el=>mobileObserver.observe(el));
+   });
   }else{
   document.querySelectorAll('.reveal').forEach(el=>{
    const siblings=[...el.parentElement.children].filter(node=>node.classList.contains('reveal'));
    const stagger=Math.min(siblings.indexOf(el),3)*2;
-   const distance=innerWidth<700?32:55;
+   const distance=32;
    // One timeline owns both entrance and exit: no competing transforms.
-   const tl=gsap.timeline({scrollTrigger:{trigger:el,start:()=>`top ${97-stagger}%`,end:'bottom 3%',scrub:.35,invalidateOnRefresh:true}});
-   tl.fromTo(el,{y:distance,opacity:0},{y:0,opacity:1,duration:.2,ease:'power2.out'})
-     .to(el,{y:0,opacity:1,duration:.66})
-     .to(el,{y:-distance*.7,opacity:0,duration:.14,ease:'power1.in'});
+   const tl=gsap.timeline({scrollTrigger:{trigger:el,start:()=>`top ${97-stagger}%`,end:'bottom 3%',scrub:.65,invalidateOnRefresh:true}});
+   tl.fromTo(el,{y:distance,opacity:0},{y:0,opacity:1,duration:.26,ease:'power2.out'})
+     .to(el,{y:0,opacity:1,duration:.56})
+     .to(el,{y:-distance*.7,opacity:0,duration:.18,ease:'power1.in'});
   });
   }
   if(!mobile){
@@ -65,7 +62,7 @@ if(window.gsap&&window.ScrollTrigger){
   });
   }
   gsap.to('.hero-content',{y:-60,opacity:0,scrollTrigger:{trigger:'.hero',start:'bottom 45%',end:'bottom top',scrub:.5}});
-  return ()=>mobileObserver?.disconnect();
+
  });
  document.querySelectorAll('.faq-item').forEach(el=>el.addEventListener('toggle',()=>ScrollTrigger.refresh()));
  window.addEventListener('load',()=>ScrollTrigger.refresh());
