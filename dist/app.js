@@ -22,10 +22,31 @@ fetch('offers.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('catalog')
 document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',b===button?'true':'false'));renderOffers(button.dataset.filter);}));
 if(window.gsap&&window.ScrollTrigger){
  gsap.registerPlugin(ScrollTrigger);
- gsap.matchMedia().add('(prefers-reduced-motion: no-preference)',()=>{
+ gsap.matchMedia().add({motion:'(prefers-reduced-motion: no-preference)',mobile:'(max-width: 767px)'},context=>{
+  if(!context.conditions.motion)return;
+  const mobile=context.conditions.mobile;
   gsap.from('.hero-line > span',{yPercent:110,opacity:0,duration:1.1,stagger:.12,ease:'power3.out'});
   gsap.from('.hero-enter',{y:20,opacity:0,duration:.8,delay:.35,stagger:.12,clearProps:'all'});
   document.querySelector('#offers').classList.add('reveal');
+  let mobileObserver;
+  if(mobile){
+   const targets=[...document.querySelectorAll('.reveal')];
+   // The observer runs only at viewport boundaries, not on every scroll frame.
+   const moves=new Map();
+   targets.forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top>innerHeight-24)gsap.set(el,{opacity:0,y:24});
+    moves.set(el,{opacity:gsap.quickTo(el,'opacity',{duration:.45,ease:'power2.out'}),y:gsap.quickTo(el,'y',{duration:.5,ease:'power2.out'})});
+   });
+   mobileObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+     const move=moves.get(entry.target),visible=entry.isIntersecting;
+     move.opacity(visible?1:0);
+     move.y(visible?0:(entry.boundingClientRect.bottom<80?-20:24));
+    });
+   },{rootMargin:'-80px 0px -24px 0px',threshold:0});
+   targets.forEach(el=>mobileObserver.observe(el));
+  }else{
   document.querySelectorAll('.reveal').forEach(el=>{
    const siblings=[...el.parentElement.children].filter(node=>node.classList.contains('reveal'));
    const stagger=Math.min(siblings.indexOf(el),3)*2;
@@ -36,11 +57,15 @@ if(window.gsap&&window.ScrollTrigger){
      .to(el,{y:0,opacity:1,duration:.66})
      .to(el,{y:-distance*.7,opacity:0,duration:.14,ease:'power1.in'});
   });
+  }
+  if(!mobile){
   document.querySelectorAll('.parallax').forEach(el=>gsap.fromTo(el,{yPercent:-3},{yPercent:3,ease:'none',scrollTrigger:{trigger:el.parentElement,start:'top bottom',end:'bottom top',scrub:.5}}));
   document.querySelectorAll('.scene-panel, .closing').forEach(el=>{
    gsap.fromTo(el,{scale:.94,borderRadius:48},{scale:1,borderRadius:24,ease:'power1.out',scrollTrigger:{trigger:el,start:'top 95%',end:'top 25%',scrub:.4}});
   });
+  }
   gsap.to('.hero-content',{y:-60,opacity:0,scrollTrigger:{trigger:'.hero',start:'bottom 45%',end:'bottom top',scrub:.5}});
+  return ()=>mobileObserver?.disconnect();
  });
  document.querySelectorAll('.faq-item').forEach(el=>el.addEventListener('toggle',()=>ScrollTrigger.refresh()));
  window.addEventListener('load',()=>ScrollTrigger.refresh());
@@ -53,8 +78,8 @@ if(window.gsap&&window.ScrollTrigger){
 const heroVideo=document.querySelector('.hero-video');
 let heroVisible=true;
 function playHero(){
- if(reduced.matches||document.hidden||!heroVisible)return;
- if(!heroVideo.src){heroVideo.src=matchMedia('(max-width: 700px)').matches?'assets/hero-mobile.mp4':'assets/hero-desktop.mp4';heroVideo.muted=true;heroVideo.defaultMuted=true;heroVideo.load();}
+ if(reduced.matches||document.hidden||!heroVisible||dialog.open||!heroVideo.paused)return;
+ if(!heroVideo.src){heroVideo.src=matchMedia('(max-width: 700px)').matches?'assets/hero-mobile-portrait.mp4':'assets/hero-desktop.mp4';heroVideo.muted=true;heroVideo.defaultMuted=true;heroVideo.load();}
  heroVideo.play().catch(()=>{ /* Keep the poster when the OS blocks autoplay. */ });
 }
 heroVideo.addEventListener('playing',()=>{heroVideo.classList.add('is-playing');});
@@ -62,5 +87,8 @@ new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;if(hero
 document.addEventListener('visibilitychange',()=>{if(document.hidden)heroVideo.pause();else playHero();});
 reduced.addEventListener('change',()=>{if(reduced.matches){heroVideo.pause();heroVideo.classList.remove('is-playing');}else playHero();});
 // A first normal touch retries blocked playback without a dedicated start overlay.
-document.addEventListener('touchstart',playHero,{passive:true});
+function retryHero(){if(heroVideo.paused)playHero();}
+document.addEventListener('touchstart',retryHero,{passive:true});
+heroVideo.addEventListener('playing',()=>document.removeEventListener('touchstart',retryHero));
+new MutationObserver(()=>{if(dialog.open)heroVideo.pause();else playHero();}).observe(dialog,{attributes:true,attributeFilter:['open']});
 playHero();

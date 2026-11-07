@@ -63,3 +63,15 @@ html{scroll-padding-top:135px}
  html{scroll-padding-top:calc(116px + env(safe-area-inset-top,0px))}
  .video-toggle{top:112px}
 }
+
+/* Mobile: keep glass on the fixed navigation, avoid layered live blur on cards. */
+@media(max-width:767px){
+ .glass,.trip-card,.trip-category,.button.glass-button{backdrop-filter:none;-webkit-backdrop-filter:none}
+ .glass{background:linear-gradient(120deg,#ffffffe0,#ffffffa6)}
+ .trip-card{background:#ffffffb8}.button.glass-button{background:#ffffff30}
+ .header{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:#ffffffc2;box-shadow:none}
+ .mobile-menu{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+ .mobile-menu .nav-dropdown{backdrop-filter:none;-webkit-backdrop-filter:none}
+ .hero-media,.panel-photo,.closing-photo{transform:none!important}
+ .scene-panel,.closing{transform:none!important}
+}
