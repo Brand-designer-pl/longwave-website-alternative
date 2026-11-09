@@ -180,3 +180,9 @@ summary::-webkit-details-marker{display:none}
 }
 .story-copy blockquote{margin:0 0 22px;padding:15px 0 15px 16px;border-left:3px solid var(--sun)}
 .story-copy blockquote footer{margin-top:7px;font-size:.8rem;color:#46575b}
+
+.mosaic figure{overflow:hidden}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .round-arrow .icon,.pill .icon{transition:transform .22s ease-out}
+  .choice:hover .round-arrow .icon,.pill:hover .icon{transform:translate(2px,-2px)}
+}

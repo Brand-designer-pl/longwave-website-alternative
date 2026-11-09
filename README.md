@@ -58,3 +58,9 @@ zapowiedzi do czasu otrzymania materiałów inwestycji.
 `/amigos/?premiera=1` pokazuje pasek i blok premierowy przed datą startu.
 Obie wersje korzystają z tego samego ustawienia premiery w `dist/launch.js`
 oraz tego samego odświeżania katalogu w `tools/sync-offers.py`.
+
+Animacje wariantu `/amigos/` korzystają z lokalnych GSAP i ScrollTrigger
+3.15.0. Adaptacja wzorców Premium Web Agent 1.0.0: `hero-reveal`,
+`scroll-reveal`, `parallax` i `motion-accessibility`. Efekty wejścia
+uruchamiają się raz na blok, paralaksa działa na szerokich ekranach,
+a ustawienie ograniczenia ruchu przywraca statyczny układ.
