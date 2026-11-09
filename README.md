@@ -31,3 +31,17 @@ Kontrole: desktop bez zmian ruchu; mobile autoplay, pauza poza hero, menu i kotw
 ### Wygładzenie wejść — 2026-11-07
 Po uwadze o odczuwalnym szarpaniu zastąpiono mobilny IntersectionObserver stabilnymi progami ScrollTrigger (callbacki, bez scrub). Ruch i opacity mają wspólny czas 0,75 s i easing power2.inOut; przesunięcie wejścia 20 px. Wielokrotnie używane quickTo pozostają, bez tworzenia animacji na każdą klatkę. Desktop: mniejsze przesunięcie i łagodniejsze wygładzanie scrub. Zachowane wcześniejsze odchudzenie szkła i filmu.
 Ta sama emulowana trasa 12 s / CPU 4×: TaskDuration 1,710 s, ScriptDuration 0,241 s, p95 rAF 16,7 ms, 0 odstępów ponad 32 ms; 47 triggerów callbackowych. Pojedynczy pomiar laboratoryjny, wyniki zależą od środowiska. Sprawdzone wejście/wyjście i powrót, pauza filmu poza hero oraz reduced motion (0 triggerów i widoczna treść).
+
+## Home Spot 2.0 — 09.11.2026
+
+Menu Noclegi i kafelek ze strony głównej prowadzą do zbiorczej strony `/noclegi/`.
+Home Spot Jastarnia i Home Spot 2.0 mają osobne karty. Projekt 2.0 ma stałą
+ścieżkę `/noclegi/home-spot-2-0/` z opisem i statusem, bez rezerwacji.
+Grafika typograficzna zastępuje materiał nowej inwestycji do czasu
+otrzymania zdjęć i zatwierdzonego opisu. Podgląd GitHub Pages ma `noindex`.
+
+Pasek i blok po „Wybierz swoją przygodę” pojawiają się od północy
+1 grudnia 2026 czasu polskiego. Podgląd wcześniej: dopisz `?premiera=1`
+do adresu strony głównej. Po kampanii ustaw `campaignEnabled = false`
+w `dist/launch.js` i opublikuj. Strony, menu i stałe karty są częścią
+podglądu już teraz. Karta w aplikacji i panel CMS są osobnymi wdrożeniami.
