@@ -45,3 +45,16 @@ Pasek i blok po „Wybierz swoją przygodę” pojawiają się od północy
 do adresu strony głównej. Po kampanii ustaw `campaignEnabled = false`
 w `dist/launch.js` i opublikuj. Strony, menu i stałe karty są częścią
 podglądu już teraz. Karta w aplikacji i panel CMS są osobnymi wdrożeniami.
+
+## Wariant inspirowany Amigos Surf
+
+Ścieżka `/amigos/` jest osobnym podglądem w tym samym wdrożeniu GitHub Pages.
+Kierunek wykorzystuje pełnoekranowe otwarcie, duże karty zdjęciowe, mozaikę
+i prostą typografię z inspiracji [Amigos Surf](https://www.amigossurf.com/).
+Źródło zakresu: brief LONGWAVE 2.0, s. 18–29. Zdjęcia i film pochodzą z
+istniejących materiałów LONGWAVE. Grafika fali przy Home Spot 2.0 pełni rolę
+zapowiedzi do czasu otrzymania materiałów inwestycji.
+
+`/amigos/?premiera=1` pokazuje pasek i blok premierowy przed datą startu.
+Obie wersje korzystają z tego samego ustawienia premiery w `dist/launch.js`
+oraz tego samego odświeżania katalogu w `tools/sync-offers.py`.

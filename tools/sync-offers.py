@@ -5,8 +5,8 @@ ROOT = Path(__file__).resolve().parents[1] / 'dist'
 def get(url):
     with urllib.request.urlopen(url, timeout=30) as r: return r.read()
 def esc(v): return html.escape(str(v))
-def card(t):
-    return f'''<a class="trip-card" href="https://app.longwaveboards.com/"><div class="trip-image"><img src="{esc(t['image'])}" alt="{esc(t['title'])}" loading="lazy" width="720" height="480"><span class="trip-category">{esc(t['category'])}</span></div><div class="trip-body"><p class="trip-place">{esc(t['place'])}</p><h3>{esc(t['title'])}</h3><p class="trip-date">{esc(t['dates'])}</p><p class="trip-age">{esc(t['age'])}</p><div class="trip-foot"><strong class="trip-price">{esc(t['priceLabel'])}</strong><span class="trip-status">{esc(t['status'])}</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></div></div></a>'''
+def card(t, asset_prefix):
+    return f'''<a class="trip-card" href="https://app.longwaveboards.com/"><div class="trip-image"><img src="{esc(asset_prefix + t['image'])}" alt="{esc(t['title'])}" loading="lazy" width="720" height="480"><span class="trip-category">{esc(t['category'])}</span></div><div class="trip-body"><p class="trip-place">{esc(t['place'])}</p><h3>{esc(t['title'])}</h3><p class="trip-date">{esc(t['dates'])}</p><p class="trip-age">{esc(t['age'])}</p><div class="trip-foot"><strong class="trip-price">{esc(t['priceLabel'])}</strong><span class="trip-status">{esc(t['status'])}</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></div></div></a>'''
 data=json.loads(get('https://app.longwaveboards.com/api/offers'))
 items=[]
 for o in data['offers']:
@@ -25,5 +25,16 @@ for o in data['offers']:
 items.sort(key=lambda t:t['start'])
 payload=dict(updatedAt=datetime.now(timezone.utc).isoformat(),items=items)
 (ROOT/'offers.json').write_text(json.dumps(payload,ensure_ascii=False),encoding='utf-8')
-p=ROOT/'index.html'; s=p.read_text(); s=re.sub(r'<!-- OFFERS_START -->.*?<!-- OFFERS_END -->','<!-- OFFERS_START -->'+''.join(map(card,items[:3]))+'<!-- OFFERS_END -->',s,flags=re.S);p.write_text(s)
+for page, asset_prefix in ((ROOT/'index.html', ''), (ROOT/'amigos/index.html', '../')):
+    markup = ''.join(card(term, asset_prefix) for term in items[:3])
+    if not markup:
+        markup = '<p>Sprawdź kolejne terminy w aplikacji LONGWAVE.</p>'
+    content = page.read_text(encoding='utf-8')
+    updated = re.sub(
+        r'<!-- OFFERS_START -->.*?<!-- OFFERS_END -->',
+        lambda _: '<!-- OFFERS_START -->' + markup + '<!-- OFFERS_END -->',
+        content,
+        flags=re.S,
+    )
+    page.write_text(updated, encoding='utf-8')
 print(f'Synchronized {len(items)} terms')
