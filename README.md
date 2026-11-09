@@ -64,3 +64,14 @@ Animacje wariantu `/amigos/` korzystają z lokalnych GSAP i ScrollTrigger
 `scroll-reveal`, `parallax` i `motion-accessibility`. Efekty wejścia
 uruchamiają się raz na blok, paralaksa działa na szerokich ekranach,
 a ustawienie ograniczenia ruchu przywraca statyczny układ.
+
+Hero wariantu Amigos wykorzystuje wyciszony fragment 00:48–00:56 z filmu
+„Festiwalowe rozpoczęcie sezonu z LONGWAVE” (1120 px na desktopie,
+360 × 640 na telefonie). Podczas przewijania powiększa się sam kadr,
+a treść hero przesuwa się nad nim. Przejście do Home Spot 2.0 wiąże
+ruch grafiki fali z pozycją przewijania bez przypinania sekcji.
+
+Pomiar w Chrome, 390 × 844, CPU 4× wolniej, 10 s przewijania do premiery
+i z powrotem: p95 odstępów rAF 16,7 → 16,7 ms, odstępy powyżej 32 ms
+0 → 0, TaskDuration 0,123 → 0,232 s. Test laboratoryjny porównuje
+poprzedni podgląd publiczny z nowym podglądem lokalnym po starcie filmu.

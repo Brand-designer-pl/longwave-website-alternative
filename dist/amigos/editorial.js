@@ -64,8 +64,8 @@ if (video) {
 
     if (!video.src) {
       video.src = smallScreen.matches
-        ? '../assets/hero-mobile-portrait.mp4'
-        : '../assets/hero-desktop.mp4';
+        ? 'festival-mobile.mp4'
+        : 'festival-desktop.mp4';
     }
     video.play().catch(() => {
       control.textContent = 'Włącz film w tle';

@@ -8,7 +8,15 @@
   motion.add('(prefers-reduced-motion: no-preference)', () => {
     const hero = document.querySelector('.hero-content');
     if (hero) {
-      gsap.from(hero.querySelectorAll(':scope > .kicker, .hero-mark, .hero-row > div:first-child'), {
+      const stage = hero.closest('.hero');
+      gsap.timeline({
+        defaults: {ease: 'none'},
+        scrollTrigger: {trigger: stage, start: 'top top', end: 'bottom top', scrub: true},
+      })
+        .fromTo(stage.querySelector('.hero-frame'), {scale: 1}, {scale: 1.2}, 0)
+        .to(hero, {y: -44}, 0)
+        .to(hero.querySelector('.hero-mark'), {scale: 0.91, transformOrigin: 'left bottom'}, 0);
+      gsap.from(hero.querySelectorAll(':scope > .kicker, .hero-row > div:first-child'), {
         y: 24,
         opacity: 0.65,
         duration: 0.8,
@@ -48,6 +56,13 @@
 
       const campaign = section.querySelector('.campaign');
       if (campaign) {
+        const wave = campaign.querySelector('.wave-art');
+        gsap.timeline({
+          defaults: {ease: 'none'},
+          scrollTrigger: {trigger: campaign, start: 'top 96%', end: 'top 20%', scrub: true},
+        })
+          .fromTo(wave, {yPercent: 20, scale: 1.3}, {yPercent: 0, scale: 1.05}, 0)
+          .from(campaign.querySelector('.campaign-copy'), {y: 26}, 0);
         gsap.from(campaign.querySelectorAll('.wave-art path, .wave-art circle'), {
           x: 32,
           opacity: 0,
@@ -62,7 +77,7 @@
   });
 
   motion.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
-    gsap.utils.toArray('.story-photo img, .campaign .wave-art').forEach(art => {
+    gsap.utils.toArray('.story-photo img').forEach(art => {
       gsap.fromTo(art, {yPercent: -4, scale: 1.1}, {
         yPercent: 4,
         scale: 1.1,
