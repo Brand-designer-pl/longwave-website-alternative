@@ -37,10 +37,10 @@
         "start": 31.45,
         "duration": 0.7,
         "crop": [
-          450,
-          800,
-          "1150-350*min(t/0.7\\,1)",
-          280
+          540,
+          960,
+          "1090-400*min(t/0.55\\,1)",
+          120
         ],
         "subject": "Uśmiechnięta uczestniczka w wodzie"
       },
