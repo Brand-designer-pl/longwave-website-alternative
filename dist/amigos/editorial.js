@@ -115,6 +115,9 @@ if (locationHero) {
   const screen = locationHero.querySelector('.location-screen');
   const control = locationHero.querySelector('.film-control');
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileView = matchMedia('(max-width: 650px), (hover: none) and (pointer: coarse)');
+  const nativeVideo = locationHero.querySelector('.location-mobile-film');
+  const usesNativeFilm = () => Boolean(nativeVideo && mobileView.matches);
   let enabled = !preference.matches;
   let visible = false;
   let ready = false;
@@ -166,6 +169,7 @@ if (locationHero) {
     enabled = false;
     failed = true;
     if (ready) player.pauseVideo();
+    nativeVideo?.pause();
     showPoster();
     control.textContent = 'Spróbuj włączyć film';
   }
@@ -180,7 +184,7 @@ if (locationHero) {
     control.textContent = 'Anuluj ładowanie filmu';
     try {
       await loadAPI();
-      if (!shouldPlay()) return;
+      if (!shouldPlay() || usesNativeFilm()) return;
       const id = locationHero.dataset.heroYoutube;
       const frame = document.createElement('iframe');
       const parameters = new URLSearchParams({
@@ -201,35 +205,52 @@ if (locationHero) {
         },
         onStateChange: event => {
           if (event.data === YT.PlayerState.PLAYING) {
-            clearTimeout(startupTimer);
-            if (!shouldPlay()) {
+            if (!shouldPlay() || usesNativeFilm()) {
               player.pauseVideo();
               return;
             }
+            clearTimeout(startupTimer);
             screen.classList.add('is-playing');
             control.textContent = 'Wstrzymaj film w tle';
-          } else if (event.data === YT.PlayerState.PAUSED) {
+          } else if (event.data === YT.PlayerState.PAUSED && !usesNativeFilm()) {
+            if (shouldPlay()) enabled = false;
             showPoster();
             control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
           }
         },
-        onError: unavailable,
-        onAutoplayBlocked: unavailable,
+        onError: () => { if (!usesNativeFilm()) unavailable(); },
+        onAutoplayBlocked: () => { if (!usesNativeFilm()) unavailable(); },
       }});
       startTimer();
     } catch {
-      unavailable();
+      if (!usesNativeFilm()) unavailable();
     } finally {
       loading = false;
     }
   }
 
   function updateLocationFilm() {
+    const native = usesNativeFilm();
+    screen.classList.toggle('is-native', native);
+    if (native && ready) player.pauseVideo();
+    if (!native) nativeVideo?.pause();
     if (!shouldPlay()) {
       clearTimeout(startupTimer);
       if (ready) player.pauseVideo();
+      nativeVideo?.pause();
       showPoster();
       control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
+      return;
+    }
+    if (native) {
+      if (!nativeVideo.paused) return;
+      if (!nativeVideo.getAttribute('src')) nativeVideo.src = nativeVideo.dataset.src;
+      nativeVideo.muted = true;
+      control.textContent = 'Anuluj ładowanie filmu';
+      startTimer();
+      nativeVideo.play().catch(error => {
+        if (error.name !== 'AbortError' && usesNativeFilm() && shouldPlay()) unavailable();
+      });
       return;
     }
     if (loading) return;
@@ -246,10 +267,35 @@ if (locationHero) {
     }
   }
 
+  nativeVideo?.addEventListener('playing', () => {
+    if (!usesNativeFilm() || !shouldPlay()) {
+      nativeVideo.pause();
+      return;
+    }
+    clearTimeout(startupTimer);
+    screen.classList.add('is-playing');
+    control.textContent = 'Wstrzymaj film w tle';
+  });
+  nativeVideo?.addEventListener('pause', () => {
+    if (!usesNativeFilm()) return;
+    if (shouldPlay()) enabled = false;
+    showPoster();
+    control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
+  });
+  nativeVideo?.addEventListener('error', () => {
+    if (usesNativeFilm()) unavailable();
+  });
+  mobileView.addEventListener('change', () => {
+    clearTimeout(startupTimer);
+    showPoster();
+    updateLocationFilm();
+  });
+
   control.hidden = false;
   control.addEventListener('click', () => {
     enabled = !enabled;
     if (enabled && failed) {
+      if (usesNativeFilm()) nativeVideo.load();
       player?.destroy();
       player = undefined;
       ready = false;
@@ -266,6 +312,7 @@ if (locationHero) {
   window.addEventListener('pagehide', () => {
     clearTimeout(startupTimer);
     if (ready) player.pauseVideo();
+    nativeVideo?.pause();
   });
   window.addEventListener('pageshow', updateLocationFilm);
   new IntersectionObserver(([entry]) => {

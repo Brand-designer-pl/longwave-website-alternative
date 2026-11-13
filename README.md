@@ -118,3 +118,42 @@ przez właściciela poziome relacje YouTube, przycinane centralnie do hero.
 Jakość i krótkie nakładki startowe odtwarzacza zależą od YouTube.
 Fizyczny iPhone/Safari i Android nie były dostępne do testu. Recenzja Claude
 niedostępna: `claude auth status` zwraca `loggedIn: false`.
+
+### Pionowe montaże mobile — 13.11.2026
+
+Gotowy jest **Rodos**: osobna pętla 9:16, 540 × 960 / 24 fps, ok. 7,7 s
+(ok. 1,3 MB), H.264 bez ścieżki audio, z nagłówkiem MP4 faststart.
+Sześć wybranych ujęć z relacji klienta pokazuje uczestnika na plaży,
+wybrzeże, uśmiechniętą uczestniczkę w wodzie, wingfoil i zachód słońca.
+Każde ujęcie ma własny obszar kadrowania; ujęcie twarzy ma ruch kadru.
+Eksport jest celowo krótki i lekko zwolniony do tempa 0,8×.
+
+Na telefonach i urządzeniach dotykowych Rodos używa lokalnego MP4 i WebP,
+bez pobierania odtwarzacza YouTube. Szeroki desktop zachowuje dotychczasową
+relację. Autostart jest wyciszony i inline, z pauzą poza ekranem, w tle
+oraz pod menu. Reduced motion pozostawia zdjęcie i możliwość ręcznego
+startu; awaria pliku pokazuje kadr i przycisk ponowienia.
+
+Pliki do edycji: `sources/hero-mobile/edits.json` (czasy, obszary kadrowania,
+prędkość i źródło), `tools/render-mobile-heroes.py` (eksport z FFmpeg),
+`dist/amigos/wyjazdy/rodos/hero-mobile.mp4` oraz `hero-mobile.webp`.
+Oryginał `sources/hero-mobile/rodos-source.mp4` pozostaje lokalnie i jest
+wykluczony z Git; manifest zawiera jego SHA-256 oraz publiczny adres źródła.
+Render: `python3 tools/render-mobile-heroes.py rodos --ffmpeg /ścieżka/ffmpeg`.
+
+**Łazy, Jastarnia i Dąbki czekają na pliki źródłowe od klienta**, zgodnie
+z odpowiedzią właściciela z 13.11.2026. Pobranie ich z YouTube wymagało
+zalogowania. Nie zastępowano tych relacji innymi materiałami. Po otrzymaniu
+plików należy dobrać ujęcia i kadry, dopisać trzy montaże do tego samego
+manifestu, dodać lokalne pliki do hero i powtórzyć test mobilny.
+
+Testy lokalne Chrome: emulacja iPhone 390 × 844 i Android 360 × 800,
+autostart, rozmiar dekodowanego filmu 540 × 960, wyciszenie, pętla,
+pauza/wznowienie, menu, przewijanie, reduced motion z ręcznym startem,
+błąd pobierania z ponowieniem oraz przełączanie mobile/desktop.
+Brak żądań do YouTube na mobile Rodos, brak poziomego overflow i błędów JS.
+Warianty pozostałych trzech miejscówek nadal odtwarzają YouTube.
+Próba CPU 4× / 1,6 Mb/s / opóźnienie 150 ms: start Rodos po ok. 1,9 s.
+Potwierdzono przyrost licznika dekodowanych klatek i zmiany ujęć w trakcie
+odtwarzania. To testy laboratoryjne Chrome, bez fizycznego telefonu/Safari.
+Recenzja Claude niedostępna: CLI pozostaje niezalogowane.

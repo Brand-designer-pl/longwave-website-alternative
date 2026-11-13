@@ -1,2 +1,5 @@
 .DS_Store
 __pycache__/
+
+# Full source videos stay local; publish only optimized hero exports.
+sources/hero-mobile/*-source.mp4

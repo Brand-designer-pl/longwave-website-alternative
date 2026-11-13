@@ -1,0 +1,83 @@
+{
+  "rodos": {
+    "source": "rodos-source.mp4",
+    "source_url": "https://www.youtube.com/watch?v=Y_kaOtBWwU4",
+    "source_title": "RELACJA LONGWAVE CAMP GRECJA RODOS PRASONISI 2025",
+    "size": [
+      540,
+      960
+    ],
+    "speed": 0.8,
+    "fps": 24,
+    "poster_time": 0.4,
+    "shots": [
+      {
+        "start": 11.8,
+        "duration": 0.65,
+        "crop": [
+          608,
+          1080,
+          760,
+          0
+        ],
+        "subject": "Uczestnik z deską na plaży"
+      },
+      {
+        "start": 59.1,
+        "duration": 1.4,
+        "crop": [
+          608,
+          1080,
+          900,
+          0
+        ],
+        "subject": "Woda i wybrzeże Prasonisi"
+      },
+      {
+        "start": 31.45,
+        "duration": 0.7,
+        "crop": [
+          450,
+          800,
+          "1150-350*min(t/0.7\\,1)",
+          280
+        ],
+        "subject": "Uśmiechnięta uczestniczka w wodzie"
+      },
+      {
+        "start": 57.6,
+        "duration": 0.95,
+        "crop": [
+          608,
+          1080,
+          780,
+          0
+        ],
+        "subject": "Wingfoil w szerszym ujęciu"
+      },
+      {
+        "start": 84.45,
+        "duration": 1.0,
+        "crop": [
+          608,
+          1080,
+          660,
+          0
+        ],
+        "subject": "Rider z bliska, pełna sylwetka"
+      },
+      {
+        "start": 91.3,
+        "duration": 1.4,
+        "crop": [
+          608,
+          1080,
+          480,
+          0
+        ],
+        "subject": "Plaża i kite przy zachodzie słońca"
+      }
+    ],
+    "source_sha256": "e626c4daf41a060db7db2fe779c7317b3f21b07e9760bf80677a03bed697d8e6"
+  }
+}
