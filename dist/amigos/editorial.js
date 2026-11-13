@@ -95,3 +95,17 @@ if (video) {
     updateFilm();
   }).observe(video);
 }
+
+document.querySelectorAll('[data-youtube]').forEach(button => {
+  button.hidden = false;
+  button.addEventListener('click', () => {
+    const player = document.createElement('iframe');
+    player.className = 'trip-video-player';
+    player.title = button.parentElement.querySelector('h2, h3').textContent;
+    player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    player.allowFullscreen = true;
+    player.src = 'https://www.youtube-nocookie.com/embed/' + button.dataset.youtube + '?autoplay=1';
+    button.replaceWith(player);
+    player.focus();
+  }, {once: true});
+});

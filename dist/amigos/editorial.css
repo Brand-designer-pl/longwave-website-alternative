@@ -187,3 +187,11 @@ summary::-webkit-details-marker{display:none}
   .round-arrow .icon,.pill .icon{transition:transform .22s ease-out}
   .choice:hover .round-arrow .icon,.pill:hover .icon{transform:translate(2px,-2px)}
 }
+
+.trip-video{
+  display:grid;justify-items:start;gap:14px;margin-top:24px;
+  padding:clamp(20px,4vw,44px);background:var(--sand);border-radius:var(--radius)
+}
+.trip-video h2,.trip-video h3{font-size:clamp(1.65rem,4vw,3rem)}
+.trip-video-link{text-decoration:underline;text-underline-offset:4px}
+.trip-video-player{display:block;width:100%;max-width:900px;aspect-ratio:16/9;border:0;border-radius:12px;background:var(--ocean)}
