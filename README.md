@@ -182,3 +182,37 @@ przewijania Łazów przed/po: viewport 390 × 844, CPU 4×, 1,6 Mb/s,
 w obu kierunkach: p95 odstępu klatek 16,7 / 16,7 ms, 0 / 0 długich
 zadań (>50 ms). To laboratoryjny test sekcji, nie pomiar Core Web Vitals
 ani fizycznego telefonu. Recenzja Claude niedostępna: brak logowania CLI.
+
+### Mleczne szkło i animacja przycisków — 13.11.2026
+
+W całej wersji `/amigos/` (10 stron) przywrócono efekt przycisków z pierwszej
+wersji LONGWAVE: wypełnienie wsuwa się od dołu, a strzałka obraca się o 45°.
+Dotyczy CTA, konta, mobilnego Menu, sterowania filmem i strzałek kart.
+Usunięto złoty hover; klawiatura zachowuje osobny, błękitny obrys focus.
+Przyciski na zdjęciach, filmach i panelu Home Spot 2.0 oraz Moje konto
+korzystają z mlecznego tła (biały 72%, blur 14 px / 10 px na mobile).
+Dropdowny mają subtelne szkło; pełne sekcje nie rozmywają całego ekranu.
+Przeglądarki bez backdrop-filter dostają pełne, czytelne tło.
+
+Ze wszystkich hero usunięto „Obejrzyj relację” i sterowanie filmem.
+Na stronie głównej i czterech miejscówkach opcja włączenia/wyłączenia
+filmu jest teraz w stopce, ze stanem aria-pressed. Wyłączenie pozostaje
+aktywne po powrocie do hero. Autostart, pauza poza ekranem i reduced motion
+zostały zachowane. Pozostałe relacje w treści strony nadal są dostępne.
+Pliki: `dist/amigos/editorial.css`, `editorial.js` i istniejące HTML.
+
+Wzorce sprawdzone: Premium Web Agent 1.0.0, `motion-accessibility` oraz
+`performance-budget`. Adaptacja do istniejącego CSS/JS; bez nowych bibliotek.
+Kontrola lokalna Chrome: wszystkie 10 stron w 320, 390, 1440 px, brak
+overflow i błędów JS; szkło, hover, obrót strzałek, focus i reduced motion.
+Autostart, wyłączenie/włączenie ze stopki oraz zmiana reduced motion
+sprawdzone na stronie głównej i wszystkich czterech miejscówkach.
+Łazy: CTA działa także bez JS. Obejrzano zrzuty mobile i desktop hover.
+
+Próba z odtwarzaniem filmu, CPU 4×, 1,6 Mb/s i 150 ms opóźnienia,
+390 × 844, po 6 s przewijania hero w obu kierunkach: Rodos p95 klatek
+16,7 / 16,7 ms przed/po; główna 16,8 / 16,8 ms; w obu przypadkach
+0 / 0 długich zadań (>50 ms). CDP: czas layoutu Rodos 0,3 / 0,1 ms,
+główna 0,9 / 0,9 ms; przeliczanie stylów głównej 6,6 / 7,9 ms.
+To test laboratoryjny Chrome, bez fizycznego telefonu i Safari.
+Recenzja Claude niedostępna: `claude auth status` zwraca brak logowania.

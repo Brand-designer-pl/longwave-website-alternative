@@ -9,9 +9,9 @@
   <meta property="og:title" content="Łazy | LONGWAVE">
   <meta property="og:description" content="Wakacje blisko plaży. Holiday Golden Resort. Poznaj miejsce i sprawdź ofertę LONGWAVE.">
   <link rel="icon" href="../../../assets/favicon.webp">
-  <link rel="stylesheet" href="../../editorial.css">
+  <link rel="stylesheet" href="../../editorial.css?v=glass-20261113">
   <link rel="stylesheet" href="../../locations.css?v=sections-20261113">
-  <script defer src="../../editorial.js"></script>
+  <script defer src="../../editorial.js?v=glass-20261113"></script>
 </head>
 <body class="destination-page">
   <a class="skip" href="#main">Przejdź do treści</a>
@@ -34,11 +34,10 @@
           <div class="location-film-bottom">
             <p>Wakacje blisko plaży.</p>
             <div class="actions">
-              <a class="pill" href="#dostepnosc">Sprawdź terminy</a>
-              <a class="pill location-outline" href="https://www.youtube.com/watch?v=YU2fqCBEFI8">Obejrzyj relację</a>
+              <a class="pill" href="#dostepnosc">Sprawdź terminy<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
+
             </div>
           </div>
-          <button class="film-control" type="button" hidden>Wstrzymaj film w tle</button>
         </div>
       </div>
     </section>
@@ -71,7 +70,7 @@
     </section>
     <section class="destination-booking destination-section" id="dostepnosc" aria-labelledby="dostepnosc-title">
       <div class="wrap destination-booking-grid">
-        <div><p class="kicker">Twój następny wyjazd</p><h2 id="dostepnosc-title">Terminy i zapisy</h2><p>Wybierz właściwą lokalizację i termin w katalogu Longwave.</p><a class="pill" href="https://app.longwaveboards.com/"><svg class="destination-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="../../location-icons.svg#calendar"/></svg>Sprawdź wyjazdy<svg class="destination-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="../../location-icons.svg#arrow"/></svg></a></div>
+        <div><p class="kicker">Twój następny wyjazd</p><h2 id="dostepnosc-title">Terminy i zapisy</h2><p>Wybierz właściwą lokalizację i termin w katalogu Longwave.</p><a class="pill" href="https://app.longwaveboards.com/"><svg class="destination-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="../../location-icons.svg#calendar"/></svg>Sprawdź wyjazdy<svg class="destination-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
         <div class="destination-booking-symbol" aria-hidden="true"><svg class="destination-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="../../location-icons.svg#compass"/></svg></div>
       </div>
     </section>
@@ -79,6 +78,7 @@
   <footer class="footer"><div class="wrap footer-row">
     <a class="wordmark" href="../../" aria-label="LONGWAVE, strona główna"><img src="../../../assets/logo.webp" width="1920" height="1357" alt="" decoding="async"></a>
     <nav aria-label="Stopka"><a href="../../wyjazdy/">Wyjazdy</a><a href="../../noclegi/">Noclegi</a><a href="mailto:info@longwaveboards.com">Kontakt</a></nav>
-  </div></footer>
+  <button class="film-control" type="button" aria-pressed="false" hidden>Włącz film w tle</button>
+</div></footer>
 </body>
 </html>

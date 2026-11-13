@@ -48,6 +48,11 @@ document.addEventListener('keydown', event => {
   }
 });
 
+function syncFilmControl(control, enabled, failed = false) {
+  control.setAttribute('aria-pressed', String(enabled));
+  control.textContent = failed ? 'Ponów film w tle' : enabled ? 'Wyłącz film w tle' : 'Włącz film w tle';
+}
+
 const video = document.querySelector('.hero-film');
 if (video) {
   const control = document.querySelector('.film-control');
@@ -57,6 +62,7 @@ if (video) {
   let visible = false;
 
   function updateFilm() {
+    syncFilmControl(control, wantsPlayback);
     if (!wantsPlayback || !visible || document.hidden) {
       video.pause();
       return;
@@ -67,22 +73,24 @@ if (video) {
         ? 'festival-mobile.mp4'
         : 'festival-desktop.mp4';
     }
-    video.play().catch(() => {
-      control.textContent = 'Włącz film w tle';
+    video.play().catch(error => {
+      if (error.name === 'AbortError') return;
+      wantsPlayback = false;
+      syncFilmControl(control, false, true);
     });
   }
 
   control.hidden = false;
   control.addEventListener('click', () => {
-    wantsPlayback = video.paused;
+    wantsPlayback = !wantsPlayback;
     updateFilm();
   });
   video.addEventListener('playing', () => {
     video.classList.add('is-playing');
-    control.textContent = 'Wstrzymaj film w tle';
+    syncFilmControl(control, wantsPlayback);
   });
   video.addEventListener('pause', () => {
-    control.textContent = 'Włącz film w tle';
+    syncFilmControl(control, wantsPlayback);
   });
   reducedMotion.addEventListener('change', () => {
     wantsPlayback = !reducedMotion.matches;
@@ -113,7 +121,7 @@ document.querySelectorAll('[data-youtube]').forEach(button => {
 const locationHero = document.querySelector('[data-hero-youtube]');
 if (locationHero) {
   const screen = locationHero.querySelector('.location-screen');
-  const control = locationHero.querySelector('.film-control');
+  const control = document.querySelector('.film-control');
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   const mobileView = matchMedia('(max-width: 650px), (hover: none) and (pointer: coarse)');
   const nativeVideo = locationHero.querySelector('.location-mobile-film');
@@ -171,7 +179,7 @@ if (locationHero) {
     if (ready) player.pauseVideo();
     nativeVideo?.pause();
     showPoster();
-    control.textContent = 'Spróbuj włączyć film';
+    syncFilmControl(control, enabled, failed);
   }
 
   function startTimer() {
@@ -181,7 +189,7 @@ if (locationHero) {
 
   async function createPlayer() {
     loading = true;
-    control.textContent = 'Anuluj ładowanie filmu';
+    syncFilmControl(control, enabled, failed);
     try {
       await loadAPI();
       if (!shouldPlay() || usesNativeFilm()) return;
@@ -211,11 +219,11 @@ if (locationHero) {
             }
             clearTimeout(startupTimer);
             screen.classList.add('is-playing');
-            control.textContent = 'Wstrzymaj film w tle';
+            syncFilmControl(control, enabled, failed);
           } else if (event.data === YT.PlayerState.PAUSED && !usesNativeFilm()) {
             if (shouldPlay()) enabled = false;
             showPoster();
-            control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
+            syncFilmControl(control, enabled, failed);
           }
         },
         onError: () => { if (!usesNativeFilm()) unavailable(); },
@@ -230,6 +238,7 @@ if (locationHero) {
   }
 
   function updateLocationFilm() {
+    syncFilmControl(control, enabled, failed);
     const native = usesNativeFilm();
     screen.classList.toggle('is-native', native);
     if (native && ready) player.pauseVideo();
@@ -239,14 +248,14 @@ if (locationHero) {
       if (ready) player.pauseVideo();
       nativeVideo?.pause();
       showPoster();
-      control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
+      syncFilmControl(control, enabled, failed);
       return;
     }
     if (native) {
       if (!nativeVideo.paused) return;
       if (!nativeVideo.getAttribute('src')) nativeVideo.src = nativeVideo.dataset.src;
       nativeVideo.muted = true;
-      control.textContent = 'Anuluj ładowanie filmu';
+      syncFilmControl(control, enabled, failed);
       startTimer();
       nativeVideo.play().catch(error => {
         if (error.name !== 'AbortError' && usesNativeFilm() && shouldPlay()) unavailable();
@@ -257,12 +266,12 @@ if (locationHero) {
     if (!player) {
       createPlayer();
     } else if (ready && player.getPlayerState() !== YT.PlayerState.PLAYING) {
-      control.textContent = 'Anuluj ładowanie filmu';
+      syncFilmControl(control, enabled, failed);
       player.mute();
       player.playVideo();
       startTimer();
     } else if (!ready) {
-      control.textContent = 'Anuluj ładowanie filmu';
+      syncFilmControl(control, enabled, failed);
       startTimer();
     }
   }
@@ -274,13 +283,13 @@ if (locationHero) {
     }
     clearTimeout(startupTimer);
     screen.classList.add('is-playing');
-    control.textContent = 'Wstrzymaj film w tle';
+    syncFilmControl(control, enabled, failed);
   });
   nativeVideo?.addEventListener('pause', () => {
     if (!usesNativeFilm()) return;
     if (shouldPlay()) enabled = false;
     showPoster();
-    control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
+    syncFilmControl(control, enabled, failed);
   });
   nativeVideo?.addEventListener('error', () => {
     if (usesNativeFilm()) unavailable();
