@@ -109,3 +109,53 @@ document.querySelectorAll('[data-youtube]').forEach(button => {
     player.focus();
   }, {once: true});
 });
+
+const locationHero = document.querySelector('[data-hero-youtube]');
+if (locationHero) {
+  const screen = locationHero.querySelector('.location-screen');
+  const control = locationHero.querySelector('.film-control');
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const youtubeOrigin = 'https://www.youtube-nocookie.com';
+  let enabled = !preference.matches;
+  let visible = false;
+  let frame;
+
+  function updateLocationFilm() {
+    control.textContent = enabled ? 'Wstrzymaj film w tle' : 'Włącz film w tle';
+    if (!enabled || !visible || document.hidden) {
+      frame?.remove();
+      frame = undefined;
+      return;
+    }
+    if (frame) return;
+
+    const id = locationHero.dataset.heroYoutube;
+    const parameters = new URLSearchParams({
+      autoplay: '1', mute: '1', controls: '0', playsinline: '1',
+      loop: '1', playlist: id, rel: '0',
+    });
+    frame = document.createElement('iframe');
+    frame.src = `${youtubeOrigin}/embed/${id}?${parameters}`;
+    frame.title = 'Film w tle';
+    frame.tabIndex = -1;
+    frame.allow = 'autoplay; encrypted-media';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    screen.append(frame);
+  }
+
+  control.hidden = false;
+  control.addEventListener('click', () => {
+    enabled = !enabled;
+    updateLocationFilm();
+  });
+  preference.addEventListener('change', () => {
+    enabled = !preference.matches;
+    updateLocationFilm();
+  });
+  document.addEventListener('visibilitychange', updateLocationFilm);
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    updateLocationFilm();
+  }).observe(locationHero);
+  updateLocationFilm();
+}
