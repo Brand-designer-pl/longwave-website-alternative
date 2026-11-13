@@ -126,3 +126,37 @@
   .destination-booking-symbol{display:none}
   .destination-booking .pill{font-size:.94rem;padding:14px 20px}
 }
+
+/* Fixed destination CTA, with room for content and the phone home indicator. */
+.destination-page{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+html:has(.destination-dock){scroll-padding-bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+.destination-page :is(a,button,summary){scroll-margin-bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+.destination-dock{
+  position:fixed;z-index:20;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+  display:flex;align-items:center;justify-content:space-between;gap:28px;width:min(680px,calc(100% - 40px));
+  padding:14px 16px 14px 24px;border-radius:22px;border:1px solid #ffffffcc;
+  color:#101010;background:#eef1f2;box-shadow:0 10px 40px #00000026,inset 0 1px 0 #ffffff80;
+}
+.destination-dock-place{display:flex;align-items:center;gap:12px;min-width:0}
+.destination-dock-place span{display:block;font-size:.63rem;letter-spacing:.1em;line-height:1.5}
+.destination-dock-place strong{display:block;font-size:1.2rem;line-height:1.3;letter-spacing:-.03em}
+.destination-dock .destination-dock-cta{flex:none;background:#101010;color:#fff;padding:16px 24px;gap:20px;min-height:52px;--button-fill:#303030}
+.destination-page .location-film .location-film-copy{padding-bottom:110px}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .destination-dock{background:#ffffffd6;-webkit-backdrop-filter:blur(16px) saturate(120%);backdrop-filter:blur(16px) saturate(120%)}
+}
+@media(max-width:900px){
+  .destination-page .nav-toggle[open]>nav{max-height:min(65svh,calc(100dvh - 210px))}
+}
+@media(max-width:650px){
+  .destination-dock{width:calc(100% - 24px);gap:12px;padding:10px 12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));border-radius:18px}
+  .destination-dock-place{gap:8px}
+  .destination-dock-place>.destination-icon{display:none}
+  .destination-dock-place span{font-size:.52rem;letter-spacing:.04em}
+  .destination-dock-place strong{font-size:1.05rem}
+  .destination-dock .destination-dock-cta{font-size:.77rem;padding:12px 15px;gap:12px;min-height:48px}
+  .destination-page .location-film .location-film-copy{padding-bottom:100px}
+  @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .destination-dock{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  }
+}

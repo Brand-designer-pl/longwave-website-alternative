@@ -216,3 +216,44 @@ Próba z odtwarzaniem filmu, CPU 4×, 1,6 Mb/s i 150 ms opóźnienia,
 główna 0,9 / 0,9 ms; przeliczanie stylów głównej 6,6 / 7,9 ms.
 To test laboratoryjny Chrome, bez fizycznego telefonu i Safari.
 Recenzja Claude niedostępna: `claude auth status` zwraca brak logowania.
+
+### Szklane menu i przypięte CTA — 13.11.2026
+
+Wszystkie 10 stron `/amigos/` ma wspólne mleczne tło całego menu,
+czarne logo i typografię oraz czarny przycisk konta. Menu zachowuje własny
+układ mobilny. Łazy, Jastarnia, Dąbki i Rodos otrzymały stale widoczny,
+szklany dolny pasek z nazwą miejsca i czarnym animowanym „Sprawdź wyjazdy”.
+Uwzględniono safe-area, odsunięcie treści i stopki, fokus klawiatury oraz
+wysokość rozwiniętego menu przy poziomym telefonie. Bez JS CTA nadal działa.
+Style: `editorial.css` i `locations.css`; markup w istniejących HTML.
+
+**Nieukończone powiązanie z konkretnymi ofertami:** CTA prowadzą obecnie do
+katalogu https://app.longwaveboards.com/. Publiczne API potwierdza Jastarnię
+(id 4) i rodzinne rozpoczęcie sezonu w Dąbkach (id 5). Wydarzenie rodzinne
+nie zostało automatycznie przypisane jako obóz Dąbki. Właściciel wskazał,
+żeby powiązać pozostałe miejscówki ze szkicami; ich identyfikatory pozostają
+nieustalone. Nie używać ID z lokalnej demonstracyjnej bazy aplikacji.
+Mac mini: SSH do serwera odrzuca logowanie, integracja przeglądarkowa jest
+niedostępna. Nie zmieniono ani nie opublikowano żadnej oferty.
+
+Aplikacja v155 nie obsługuje bezpośrednich linków `?offer=ID`.
+Przygotowano **niewdrożoną** poprawkę `sources/app-offer-links.patch`:
+app.js, index.html, sw.js (proponowana v156). Baza publicznego app.js ma
+SHA-256 `b8c660703d08571e14cf17c2d86062b5dc785fc640c4bffd327af68cea297d6a`.
+Poprawka otwiera wyłącznie ofertę zwróconą przez katalog dostępny bieżącemu
+użytkownikowi; brak oferty daje ogólny komunikat i katalog. Nie upublicznia
+szkiców. Oryginalne pliki aplikacji nie były edytowane. Przed wdrożeniem
+sprawdzić aktualną wersję aplikacji i cache, wykonać backup oraz potwierdzić
+ID szkiców, potem zaktualizować href w paskach. Szkic stanie się dostępny
+klientom dopiero po publikacji oferty przez właściciela.
+
+Kontrole Chrome: wspólne szablony i cztery miejscówki w 1440, 1024, 390,
+320 px; granice 901/960 px; poziomy telefon 844 × 390; brak overflow,
+kolizji menu z paskiem i zasłonięcia stopki. Reduced motion, wariant bez JS,
+zrzuty desktop/mobile, brak błędów JS. Rodos z filmem: CPU 4×, 1,6 Mb/s,
+150 ms opóźnienia, 390 × 844, po 8 s przewijania całej strony w obie strony:
+p95 klatek 16,8 / 16,8 ms przed/po, 0 / 0 długich zadań (>50 ms).
+Patch aplikacji sprawdzono w izolowanej przeglądarce przez podmianę odpowiedzi
+app.js: id 4 otwiera ofertę Jastarni, błędny i nieistniejący ID pokazują
+komunikat bez otwarcia oferty. To testy laboratoryjne, bez fizycznego
+telefonu/Safari. Recenzja Claude niedostępna: brak logowania CLI.
