@@ -115,44 +115,159 @@ if (locationHero) {
   const screen = locationHero.querySelector('.location-screen');
   const control = locationHero.querySelector('.film-control');
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
-  const youtubeOrigin = 'https://www.youtube-nocookie.com';
   let enabled = !preference.matches;
   let visible = false;
-  let frame;
+  let ready = false;
+  let loading = false;
+  let failed = false;
+  let player;
+  let startupTimer;
+  let apiPromise;
+
+  function loadAPI() {
+    if (window.YT?.Player) return Promise.resolve();
+    if (apiPromise) return apiPromise;
+    apiPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      const previousCallback = window.onYouTubeIframeAPIReady;
+      const timer = setTimeout(fail, 15000);
+      function fail() {
+        clearTimeout(timer);
+        script.remove();
+        window.onYouTubeIframeAPIReady = previousCallback;
+        reject(new Error('YouTube API unavailable'));
+      }
+      window.onYouTubeIframeAPIReady = () => {
+        clearTimeout(timer);
+        window.onYouTubeIframeAPIReady = previousCallback;
+        previousCallback?.();
+        resolve();
+      };
+      script.onerror = fail;
+      script.src = 'https://www.youtube.com/iframe_api';
+      document.head.append(script);
+    }).catch(error => {
+      apiPromise = undefined;
+      throw error;
+    });
+    return apiPromise;
+  }
+
+  function shouldPlay() {
+    return enabled && visible && !document.hidden && !(compactMenu.matches && menu.open);
+  }
+
+  function showPoster() {
+    screen.classList.remove('is-playing');
+  }
+
+  function unavailable() {
+    clearTimeout(startupTimer);
+    enabled = false;
+    failed = true;
+    if (ready) player.pauseVideo();
+    showPoster();
+    control.textContent = 'Spróbuj włączyć film';
+  }
+
+  function startTimer() {
+    clearTimeout(startupTimer);
+    startupTimer = setTimeout(unavailable, 15000);
+  }
+
+  async function createPlayer() {
+    loading = true;
+    control.textContent = 'Anuluj ładowanie filmu';
+    try {
+      await loadAPI();
+      if (!shouldPlay()) return;
+      const id = locationHero.dataset.heroYoutube;
+      const frame = document.createElement('iframe');
+      const parameters = new URLSearchParams({
+        autoplay: '0', mute: '1', controls: '0', playsinline: '1',
+        loop: '1', playlist: id, rel: '0', enablejsapi: '1', origin: location.origin,
+      });
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?${parameters}`;
+      frame.title = 'Film w tle';
+      frame.tabIndex = -1;
+      frame.allow = 'autoplay; encrypted-media';
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      screen.append(frame);
+      player = new YT.Player(frame, {events: {
+        onReady: () => {
+          ready = true;
+          player.mute();
+          updateLocationFilm();
+        },
+        onStateChange: event => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            clearTimeout(startupTimer);
+            if (!shouldPlay()) {
+              player.pauseVideo();
+              return;
+            }
+            screen.classList.add('is-playing');
+            control.textContent = 'Wstrzymaj film w tle';
+          } else if (event.data === YT.PlayerState.PAUSED) {
+            showPoster();
+            control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
+          }
+        },
+        onError: unavailable,
+        onAutoplayBlocked: unavailable,
+      }});
+      startTimer();
+    } catch {
+      unavailable();
+    } finally {
+      loading = false;
+    }
+  }
 
   function updateLocationFilm() {
-    control.textContent = enabled ? 'Wstrzymaj film w tle' : 'Włącz film w tle';
-    if (!enabled || !visible || document.hidden) {
-      frame?.remove();
-      frame = undefined;
+    if (!shouldPlay()) {
+      clearTimeout(startupTimer);
+      if (ready) player.pauseVideo();
+      showPoster();
+      control.textContent = failed ? 'Spróbuj włączyć film' : 'Włącz film w tle';
       return;
     }
-    if (frame) return;
-
-    const id = locationHero.dataset.heroYoutube;
-    const parameters = new URLSearchParams({
-      autoplay: '1', mute: '1', controls: '0', playsinline: '1',
-      loop: '1', playlist: id, rel: '0',
-    });
-    frame = document.createElement('iframe');
-    frame.src = `${youtubeOrigin}/embed/${id}?${parameters}`;
-    frame.title = 'Film w tle';
-    frame.tabIndex = -1;
-    frame.allow = 'autoplay; encrypted-media';
-    frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    screen.append(frame);
+    if (loading) return;
+    if (!player) {
+      createPlayer();
+    } else if (ready && player.getPlayerState() !== YT.PlayerState.PLAYING) {
+      control.textContent = 'Anuluj ładowanie filmu';
+      player.mute();
+      player.playVideo();
+      startTimer();
+    } else if (!ready) {
+      control.textContent = 'Anuluj ładowanie filmu';
+      startTimer();
+    }
   }
 
   control.hidden = false;
   control.addEventListener('click', () => {
     enabled = !enabled;
+    if (enabled && failed) {
+      player?.destroy();
+      player = undefined;
+      ready = false;
+      failed = false;
+    }
     updateLocationFilm();
   });
   preference.addEventListener('change', () => {
     enabled = !preference.matches;
     updateLocationFilm();
   });
+  menu.addEventListener('toggle', updateLocationFilm);
   document.addEventListener('visibilitychange', updateLocationFilm);
+  window.addEventListener('pagehide', () => {
+    clearTimeout(startupTimer);
+    if (ready) player.pauseVideo();
+  });
+  window.addEventListener('pageshow', updateLocationFilm);
   new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
     updateLocationFilm();

@@ -85,3 +85,36 @@ Układ nawiązuje do [Amigos Spain](https://www.amigossurf.com/spain).
 Terminy i zapisy pozostają w katalogu aplikacji, a warunki noclegów
 w ofercie obiektu. Zdjęcia przypisano tam, gdzie miejsce potwierdzają
 materiały projektu. Podstrony pozostają podglądem z `noindex`.
+
+### Hero lokalizacji: kontrola mobile — 13.11.2026
+
+Łazy, Jastarnia, Dąbki i Rodos otwierają się przypisanymi relacjami YouTube.
+Test przed poprawką potwierdził autostart wszystkich czterech, ale błąd
+połączenia z YouTube zasłaniał zdjęcie uszkodzonym iframe, a przycisk
+błędnie wskazywał odtwarzanie. Pauza usuwała iframe i restartowała relację.
+
+`dist/amigos/editorial.js` korzysta teraz ze zdarzeń YouTube IFrame API:
+wycisza przed startem, pokazuje film dopiero po potwierdzeniu odtwarzania,
+zachowuje odtwarzacz/pozycję przy pauzie, wyjściu poza hero i otwarciu menu.
+Błąd, blokada autoplay lub brak odpowiedzi przy starcie pozostawiają zdjęcie
+i przycisk ponowienia. Reduced motion nie ładuje odtwarzacza automatycznie.
+Kadry zastępcze zmieniono na 1280 × 720; CSS zachowuje wypełnienie hero
+bez rozciągania filmu. ID filmu i adres kadru edytuje się w `index.html`
+danej miejscówki (`data-hero-youtube`, `.location-screen img`).
+
+Kontrole lokalne: Chrome, emulacja iPhone 390 × 844 i Android 360 × 800,
+wszystkie cztery lokalizacje: rzeczywisty przyrost czasu odtwarzania bez
+kliknięcia, wyciszenie, wypełnienie hero, brak poziomego overflow/błędów JS,
+pauza/wznowienie z tej samej pozycji i powrót po przewinięciu. Jastarnia:
+menu, poziomy ekran 844 × 390, desktop 1440 × 900, reduced motion z ręcznym
+startem, bez JS, blokada API/iframe z ponowieniem po odzyskaniu połączenia,
+symulowana odmowa HTMLMediaElement.play (NotAllowedError). Dodatkowa próba
+Chrome: CPU 4×, 1,6 Mb/s, 150 ms opóźnienia; autostart Jastarni po ok. 2,9 s.
+To pomiar laboratoryjny, nie Core Web Vitals ani test fizycznego telefonu.
+
+Porównano działający mobilny hero https://www.amigossurf.com/spain:
+Amigos serwuje osobny pionowy plik 1080 × 1920; tutaj zachowano wskazane
+przez właściciela poziome relacje YouTube, przycinane centralnie do hero.
+Jakość i krótkie nakładki startowe odtwarzacza zależą od YouTube.
+Fizyczny iPhone/Safari i Android nie były dostępne do testu. Recenzja Claude
+niedostępna: `claude auth status` zwraca `loggedIn: false`.
