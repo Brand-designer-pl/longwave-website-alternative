@@ -45,3 +45,84 @@
   .location-film-bottom{flex-direction:column;align-items:start}
   .location-film h1{font-size:clamp(3.4rem,15vw,6rem)}
 }
+
+/* Destination sections: palette sampled from Amigos Spain, 13 November 2026. */
+.destination-page{--destination-ink:#101010;--destination-muted:#59616b;--destination-panel:#f2f4f7;--destination-coal:#2a2a2a;--destination-navy:#24304a;color:var(--destination-ink)}
+.destination-page h2,.destination-page h3{color:inherit}
+.destination-page h2{font-size:clamp(2.2rem,4.5vw,4.6rem);line-height:1.05;letter-spacing:-.055em;text-wrap:balance}
+.destination-page .kicker{font:400 .72rem/1.5 Manrope,Arial,sans-serif;letter-spacing:.16em}
+.destination-section{padding-block:clamp(56px,7vw,104px)}
+.destination-icon{display:block;width:26px;height:26px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.destination-page .location-tabs{gap:10px 30px;padding-block:14px;border-color:#e2e5e9}
+.destination-page .location-tabs a{gap:8px;text-decoration:none;font-size:.82rem}
+.destination-page .location-tabs a:hover{text-decoration:underline;text-underline-offset:5px}
+.destination-page .location-tabs .destination-icon{width:19px;height:19px}
+.destination-intro{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:clamp(32px,6vw,96px)}
+.destination-description{margin-top:26px;max-width:58ch;font-size:clamp(1rem,1.3vw,1.18rem);line-height:1.75;color:#4e545b}
+.destination-highlights{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0;margin:0;list-style:none}
+.destination-highlights li{background:var(--destination-panel);border-radius:18px;padding:clamp(20px,2.3vw,32px)}
+.destination-highlights .destination-icon{margin-bottom:20px}
+.destination-highlights h3{font-size:clamp(1.2rem,2vw,1.8rem);line-height:1.12;letter-spacing:-.04em;overflow-wrap:anywhere}
+.destination-highlights p{font-size:.88rem;color:var(--destination-muted);line-height:1.5;margin-top:10px}
+.destination-program{padding-bottom:clamp(56px,7vw,104px)}
+.destination-program-panel{padding:clamp(26px,4vw,60px);background:var(--destination-panel);border-radius:26px}
+.destination-program-panel h2{font-size:clamp(1.85rem,3vw,3rem)}
+.destination-features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;list-style:none;margin:38px 0;padding:0}
+.destination-features li{display:flex;align-items:start;gap:16px}
+.destination-features h3{font-size:1.1rem;line-height:1.35;letter-spacing:-.025em}
+.destination-features p{font-size:.94rem;color:var(--destination-muted);line-height:1.6;margin-top:10px}
+.destination-program-note{display:flex;align-items:start;gap:12px;border-top:1px solid #d9dee5;padding-top:24px;color:var(--destination-muted);font-size:.85rem;line-height:1.65}
+.destination-program-note .destination-icon{width:20px;height:20px;margin-top:2px}
+.destination-faq{background:var(--destination-coal);color:#fff}
+.destination-faq-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(36px,7vw,110px)}
+.destination-faq .kicker{color:#c8c8c8}
+.destination-faq h2{max-width:9ch}
+.destination-faq-grid>div>p:not(.kicker){margin-top:24px;color:#d2d2d2}
+.destination-contact-link{display:inline-flex;align-items:center;gap:10px;margin-top:16px;min-height:44px;font-size:clamp(.9rem,1.2vw,1rem);text-decoration:underline;text-underline-offset:5px;overflow-wrap:anywhere}
+.destination-questions .faq-item{border-color:#ffffff30}
+.destination-questions .faq-item summary{min-height:82px;padding-block:20px;font-size:1.06rem;gap:24px;line-height:1.5;list-style:none}
+.destination-questions .faq-item summary::-webkit-details-marker{display:none}
+.destination-questions .faq-item p{padding:0 40px 24px 0;color:#dedede;line-height:1.7}
+.destination-questions a{text-decoration:underline;text-underline-offset:4px}
+.destination-questions .destination-icon{width:22px;height:22px}
+.destination-page .location-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:36px;gap:20px}
+.destination-page .location-card{background:var(--destination-panel);justify-content:start;border-radius:20px}
+.destination-page .location-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.destination-page .location-card div{padding:26px}
+.destination-page .location-card h3{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.1}
+.destination-page .location-card .kicker{margin-bottom:14px;font-size:.65rem}
+.destination-page .location-card p:not(.kicker){margin-top:12px;color:var(--destination-muted);font-size:.95rem}
+.destination-booking{background:var(--destination-navy);color:white}
+.destination-booking-grid{display:grid;grid-template-columns:1fr .4fr;align-items:center;gap:40px}
+.destination-booking h2{font-size:clamp(2.6rem,6vw,6rem)}
+.destination-booking p:not(.kicker){color:#d8dde7;margin-block:24px 30px;max-width:44ch;font-size:1.1rem}
+.destination-booking .pill{background:#ede9d0;color:#101010;padding:16px 24px;font-size:1rem;gap:12px}
+.destination-booking .pill .destination-icon{width:22px;height:22px}
+.destination-booking-symbol .destination-icon{width:clamp(140px,20vw,260px);height:auto;aspect-ratio:1;color:#ffffff38;stroke-width:.65;margin-inline:auto}
+.destination-page .footer{background:#0e1118;color:#dedee3;padding-block:34px}
+@media(max-width:900px){
+  .destination-intro{grid-template-columns:1fr}
+  .destination-description{max-width:70ch}
+  .destination-features{grid-template-columns:1fr;gap:28px}
+  .destination-faq-grid{grid-template-columns:1fr}
+  .destination-faq h2{max-width:none}
+  .destination-page .location-grid{gap:14px}
+  .destination-page .location-card div{padding:20px}
+}
+@media(max-width:650px){
+  .destination-page .location-tabs{gap:0 18px}
+  .destination-page .location-tabs a{font-size:.77rem}
+  .destination-page .location-tabs .destination-icon{width:17px;height:17px}
+  .destination-highlights{gap:10px}
+  .destination-highlights li{padding:20px 16px}
+  .destination-highlights h3{font-size:1.24rem}
+  .destination-highlights p{font-size:.82rem}
+  .destination-program-panel{border-radius:20px}
+  .destination-features{margin-block:28px}
+  .destination-features .destination-icon{width:24px;height:24px}
+  .destination-page .location-grid{grid-template-columns:1fr;gap:20px}
+  .destination-page .location-card img{aspect-ratio:16/9}
+  .destination-booking-grid{grid-template-columns:1fr}
+  .destination-booking-symbol{display:none}
+  .destination-booking .pill{font-size:.94rem;padding:14px 20px}
+}

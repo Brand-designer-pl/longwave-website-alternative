@@ -157,3 +157,28 @@ Próba CPU 4× / 1,6 Mb/s / opóźnienie 150 ms: start Rodos po ok. 1,9 s.
 Potwierdzono przyrost licznika dekodowanych klatek i zmiany ujęć w trakcie
 odtwarzania. To testy laboratoryjne Chrome, bez fizycznego telefonu/Safari.
 Recenzja Claude niedostępna: CLI pozostaje niezalogowane.
+
+### Podział sekcji miejscówek — 13.11.2026
+
+Łazy, Jastarnia, Dąbki i Rodos otrzymały wspólny, wyraźniejszy układ:
+biały opis z czterema kartami, zaokrąglony panel programu z ikonami,
+grafitowe FAQ, karty pozostałych kierunków oraz granatowy blok zapisów.
+Paleta odczytana z https://www.amigossurf.com/spain: karty `#F2F4F7`,
+grafit `#2A2A2A`, granat `#24304A`, stopka `#0E1118`, przycisk `#EDE9D0`.
+Treści pozostają oparte na opisach LONGWAVE, bez statystyk z referencji.
+Ikony to własny zestaw SVG (1,8 kB), bez nowej biblioteki ani JavaScriptu.
+
+Edycja: cztery pliki `dist/amigos/wyjazdy/{lazy,jastarnia,dabki,rodos}/index.html`,
+style w `dist/amigos/locations.css` (klasy `destination-*`), wspólne symbole
+w `dist/amigos/location-icons.svg`. Zmiana nie obejmuje podstron noclegowych.
+Wersja podglądowa zachowuje `noindex,nofollow`.
+
+Kontrola Chrome: wszystkie cztery strony w 1440, 390 i 320 px, brak
+poziomego overflow, poprawne ikony i zdjęcia, jedno H1, unikalne ID,
+FAQ otwierane klawiaturą, treść i CTA dostępne bez JS, reduced motion.
+Obejrzano zrzuty całej strony Łazy na desktopie i mobile. Porównanie
+przewijania Łazów przed/po: viewport 390 × 844, CPU 4×, 1,6 Mb/s,
+150 ms opóźnienia, reduced motion i dograne zdjęcia, 6 s przewijania
+w obu kierunkach: p95 odstępu klatek 16,7 / 16,7 ms, 0 / 0 długich
+zadań (>50 ms). To laboratoryjny test sekcji, nie pomiar Core Web Vitals
+ani fizycznego telefonu. Recenzja Claude niedostępna: brak logowania CLI.
