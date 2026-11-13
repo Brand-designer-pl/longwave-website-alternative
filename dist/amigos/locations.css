@@ -1,0 +1,25 @@
+.location-hero{position:relative;isolation:isolate;background:var(--ocean);color:white}
+.location-hero>img{position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover}
+.location-hero.has-photo::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,#103742ab 0%,#10374220 36%,#09232dea 100%)}
+.location-hero-inner{min-height:clamp(460px,78svh,850px);display:flex;flex-direction:column;justify-content:space-between;gap:80px;padding-block:28px 48px}
+.location-hero-inner>a,.location-tabs a{text-decoration:underline;text-underline-offset:4px}
+.location-hero h1,.location-index-title{font-size:clamp(3.5rem,10vw,10rem);overflow-wrap:anywhere}
+.location-hero h1{color:white}
+.location-hero p:not(.kicker){margin-block:16px;font-size:clamp(1.2rem,3vw,2rem)}
+.location-hero .pill{color:var(--ocean);background:white}
+.location-tabs{display:flex;flex-wrap:wrap;gap:8px 24px;padding-block:12px;border-bottom:1px solid #10374226}
+.location-tabs a{display:inline-flex;align-items:center;min-height:44px;font-weight:800}
+.location-copy>p,.location-note{max-width:62ch;margin-block:22px;font-size:clamp(1rem,2vw,1.35rem)}
+.location-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:26px 0}
+.location-facts li{padding:20px;background:var(--sand);border-radius:14px;font-weight:800}
+.location-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px}
+.location-card{display:flex;flex-direction:column;justify-content:end;min-height:200px;overflow:hidden;background:var(--sand);border-radius:var(--radius)}
+.location-card img{aspect-ratio:16/8;object-fit:cover}
+.location-card div{padding:24px}
+.location-card h3{margin-bottom:8px}
+.location-card:hover h3{text-decoration:underline;text-underline-offset:4px}
+.location-end{padding-bottom:clamp(56px,8vw,120px)}
+@media(max-width:650px){
+  .location-facts,.location-grid{grid-template-columns:1fr}
+  .location-hero-inner{min-height:64svh;gap:50px}
+}

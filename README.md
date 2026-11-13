@@ -75,3 +75,13 @@ Pomiar w Chrome, 390 × 844, CPU 4× wolniej, 10 s przewijania do premiery
 i z powrotem: p95 odstępów rAF 16,7 → 16,7 ms, odstępy powyżej 32 ms
 0 → 0, TaskDuration 0,123 → 0,232 s. Test laboratoryjny porównuje
 poprzedni podgląd publiczny z nowym podglądem lokalnym po starcie filmu.
+
+### Lokalizacje w wariancie Amigos
+
+Katalog `/amigos/wyjazdy/` prowadzi do stron Łazów, Jastarni, Dąbek
+i Rodos. W Noclegach są osobne opisy Home Spot Jastarnia i apartamentu
+La Mata, obok istniejącej strony Home Spot 2.0. Treści pochodzą z briefu.
+Układ nawiązuje do [Amigos Spain](https://www.amigossurf.com/spain).
+Terminy i zapisy pozostają w katalogu aplikacji, a warunki noclegów
+w ofercie obiektu. Zdjęcia przypisano tam, gdzie miejsce potwierdzają
+materiały projektu. Podstrony pozostają podglądem z `noindex`.
