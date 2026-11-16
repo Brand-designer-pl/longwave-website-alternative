@@ -249,11 +249,11 @@ body :is(.pill,.account-link,.film-control,.nav-toggle>summary):focus-visible,
 
 /* A single frosted surface keeps the whole navigation legible over video. */
 .nav-shell{
-  margin-block:16px;padding:8px 20px;min-height:76px;border:1px solid #ffffffa6;border-radius:999px;
+  margin-block:16px;padding:8px 20px;min-height:96px;border:1px solid #ffffffa6;border-radius:999px;
   color:#101010;background:#eef1f2;box-shadow:0 8px 28px #061b2414,inset 0 1px 0 #ffffff80;
 }
 .nav-shell .wordmark img{filter:brightness(0)}
-.nav-shell .wordmark{width:96px}
+.nav-shell .wordmark{width:120px}
 body .nav-shell .account-link{background:#101010;color:#fff;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 .nav-shell .dropdown{color:#101010}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
@@ -265,15 +265,15 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-shell nav summary{font-size:.76rem}
 }
 @media(max-width:900px){
-  .nav-shell{margin-block:12px;padding:8px 12px;min-height:68px;border-radius:999px}
-  .nav-shell .wordmark{width:76px}
+  .nav-shell{margin-block:12px;padding:8px 12px;min-height:84px;border-radius:999px}
+  .nav-shell .wordmark{width:96px}
   .nav-toggle>summary{border-color:#10101030;padding:9px 13px}
   .nav-toggle[open]>nav{inset:calc(100% + 8px) 0 auto;color:#101010;background:#f4f5f6;box-shadow:0 8px 28px #061b2426}
   .nav-shell .dropdown a{background:#10101008}
 }
 @media(max-width:650px){
-  .nav-shell{gap:6px;padding:7px 10px}
-  .nav-shell .wordmark{width:64px}
+  .nav-shell{gap:6px;padding:7px 10px;min-height:76px}
+  .nav-shell .wordmark{width:80px}
   .nav-shell .account-link{font-size:.7rem;padding-inline:10px;gap:6px}
   .nav-toggle>summary{font-size:.77rem;padding-inline:10px}
   @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
@@ -294,8 +294,8 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-toggle>summary{gap:6px;padding-inline:8px}
 }
 @media(max-width:360px){
-  .nav-shell{gap:4px}
-  .nav-shell .wordmark{width:60px}
+  .nav-shell{gap:4px;min-height:68px}
+  .nav-shell .wordmark{width:64px}
   .menu-icon{width:20px;height:20px}
 }
 @media(prefers-reduced-motion:no-preference){
@@ -316,7 +316,8 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-toggle>summary{border:0;box-shadow:none}
 }
 @media(max-width:360px){
-  .nav-shell>.wordmark{width:52px}
+  .nav-shell>.wordmark{width:64px}
+  .nav-shell .account-link{padding-inline:4px;font-size:.68rem;gap:4px}
 }
 
 /* Fullscreen navigation in the native modal top layer, at every viewport. */
@@ -324,7 +325,7 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
 .mobile-menu-dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr)}
 .mobile-menu-dialog::backdrop{background:#10101066}
 .mobile-menu-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 16px;border-bottom:1px solid #10101018}
-.mobile-menu-header .wordmark{width:64px}
+.mobile-menu-header .wordmark{width:80px}
 .mobile-menu-header .wordmark img{filter:brightness(0)}
 .mobile-menu-header .menu-close{justify-self:start;background:transparent;color:#101010;border:0;padding:10px 8px;gap:6px;font-size:.8rem;min-height:44px}
 .mobile-menu-header .account-link{justify-self:end;background:#101010;color:#fff;font-size:.72rem;padding:12px 10px;gap:6px;white-space:nowrap}
@@ -345,7 +346,7 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
 .has-fullscreen-menu .nav-toggle>summary{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;border:0;box-shadow:none;min-height:44px}
 @media(min-width:901px){
   .mobile-menu-header{padding:24px max(40px,calc((100vw - 1320px)/2));min-height:112px}
-  .mobile-menu-header .wordmark{width:96px}
+  .mobile-menu-header .wordmark{width:120px}
   .mobile-menu-header .menu-close{font-size:.9rem;gap:10px;padding:12px 16px}
   .mobile-menu-header .account-link{font-size:.85rem;padding:14px 20px;gap:12px}
   .mobile-menu-dialog>nav{padding:24px max(64px,calc((100vw - 1200px)/2)) 48px}
@@ -355,7 +356,7 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
 }
 @media(max-width:360px){
   .mobile-menu-header{padding-inline:14px;gap:4px}
-  .mobile-menu-header .wordmark{width:52px}
+  .mobile-menu-header .wordmark{width:64px}
   .mobile-menu-header .menu-close{font-size:.74rem}
   .mobile-menu-header .account-link{font-size:.68rem;padding-inline:9px}
 }
