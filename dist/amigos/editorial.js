@@ -330,3 +330,15 @@ if (locationHero) {
   }).observe(locationHero);
   updateLocationFilm();
 }
+
+// Keep the destination CTA out of the initial hero view.
+const destinationDock = document.querySelector('.destination-dock');
+if (destinationDock) {
+  const syncDestinationDock = () => {
+    const hide = window.scrollY <= 0;
+    if (destinationDock.hidden !== hide) destinationDock.hidden = hide;
+  };
+  window.addEventListener('scroll', syncDestinationDock, {passive: true});
+  window.addEventListener('pageshow', syncDestinationDock);
+  syncDestinationDock();
+}
