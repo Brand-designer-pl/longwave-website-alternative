@@ -342,3 +342,42 @@ Testy Chrome 320/390/768/1440/1920 px: każde sąsiednie widoczne pasmo ma inne 
 pełna szerokość, odstępy po obu stronach sekcji, brak poziomego overflow,
 białe nagłówki na ciemnym tle, klawiatura, FAQ, podgląd premiery i wariant bez JS.
 Granica kalendarz/Życie nad wodą sprawdzona wizualnie na desktopie i mobile.
+
+### Surferskie ozdobniki i mobilne oferty — 16.11.2026
+
+Strona główna otrzymała trzy autorskie motywy liniowe: falę, słońce nad wodą
+oraz deskę. Powracają przy czterech rozdziałach, razem z delikatną linią podziału.
+`tools/build-surf-marks.py` generuje zgodne geometrycznie SVG i JSON Lottie do
+`dist/amigos/art/`. Kolor dopasowuje się do jasnego/ciemnego tła. To własne
+rysunki, bez płatnych assetów. Lottie-web 5.13.0 light SVG (MIT, licencja obok)
+waży 168 394 B / 46 741 B gzip i ładuje się raz, dopiero blisko ozdobnika.
+Trzy JSON-y łącznie 3711 B. GSAP ScrollTrigger steruje rysowaniem po scrollu;
+bez pinowania i zapętlonego autoplay. Przy reduced motion, braku JS/GSAP lub
+błędzie pobierania pozostaje statyczny SVG. Zmiana preferencji ruchu usuwa
+instancje Lottie i przypisane triggery; ponowne włączenie używa pobranych danych.
+
+Inspiracje sprawdzone w bibliotekach studia: Scrolltide, GetLayers, HorizonX,
+MotionSites. Wybrane punkty odniesienia:
+- [GSAP LottieScrollTrigger](https://gsap.com/docs/v3/HelperFunctions/helpers/LottieScrollTrigger/) — sterowanie klatką według scrolla, bez przykładowego pinowania.
+- [Scrolltide, komponent Radish](https://www.scrolltide.co/components) — ilustracyjny detal jako powracający element tożsamości; bez kopiowania animacji interaktywnego footera.
+- [GetLayers Sea Storm](https://www.getlayers.ai/layer/sea-storm) — morski motyw; uproszczony tutaj do lekkiego liniowego rysunku zamiast pełnego animowanego tła.
+Lokalne reguły premium-web-agent v1.0.0: `motion-accessibility`,
+`performance-budget`; sprawdzono też `parallax`, lecz nie dodano kolejnego
+przesuwania zdjęć. Dotychczasowy GSAP w `motion.js` pozostaje bez zmian.
+
+Do 650 px oferty używają natywnego overflow + scroll snap: karta 86% szerokości
+wewnętrznej, fragment kolejnej, strzałki 48 px i licznik. Bez autoplay ani
+przejmowania gestów. Klawiatura odsłania całą kartę; strzałki są wyłączone na
+krańcach, ukryte dla mniej niż dwóch ofert i na desktopie. Bez JS pozostaje
+przesuwanie palcem. Kontrolki leżą poza markerami `OFFERS_START/END`, więc
+synchronizacja katalogu ich nie nadpisuje. Galeria Życie nad wodą ma promienie
+28 px / 22 px mobile i przycięcie zdjęć także podczas istniejącej animacji.
+
+Kontrole Chrome: 320/390/650/768/1440 px, rzeczywiste zdarzenia touch CDP,
+strzałki i krańce, klawiatura, resize, zero/jedna oferta, brak overflow, wariant
+bez JS, zablokowany GSAP/Lottie, live reduced motion i usuwanie rendererów.
+Mobile i desktop sprawdzone wizualnie. Test markerów synchronizacji przeszedł.
+Pomiar laboratoryjny Chrome 390×844, CPU 4×, 5 s scrolla tam i z powrotem:
+wariant statyczny p95 16,8 ms / 0 długich zadań; Lottie p95 16,7 ms / 0 długich
+zadań. To pomiar renderowania po wczytaniu, nie terenowy Core Web Vitals.
+Bez fizycznego telefonu/Safari. Recenzja Claude niedostępna: CLI niezalogowane.

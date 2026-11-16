@@ -441,3 +441,39 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
   .home-page #zycie .values{gap:24px;padding-top:24px;margin-top:24px}
   .home-page #zycie .mosaic figure{border-radius:12px}
 }
+
+/* Original surf line art; SVG fallback and Lottie share the same geometry. */
+.home-page .surf-divider{display:flex;align-items:center;gap:24px;margin:-16px 0 16px;color:#287c83;pointer-events:none}
+.home-page .surf-divider>span{height:1px;flex:1;background:currentColor;opacity:.18}
+.surf-mark{position:relative;width:92px;height:92px;flex:none}
+.surf-mark>img,.surf-mark-player{position:absolute;inset:0;width:100%;height:100%}
+.surf-mark-player svg path{stroke:currentColor}
+.surf-mark.is-drawn>img{visibility:hidden}
+.home-page #zycie .surf-divider{color:#b8dfe0}
+.home-page #zycie .surf-mark>img{filter:brightness(0) invert(1);opacity:.8}
+.home-page #zycie .mosaic figure{border-radius:28px;isolation:isolate}
+.home-page #zycie .mosaic img{border-radius:inherit}
+.offers-controls[hidden]{display:none}
+.offers-controls{display:none;align-items:center;justify-content:space-between;gap:16px;margin-top:20px}
+.offers-controls>span{font-size:.85rem;font-weight:700}
+.offers-controls>div{display:flex;gap:10px}
+.offer-arrow{width:48px;height:48px;border:0;border-radius:50%;display:grid;place-items:center;background:#101010;color:white;cursor:pointer;transition:background .2s,transform .2s}
+.offer-arrow svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;transition:transform .2s}
+.offer-arrow:disabled{opacity:.25;cursor:default}
+.offer-arrow:focus-visible{outline:3px solid #287c83;outline-offset:4px}
+@media(hover:hover){.offer-arrow:not(:disabled):hover{background:#287c83}.offer-arrow:not(:disabled):hover svg{transform:translateX(2px)}.offer-arrow[data-prev]:not(:disabled):hover svg{transform:translateX(-2px)}}
+@media(max-width:650px){
+  .home-page .surf-divider{gap:20px;margin:-12px 0 16px}
+  .surf-mark{width:72px;height:72px}
+  .home-page #zycie .mosaic figure{border-radius:22px}
+  .home-page .offers-grid{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);margin-inline:calc(-1 * var(--pad));padding:4px var(--pad) 12px;scrollbar-width:none}
+  .home-page .offers-grid::-webkit-scrollbar{display:none}
+  .home-page .offers-grid>.trip-card{flex:0 0 86%;min-width:0;scroll-snap-align:start;display:flex;flex-direction:column}
+  .home-page .offers-grid>.trip-card:only-child{flex-basis:100%}
+  .home-page .offers-grid>.trip-card:focus-visible{outline-offset:-4px}
+  .home-page .offers-grid .trip-body{display:flex;flex-direction:column;flex:1;padding:20px}
+  .home-page .offers-grid .trip-foot{margin-top:auto;padding-top:16px}
+  .home-page .offers-grid .trip-age{margin-bottom:16px}
+  .offers-controls{display:flex}
+}
+@media(prefers-reduced-motion:reduce){.offer-arrow,.offer-arrow svg{transition:none}.offer-arrow:not(:disabled):hover svg{transform:none}}
