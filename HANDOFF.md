@@ -23,6 +23,14 @@ Testy laboratoryjne przeszły; bez fizycznego iPhone/Safari. Claude CLI nie jest
 zalogowane, więc niezależna recenzja tego modelu pozostaje niedostępna.
 Przed deklaracją publikacji sprawdź najnowszy workflow Pages i publiczny adres.
 
+## Ostatnia zmiana: opinie
+
+Właściciel wybrał na teraz 7 rekomendacji z karuzeli longwaveboards.com.
+Sekcja #opinie: dwa rzędy GSAP w przeciwnych kierunkach, wygaszanie krawędzi,
+pauza i pełna statyczna lista. Źródło podpisane; to nie jest integracja Google.
+Dane: sources/reviews.json; generator: tools/build-reviews.py; kod:
+dist/amigos/reviews.js. Kontrole i ograniczenia w końcowej części README.
+
 ## Dalej
 
 Kolejne korekty wizualne według właściciela. Oryginalne filmy Łazy/Jastarnia/Dąbki

@@ -381,3 +381,34 @@ Pomiar laboratoryjny Chrome 390×844, CPU 4×, 5 s scrolla tam i z powrotem:
 wariant statyczny p95 16,8 ms / 0 długich zadań; Lottie p95 16,7 ms / 0 długich
 zadań. To pomiar renderowania po wczytaniu, nie terenowy Core Web Vitals.
 Bez fizycznego telefonu/Safari. Recenzja Claude niedostępna: CLI niezalogowane.
+
+### Dwa rzędy opinii — 16.11.2026
+
+Właściciel wskazał karuzelę na https://longwaveboards.com/ jako źródło na teraz,
+zamiast podłączenia Google. Siedem oryginalnych rekomendacji i ocen 5/5 zapisano
+w `sources/reviews.json`; zachowano autorów i treść, bez fikcyjnej średniej,
+liczby ocen, dat lub oznaczeń Google. To statyczny wybór opinii, bez synchronizacji
+API. Aktualizacja: edytuj zatwierdzone dane źródłowe i uruchom
+`python3 tools/build-reviews.py`; generator zastępuje tylko REVIEWS_START/END.
+Źródło jest podlinkowane w sekcji i podpisane na kartach.
+
+Nowa sekcja `#opinie` po ekipie, przed aplikacją. Dwa rzędy płyną przeciwnie
+z prędkością 21/24 px/s; maska CSS wygasza krawędzie. Wizualna referencja:
+https://www.amigossurf.com/spain, publiczne komponenty ah-mq/ah-mrow.
+Implementacja własna w `dist/amigos/reviews.js`, wykorzystuje już obecny GSAP.
+Bez nowych zależności; skrypt 3779 B. Klony aria-hidden nie powielają opinii
+w czytniku ekranu. Liczba kopii dopasowuje się także do ekranu 2560 px.
+
+Przycisk pauzy, zatrzymanie po najechaniu i dotknięciu oraz „Pokaż wszystkie
+opinie” dają spokojny dostęp do pełnych tekstów. Poza ekranem i w ukrytej karcie
+animacja jest wstrzymana. Reduced motion i brak JS/GSAP wyświetlają siedem
+oryginalnych kart w siatce. Resize i zmiana preferencji sprzątają stare tweeny
+i klony. Usunięto powtórzony fragment opinii Małgorzaty z sekcji ekipy.
+Wzorce premium-web-agent v1.0.0: motion-accessibility, performance-budget.
+
+Kontrole: 320/390/768/1440/2560 px, przeciwne kierunki, maska, pokrycie szerokiego
+ekranu, pauza, dotyk, hover, klawiatura, pełna lista, resize, live reduced motion,
+bez JS, zablokowany GSAP, zatrzymanie poza ekranem i brak poziomego overflow.
+Wizualnie sprawdzono desktop i mobile. Pomiar laboratoryjny Chrome 390×844,
+CPU 4×, 5 sekund ruchu: p95 16,8 ms, 0 długich zadań. Bez testu fizycznego
+telefonu/Safari. Recenzja Claude niedostępna — CLI nadal niezalogowane.
