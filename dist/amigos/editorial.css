@@ -194,9 +194,10 @@ summary::-webkit-details-marker{display:none}
 
 /* Shared button sweep, adapted from the original Longwave .button. */
 :is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow){
-  position:relative;isolation:isolate;overflow:hidden;
+  isolation:isolate;overflow:hidden;
   --button-fill:#287c83;
 }
+:is(.pill,.account-link,.film-control,.nav-toggle>summary){position:relative}
 .round-arrow{position:absolute}
 :is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow)::before{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
