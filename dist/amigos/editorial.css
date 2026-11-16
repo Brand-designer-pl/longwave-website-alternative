@@ -249,7 +249,7 @@ body :is(.pill,.account-link,.film-control,.nav-toggle>summary):focus-visible,
 
 /* A single frosted surface keeps the whole navigation legible over video. */
 .nav-shell{
-  margin-block:16px;padding:8px 20px;min-height:76px;border:1px solid #ffffffa6;border-radius:22px;
+  margin-block:16px;padding:8px 20px;min-height:76px;border:1px solid #ffffffa6;border-radius:999px;
   color:#101010;background:#eef1f2;box-shadow:0 8px 28px #061b2414,inset 0 1px 0 #ffffff80;
 }
 .nav-shell .wordmark img{filter:brightness(0)}
@@ -265,7 +265,7 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-shell nav summary{font-size:.76rem}
 }
 @media(max-width:900px){
-  .nav-shell{margin-block:12px;padding:8px 12px;min-height:68px;border-radius:18px}
+  .nav-shell{margin-block:12px;padding:8px 12px;min-height:68px;border-radius:999px}
   .nav-shell .wordmark{width:76px}
   .nav-toggle>summary{border-color:#10101030;padding:9px 13px}
   .nav-toggle[open]>nav{inset:calc(100% + 8px) 0 auto;color:#101010;background:#f4f5f6;box-shadow:0 8px 28px #061b2426}
@@ -306,4 +306,15 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(1),
   .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(3){transform:translateX(2px)}
   .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(2){transform:translateX(-2px)}
+}
+
+/* Centre the mobile brand independently of the two controls. */
+@media(max-width:900px){
+  .nav-shell>.nav-toggle{order:-1}
+  .nav-shell>.wordmark{position:absolute;left:50%;transform:translateX(-50%)}
+  .nav-shell>.account-link{margin-left:auto}
+  .nav-toggle>summary{border:0;box-shadow:none}
+}
+@media(max-width:360px){
+  .nav-shell>.wordmark{width:52px}
 }

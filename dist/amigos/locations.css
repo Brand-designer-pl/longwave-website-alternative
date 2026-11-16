@@ -134,7 +134,7 @@ html:has(.destination-dock){scroll-padding-bottom:calc(130px + env(safe-area-ins
 .destination-dock{
   position:fixed;z-index:20;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
   display:flex;align-items:center;justify-content:space-between;gap:28px;width:min(680px,calc(100% - 40px));
-  padding:14px 16px 14px 24px;border-radius:22px;border:1px solid #ffffffcc;
+  padding:14px 16px 14px 24px;border-radius:999px;border:1px solid #ffffffcc;
   color:#101010;background:#eef1f2;box-shadow:0 10px 40px #00000026,inset 0 1px 0 #ffffff80;
 }
 .destination-dock-place{display:flex;align-items:center;gap:12px;min-width:0}
@@ -149,7 +149,7 @@ html:has(.destination-dock){scroll-padding-bottom:calc(130px + env(safe-area-ins
   .destination-page .nav-toggle[open]>nav{max-height:min(65svh,calc(100dvh - 210px))}
 }
 @media(max-width:650px){
-  .destination-dock{width:calc(100% - 24px);gap:12px;padding:10px 12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));border-radius:18px}
+  .destination-dock{width:calc(100% - 24px);gap:12px;padding:10px 12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));border-radius:999px}
   .destination-dock-place{gap:8px}
   .destination-dock-place>.destination-icon{display:none}
   .destination-dock-place span{font-size:.52rem;letter-spacing:.04em}
