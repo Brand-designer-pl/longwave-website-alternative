@@ -280,3 +280,30 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
     .nav-shell{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
   }
 }
+
+/* Mobile menu: three strokes become a close icon when expanded. */
+.menu-icon{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+.menu-icon line{transform-box:fill-box;transform-origin:center}
+.nav-toggle[open]>summary .menu-icon line:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-toggle[open]>summary .menu-icon line:nth-child(2){opacity:0}
+.nav-toggle[open]>summary .menu-icon line:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:900px){
+  .nav-toggle>summary{display:flex;align-items:center;justify-content:center;gap:8px}
+}
+@media(max-width:650px){
+  .nav-toggle>summary{gap:6px;padding-inline:8px}
+}
+@media(max-width:360px){
+  .nav-shell{gap:4px}
+  .nav-shell .wordmark{width:60px}
+  .menu-icon{width:20px;height:20px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .menu-icon line{transition:transform .28s ease,opacity .2s ease}
+  .nav-toggle:not([open])>summary:focus-visible .menu-icon line:nth-child(2){transform:translateX(-2px)}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(1),
+  .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(3){transform:translateX(2px)}
+  .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(2){transform:translateX(-2px)}
+}
