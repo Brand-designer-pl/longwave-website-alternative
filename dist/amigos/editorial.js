@@ -65,7 +65,19 @@ if (fullscreenMenu) {
   const account = shell.querySelector('.account-link').cloneNode(true);
   header.append(close, logo, account);
   const navigation = menu.querySelector('nav').cloneNode(true);
-  dialog.append(header, navigation);
+  const layout = document.createElement('div');
+  layout.className = 'menu-layout';
+  const preview = document.createElement('figure');
+  preview.className = 'menu-preview';
+  const photoStage = document.createElement('div');
+  photoStage.className = 'menu-preview-photos';
+  photoStage.setAttribute('aria-hidden', 'true');
+  const caption = document.createElement('figcaption');
+  caption.className = 'menu-preview-caption';
+  caption.textContent = 'LONGWAVE';
+  preview.append(photoStage, caption);
+  layout.append(navigation, preview);
+  dialog.append(header, layout);
   document.body.append(dialog);
   document.documentElement.classList.add('has-fullscreen-menu');
   let locked = false;
@@ -81,6 +93,94 @@ if (fullscreenMenu) {
   trigger.setAttribute('aria-expanded', 'false');
   dialog.id = 'fullscreen-menu';
 
+  const assetsBase = new URL('.', logo.querySelector('img').src);
+  const categoryPhotos = [
+    {file: 'wybor-rodzina.webp', position: '50% 50%'},
+    {file: 'home-spot-taras.webp', position: '50% 50%'},
+    {file: 'world-eventy.webp', position: '50% 50%'},
+    {file: 'world-collection.webp', position: '50% 40%'},
+    {file: 'team.webp', position: '50% 50%'}
+  ];
+  const menuGroups = [...navigation.querySelectorAll(':scope > details')];
+  let previewRequest = 0;
+  let previewKey = '';
+  let pendingPreviewKey = '';
+  let activeImage = null;
+  let previewAnimations = [];
+
+  function photoFor(element, index) {
+    const label = element.textContent.replace(/Nowość/g, '').trim();
+    let photo = categoryPhotos[index];
+    if (/Obozy/.test(label)) photo = {file: 'wybor-oboz.webp', position: '50% 50%'};
+    else if (/zagraniczne/.test(label)) photo = {file: 'surf.webp', position: '50% 50%'};
+    else if (/Deski LONGWAVE/.test(label)) photo = {file: 'world-boards.webp', position: '50% 60%'};
+    return {...photo, label};
+  }
+  function clearPreviewMotion() {
+    previewAnimations.forEach(animation => animation.cancel());
+    previewAnimations = [];
+    [...photoStage.children].filter(image => image !== activeImage).forEach(image => image.remove());
+  }
+  async function showPreview(photo) {
+    if (!dialog.open || closeTask) return;
+    const key = photo.file + photo.label;
+    if (key === pendingPreviewKey || (key === previewKey && !pendingPreviewKey)) return;
+    const request = ++previewRequest;
+    pendingPreviewKey = '';
+    // A pending, slower image must not replace a newer hover or focus selection.
+    if (key === previewKey) return;
+    pendingPreviewKey = key;
+    const next = new Image();
+    next.alt = '';
+    next.decoding = 'async';
+    next.style.objectPosition = photo.position;
+    next.src = new URL(photo.file, assetsBase).href;
+    try { await next.decode(); } catch {
+      if (request === previewRequest) pendingPreviewKey = '';
+      return;
+    }
+    if (request !== previewRequest || !dialog.open || closeTask) return;
+    pendingPreviewKey = '';
+    previewKey = key;
+    clearPreviewMotion();
+    const previous = activeImage;
+    activeImage = next;
+    photoStage.append(next);
+    caption.textContent = photo.label;
+    preview.dataset.selection = photo.label;
+    if (motionPreference.matches || !next.animate) {
+      if (previous) previous.remove();
+      return;
+    }
+    const incoming = next.animate([
+      {opacity: 0, transform: 'translateX(28px) scale(1.05)'},
+      {opacity: 1, transform: 'translateX(0) scale(1)'}
+    ], {duration: 520, easing: 'cubic-bezier(.22,1,.36,1)'});
+    previewAnimations.push(incoming, caption.animate([
+      {opacity: 0, transform: 'translateY(10px)'}, {opacity: 1, transform: 'translateY(0)'}
+    ], {duration: 320, easing: 'ease-out'}));
+    if (previous) {
+      const outgoing = previous.animate([
+        {opacity: 1, transform: 'translateX(0) scale(1)'},
+        {opacity: 0, transform: 'translateX(-20px) scale(1.025)'}
+      ], {duration: 320, easing: 'ease-in', fill: 'forwards'});
+      previewAnimations.push(outgoing);
+      outgoing.finished.then(() => previous.remove(), () => {});
+    }
+  }
+  menuGroups.forEach((group, index) => {
+    group.querySelectorAll('summary, a').forEach(element => {
+      const update = () => showPreview(photoFor(element, index));
+      // React to deliberate pointer movement, not items shifting under a still cursor.
+      element.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'touch') update();
+      }, {passive: true});
+      element.addEventListener('focus', update);
+      if (element.tagName === 'SUMMARY') element.addEventListener('click', update);
+    });
+
+  });
+
   function cancelAnimations() {
     animations.forEach(animation => animation.cancel());
     animations = [];
@@ -94,6 +194,9 @@ if (fullscreenMenu) {
     window.scrollTo(0, savedScroll);
   }
   function finishClose() {
+    previewRequest++;
+    pendingPreviewKey = '';
+    clearPreviewMotion();
     cancelAnimations();
     if (dialog.open) dialog.close();
     unlockPage();
@@ -110,12 +213,18 @@ if (fullscreenMenu) {
     if (!dialog.open) return Promise.resolve();
     if (closeTask) return closeTask;
     const token = ++generation;
+    previewRequest++;
+    pendingPreviewKey = '';
+    clearPreviewMotion();
     const current = getComputedStyle(dialog);
     const from = {opacity: current.opacity, transform: current.transform};
     cancelAnimations();
     const animation = dialog.animate([from, {opacity: 0, transform: 'translateY(-24px)'}],
       {duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'both'});
-    animations.push(animation);
+    animations.push(animation, preview.animate([
+      {opacity: 1, transform: 'translateX(0) scale(1)'},
+      {opacity: 0, transform: 'translateX(32px) scale(.97)'}
+    ], {duration: 220, easing: 'ease-in', fill: 'both'}));
     closeTask = animation.finished.catch(() => {}).then(() => {
       if (token === generation) finishClose();
     });
@@ -137,11 +246,18 @@ if (fullscreenMenu) {
     dialog.showModal();
     trigger.setAttribute('aria-expanded', 'true');
     close.focus({preventScroll: true});
+    layout.scrollTop = 0;
+    navigation.scrollTop = 0;
+    showPreview(photoFor(menuGroups[0].querySelector('summary'), 0));
     if (!motionPreference.matches && dialog.animate) {
       animations.push(dialog.animate([
         {opacity: 0, transform: 'translateY(-28px)'},
         {opacity: 1, transform: 'translateY(0)'}
       ], {duration: 360, easing: 'cubic-bezier(.22,1,.36,1)'}));
+      animations.push(preview.animate([
+        {opacity: 0, transform: 'translateX(32px) scale(.97)'},
+        {opacity: 1, transform: 'translateX(0) scale(1)'}
+      ], {duration: 520, delay: 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards'}));
       [...navigation.children].forEach((group, index) => {
         animations.push(group.animate([
           {opacity: 0, transform: 'translateY(18px)'},
@@ -190,7 +306,7 @@ if (fullscreenMenu) {
   motionPreference.addEventListener('change', () => {
     if (!motionPreference.matches) return;
     if (closeTask) closeMenu(true);
-    else cancelAnimations();
+    else { cancelAnimations(); clearPreviewMotion(); }
   });
   window.addEventListener('pagehide', () => closeMenu(true));
 }

@@ -303,3 +303,27 @@ przewijania sekcji, p95 odstępu klatek 16,7 ms, 0 długich zadań >50 ms. Zdję
 pobierały się 2,1–6,8 s w tej symulacji, współdzieląc sieć z resztą strony.
 To kontrola laboratoryjna, bez fizycznego telefonu. Recenzja Claude niedostępna:
 CLI niezalogowane. Wspólna animacja przycisków respektuje reduced motion.
+
+### Zdjęcia w pełnoekranowym menu — 16.11.2026
+
+Desktop powyżej 900 px: lewa połowa zawiera przewijaną nawigację, prawa zdjęcie.
+Na telefonie menu i zdjęcie pod nim przewijają się razem, przy stałym nagłówku.
+Fotografie odpowiadają kategoriom i wybranym podpozycjom (np. obozy, zagraniczne,
+deski), korzystają z istniejących zasobów LONGWAVE. Ścieżki są wyliczane względem
+logo, więc działają również na głęboko zagnieżdżonych podstronach.
+
+Zdjęcia reagują na ruch kursora, fokus klawiatury i kliknięcie kategorii. Samo
+przesunięcie elementów przy rozwinięciu listy nie przełącza podglądu. Nowy obraz
+jest dekodowany przed podmianą; opóźnione odpowiedzi są odrzucane. Przejście łączy
+przenikanie, niewielkie przesunięcie i skalowanie. Zdjęcie ma osobną animację
+wejścia/wyjścia wraz z menu. Animowane są transform i opacity; live reduced motion
+wyłącza ruch. Błąd obrazu pozostawia poprzednią fotografię i działającą nawigację.
+
+Kontrole Chrome: 320/390 × 900, poziomy 844 × 390, desktop 1024/1440 × 900,
+główna i Rodos; proporcje połówek, zdjęcie pod menu, wszystkie kategorie i deski,
+klawiatura, Escape, ponowne otwieranie, resize, kotwica kontaktu, brak JS.
+Sprawdzono wyścig wolno ładowanego zdjęcia i nowego wyboru oraz błąd pobierania.
+Podglądy desktop/mobile sprawdzone wizualnie. Desktop 1440 × 900, CPU 4×, pięć
+przejść między wcześniej wczytanymi zdjęciami: p95 klatek 16,8 ms, 0 długich zadań,
+po animacjach pozostaje jeden obraz. Przy zamknięciu wraca scroll 500 px.
+Bez fizycznego telefonu/Safari. Recenzja Claude niedostępna: CLI niezalogowane.

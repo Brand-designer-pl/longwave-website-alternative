@@ -330,7 +330,7 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
 .mobile-menu-header .wordmark img{filter:brightness(0)}
 .mobile-menu-header .menu-close{justify-self:start;background:transparent;color:#101010;border:0;padding:10px 8px;gap:6px;font-size:.8rem;min-height:44px}
 .mobile-menu-header .account-link{justify-self:end;background:#101010;color:#fff;font-size:.72rem;padding:12px 10px;gap:6px;white-space:nowrap}
-.mobile-menu-dialog>nav{overflow-y:auto;overscroll-behavior:contain;padding:20px clamp(24px,6vw,64px) calc(32px + env(safe-area-inset-bottom,0px))}
+.menu-layout>nav{min-width:0;min-height:0}
 .mobile-menu-dialog nav>details{border-bottom:1px solid #10101025}
 .mobile-menu-dialog nav>details>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:76px;padding:20px 0;font-size:clamp(1.5rem,5vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.15}
 .mobile-menu-dialog nav>details>summary::after{content:"";width:9px;height:9px;flex:none;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
@@ -350,9 +350,9 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
   .mobile-menu-header .wordmark{width:120px}
   .mobile-menu-header .menu-close{font-size:.9rem;gap:10px;padding:12px 16px}
   .mobile-menu-header .account-link{font-size:.85rem;padding:14px 20px;gap:12px}
-  .mobile-menu-dialog>nav{padding:24px max(64px,calc((100vw - 1200px)/2)) 48px}
-  .mobile-menu-dialog nav>details>summary{min-height:90px;font-size:clamp(2rem,3.4vw,3.4rem);padding:18px 0}
-  .mobile-menu-dialog .dropdown{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}
+  .menu-layout>nav{overflow-y:auto;overscroll-behavior:contain;padding:0 28px 24px 0}
+  .mobile-menu-dialog nav>details>summary{min-height:76px;font-size:clamp(1.8rem,3vw,3rem);padding:18px 0}
+  .mobile-menu-dialog .dropdown{grid-template-columns:minmax(0,1fr)}
   .mobile-menu-dialog .dropdown a{font-size:1.1rem}
 }
 @media(max-width:360px){
@@ -394,4 +394,20 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
   .world-copy{padding:24px}
   .world-copy h3{font-size:2.25rem}
   .world-card .round-arrow{width:44px;height:44px}
+}
+
+/* Responsive photo preview: half the desktop menu, below navigation on mobile. */
+.menu-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;min-height:0;padding:24px 40px 32px;overflow:hidden}
+.menu-preview{position:relative;min-width:0;min-height:0;isolation:isolate;overflow:hidden;border-radius:28px;background:#dce5e7}
+.menu-preview-photos{position:absolute;inset:0}
+.menu-preview-photos img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.menu-preview-caption{position:absolute;bottom:24px;left:24px;max-width:calc(100% - 48px);padding:14px 22px;background:#fffffff0;color:#101010;border-radius:999px;font-size:clamp(1rem,1.8vw,1.4rem);font-weight:800;line-height:1.3}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .menu-preview-caption{background:#ffffffd9;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+}
+@media(max-width:900px){
+  .menu-layout{display:block;overflow-y:auto;overscroll-behavior:contain;padding:8px 24px calc(24px + env(safe-area-inset-bottom,0px))}
+  .menu-layout>nav{overflow:visible;padding:0}
+  .menu-preview{aspect-ratio:3/2;margin-top:24px;border-radius:20px}
+  .menu-preview-caption{left:16px;bottom:16px;max-width:calc(100% - 32px);padding:12px 18px;font-size:1rem}
 }
