@@ -412,3 +412,32 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
   .menu-preview{aspect-ratio:3/2;margin-top:24px;border-radius:20px}
   .menu-preview-caption{left:16px;bottom:16px;max-width:calc(100% - 32px);padding:12px 18px;font-size:1rem}
 }
+
+/* Full-width bands give each homepage chapter a clear beginning and end. */
+.home-page main>.section{
+  max-width:none;
+  padding-inline:max(var(--pad),calc((100% - 1560px)/2 + var(--pad)));
+  padding-block:clamp(56px,6.5vw,104px);
+  border-top:1px solid #1037420d;
+  background:#fff;
+}
+.home-page main>#przygoda{border-top:0}
+.home-page main>:is(#wyjazdy,#swiat){background:#f2f4f7}
+.home-page main>#zycie{background:#24304a;color:#fff;border-color:transparent}
+.home-page #zycie :is(h2,h3){color:#fff}
+.home-page #zycie .kicker{color:#d3dbe8}
+.home-page #zycie .values{background:transparent;border-top:1px solid #ffffff30;border-radius:0;padding:28px 0 0;margin-top:28px}
+.home-page #zycie .values p{color:#e1e6ef}
+.home-page #zycie .mosaic figure{overflow:hidden;border-radius:18px}
+.home-page #swiat .world-card,.home-page #swiat .trip-video{background:#fff}
+.home-page main>#aplikacja{background:#2a2a2a;color:#fff;border-color:transparent}
+.home-page #aplikacja .callout{background:transparent;border-radius:0;padding:0}
+.home-page #aplikacja .pill{background:#fff;color:#101010;flex:none}
+.home-page #aplikacja .pill:focus-visible{color:#fff}
+.home-page main>.launch-section{background:#24304a;border-color:transparent}
+.home-page main>.final{margin-top:0;background:#f2f4f7;border-top:1px solid #1037420d;padding-block:clamp(56px,6.5vw,104px)}
+@media(hover:hover){.home-page #aplikacja .pill:hover{color:#fff}}
+@media(max-width:650px){
+  .home-page #zycie .values{gap:24px;padding-top:24px;margin-top:24px}
+  .home-page #zycie .mosaic figure{border-radius:12px}
+}

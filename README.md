@@ -327,3 +327,18 @@ Podglądy desktop/mobile sprawdzone wizualnie. Desktop 1440 × 900, CPU 4×, pi�
 przejść między wcześniej wczytanymi zdjęciami: p95 klatek 16,8 ms, 0 długich zadań,
 po animacjach pozostaje jeden obraz. Przy zamknięciu wraca scroll 500 px.
 Bez fizycznego telefonu/Safari. Recenzja Claude niedostępna: CLI niezalogowane.
+
+### Wyraźne granice sekcji strony głównej — 16.11.2026
+
+`body.home-page` ogranicza nowe style do strony głównej. Sekcje tworzą pasy na
+pełną szerokość ekranu, z zachowaniem dotychczasowego wyrównania treści do 1560 px.
+Każdy blok ma 56–104 px przestrzeni u góry i u dołu oraz delikatne linie podziału.
+Kalendarz i Świat LONGWAVE: #f2f4f7; Życie nad wodą i premiera: #24304a;
+aplikacja: #2a2a2a. Pozostałe treści są na bieli, finał na chłodnej szarości.
+Paleta ciemnych sekcji jest zgodna z podstronami miejscówek. Karty Świata i film
+mają białe tło; tekst w ciemnych sekcjach jest jasny. Bez nowych mediów i skryptów.
+
+Testy Chrome 320/390/768/1440/1920 px: każde sąsiednie widoczne pasmo ma inne tło,
+pełna szerokość, odstępy po obu stronach sekcji, brak poziomego overflow,
+białe nagłówki na ciemnym tle, klawiatura, FAQ, podgląd premiery i wariant bez JS.
+Granica kalendarz/Życie nad wodą sprawdzona wizualnie na desktopie i mobile.
