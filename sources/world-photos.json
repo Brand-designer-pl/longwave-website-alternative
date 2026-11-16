@@ -1,0 +1,34 @@
+{
+  "updated": "2026-11-16",
+  "notes": "Autentyczne zdjęcia z materiałów LONGWAVE; WebP quality 76, dłuższy bok do 1000 px. Kadrowanie przez CSS object-position.",
+  "photos": [
+    {
+      "file": "dist/assets/world-eventy.webp",
+      "width": 750,
+      "height": 1000,
+      "bytes": 97956,
+      "source": "../strona-www/sources/wetransfer_dji_0256-jpg_2026-10-28_1500/event 3.JPG"
+    },
+    {
+      "file": "dist/assets/world-boards.webp",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 260264,
+      "source": "https://longwaveboards.com/wp-content/uploads/2023/10/boards.jpg"
+    },
+    {
+      "file": "dist/assets/world-collection.webp",
+      "width": 750,
+      "height": 1000,
+      "bytes": 66078,
+      "source": "https://longwaveboards.com/wp-content/uploads/2023/11/collection.jpg"
+    },
+    {
+      "file": "dist/assets/world-vanlife.webp",
+      "width": 1000,
+      "height": 750,
+      "bytes": 52520,
+      "source": "https://longwaveboards.com/wp-content/uploads/2023/11/vanlife.jpg"
+    }
+  ]
+}

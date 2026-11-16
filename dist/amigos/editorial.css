@@ -121,7 +121,7 @@ summary::-webkit-details-marker{display:none}
 .mosaic img,.story-photo img{height:100%;object-fit:cover}
 .values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:14px;padding:24px;border-radius:var(--radius);background:var(--sand)}
 .values h3{font-size:1.2rem;letter-spacing:-.03em;margin-bottom:7px}
-.world-grid .choice{min-height:clamp(170px,19vw,260px)}
+
 .story-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(22px,5vw,78px)}
 .story-photo{height:clamp(300px,44vw,630px);overflow:hidden;border-radius:var(--radius)}
 .story-copy>p:not(.kicker),.project-text>p:not(.kicker){font-size:clamp(1rem,1.7vw,1.35rem);margin-block:16px 20px;max-width:48ch}
@@ -216,25 +216,25 @@ body :is(.hero,.location-hero,.campaign,.photo-card,.nav-shell) :is(.pill,.accou
 }
 .footer .film-control{margin:0;background:#ffffff14;border-color:#ffffff40;color:white;font-weight:400}
 body :is(.pill,.account-link,.film-control,.nav-toggle>summary):focus-visible,
-.choice:focus-visible .round-arrow{color:#fff}
+:is(.choice,.world-card):focus-visible .round-arrow{color:#fff}
 :is(.pill,.account-link,.film-control,.nav-toggle>summary):focus-visible::before,
-.choice:focus-visible .round-arrow::before{transform:translateY(0)}
+:is(.choice,.world-card):focus-visible .round-arrow::before{transform:translateY(0)}
 @media(hover:hover) and (pointer:fine){
   body :is(.pill,.account-link,.film-control,.nav-toggle>summary):hover,
-  .choice:hover .round-arrow{color:#fff}
+  :is(.choice,.world-card):hover .round-arrow{color:#fff}
   :is(.pill,.account-link,.film-control,.nav-toggle>summary):hover::before,
-  .choice:hover .round-arrow::before{transform:translateY(0)}
+  :is(.choice,.world-card):hover .round-arrow::before{transform:translateY(0)}
 }
 @media(prefers-reduced-motion:no-preference){
   :is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow){transition:color .3s ease}
   :is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow)::before{transition:transform .35s cubic-bezier(.22,.61,.36,1)}
   :is(.pill,.account-link)>svg:last-child,.round-arrow .icon{transition:transform .3s ease}
   :is(.pill,.account-link):focus-visible>svg:last-child,
-  .choice:focus-visible .round-arrow .icon{transform:rotate(45deg)}
+  :is(.choice,.world-card):focus-visible .round-arrow .icon{transform:rotate(45deg)}
 }
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
   :is(.pill,.account-link):hover>svg:last-child,
-  .choice:hover .round-arrow .icon{transform:rotate(45deg)}
+  :is(.choice,.world-card):hover .round-arrow .icon{transform:rotate(45deg)}
 }
 @media(max-width:900px){
   .nav-toggle>summary{min-height:44px;align-content:center}
@@ -360,4 +360,38 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
   .mobile-menu-header .wordmark{width:64px}
   .mobile-menu-header .menu-close{font-size:.74rem}
   .mobile-menu-header .account-link{font-size:.68rem;padding-inline:9px}
+}
+
+/* The brand stories use real photographs with separate, readable captions. */
+.world-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;margin-top:32px}
+.world-card{grid-column:span 5;display:flex;flex-direction:column;min-width:0;border-radius:24px;background:#f2f4f7;color:#101010}
+.world-card:first-child,.world-card:last-child{grid-column:span 7}
+.world-photo{overflow:hidden;border-radius:24px 24px 0 0;isolation:isolate}
+.world-photo img{height:clamp(260px,27vw,390px);object-fit:cover;object-position:center}
+.world-card-boards img{object-position:50% 60%}
+.world-card-collection img{object-position:50% 40%}
+.world-card-vanlife img{object-position:50% 78%}
+.world-copy{display:flex;align-items:stretch;justify-content:space-between;gap:20px;padding:clamp(24px,3vw,40px);flex:1}
+.world-copy>div{min-width:0;flex:1;display:flex;flex-direction:column}
+.world-copy .kicker{margin-bottom:14px;color:#4c6268}
+.world-copy h3{font-size:clamp(2rem,3.4vw,3.4rem);color:#101010}
+.world-description{max-width:34ch;margin-top:14px;color:#535c60;font-size:1rem;line-height:1.55}
+.world-link-label{display:block;margin-top:auto;padding-top:22px;font-size:.8rem;font-weight:800}
+.world-card .round-arrow{position:relative;inset:auto;align-self:end;width:48px;height:48px;flex:none;background:#101010;color:#fff;font-size:1.2rem}
+.world-card:focus-visible{outline-offset:5px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .world-photo img{transition:transform .55s ease}
+  .world-card:hover .world-photo img{transform:scale(1.035)}
+}
+@media(max-width:900px){
+  .world-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .world-grid .world-card{grid-column:auto}
+  .world-copy{padding:24px;gap:12px}
+}
+@media(max-width:650px){
+  .world-grid{grid-template-columns:minmax(0,1fr);gap:24px;margin-top:24px}
+  .world-photo img{height:auto;aspect-ratio:3/2}
+  .world-copy{padding:24px}
+  .world-copy h3{font-size:2.25rem}
+  .world-card .round-arrow{width:44px;height:44px}
 }

@@ -283,3 +283,23 @@ filmu poprawne. To test laboratoryjny Chrome, bez fizycznego telefonu/Safari.
 Wzorce biblioteki premium-web-agent 1.0.0: `motion-accessibility` i
 `performance-budget` zaadaptowane do istniejącego statycznego stacku.
 Recenzja Claude niedostępna: CLI niezalogowane.
+
+### Świat LONGWAVE — zdjęcia i nowy układ, 16.11.2026
+
+Sekcja `#swiat` ma cztery prawdziwe fotografie zamiast wyciętych przedmiotów.
+Desktop: pary 7/5 i 5/7 kolumn; tablet: dwie równe kolumny; telefon: jedna.
+Podpisy, opisy i czarne animowane strzałki są na jasnych polach pod zdjęciami.
+Zachowane są kategorie Eventy, Boards, Collection i Vanlife; ostatnia prowadzi
+teraz do właściwego `/vanlife/`. Pierwsza sekcja kart wyjazdów pozostaje osobna.
+Zdjęcie koncertu pochodzi z przekazanego archiwum WeTransfer; pozostałe z witryny
+LONGWAVE. Źródła, wymiary i pliki: `sources/world-photos.json`. Cztery obrazy WebP
+łącznie 466 KiB, lazy loading i deklarowane wymiary, bez nowych bibliotek.
+
+Kontrole Chrome 320, 390, 768, 1024 i 1440 px: brak overflow, zdjęcia wczytane,
+podpisy poza fotografią, poprawne strzałki i fokus klawiatury. Wariant bez JS
+zachowuje treść i linki. Podglądy desktop/mobile sprawdzone wizualnie. Chrome
+390 × 844, CPU 4×, sieć 1,6 Mb/s i 150 ms: po dekodowaniu zdjęć cztery sekundy
+przewijania sekcji, p95 odstępu klatek 16,7 ms, 0 długich zadań >50 ms. Zdjęcia
+pobierały się 2,1–6,8 s w tej symulacji, współdzieląc sieć z resztą strony.
+To kontrola laboratoryjna, bez fizycznego telefonu. Recenzja Claude niedostępna:
+CLI niezalogowane. Wspólna animacja przycisków respektuje reduced motion.
