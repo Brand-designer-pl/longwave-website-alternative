@@ -37,7 +37,7 @@ menu.querySelectorAll('a').forEach(link => {
 });
 
 document.addEventListener('keydown', event => {
-  if (event.key !== 'Escape') return;
+  if (event.key !== 'Escape' || document.querySelector('.mobile-menu-dialog[open]')) return;
   const openGroup = groups.find(group => group.open);
   if (openGroup) {
     openGroup.open = false;
@@ -47,6 +47,92 @@ document.addEventListener('keydown', event => {
     menu.querySelector('summary').focus();
   }
 });
+
+// Native top layer avoids clipping by hero transforms and glass navigation.
+if (typeof HTMLDialogElement !== 'undefined' && HTMLDialogElement.prototype.showModal) {
+  const shell = menu.closest('.nav-shell');
+  const dialog = document.createElement('dialog');
+  dialog.className = 'mobile-menu-dialog';
+  dialog.setAttribute('aria-label', 'Menu główne LONGWAVE');
+  const header = document.createElement('div');
+  header.className = 'mobile-menu-header';
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'pill menu-close';
+  close.innerHTML = '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></svg><span>Zamknij</span>';
+  const logo = shell.querySelector('.wordmark').cloneNode(true);
+  const account = shell.querySelector('.account-link').cloneNode(true);
+  header.append(close, logo, account);
+  const navigation = menu.querySelector('nav').cloneNode(true);
+  dialog.append(header, navigation);
+  document.body.append(dialog);
+  document.documentElement.classList.add('has-fullscreen-menu');
+  let locked = false;
+  let savedScroll = 0;
+  let savedStyle;
+
+  function unlockPage() {
+    if (!locked) return;
+    locked = false;
+    document.body.classList.remove('mobile-menu-open');
+    for (const [key, value] of Object.entries(savedStyle)) document.body.style[key] = value;
+    window.scrollTo(0, savedScroll);
+  }
+  function closeMenu() {
+    if (dialog.open) dialog.close();
+    unlockPage();
+    if (compactMenu.matches) menu.open = false;
+  }
+  function syncFullscreenMenu() {
+    if (!compactMenu.matches || !menu.open) {
+      closeMenu();
+      return;
+    }
+    if (dialog.open) return;
+    savedScroll = window.scrollY;
+    savedStyle = Object.fromEntries(['position', 'top', 'width'].map(key => [key, document.body.style[key]]));
+    locked = true;
+    document.body.classList.add('mobile-menu-open');
+    Object.assign(document.body.style, {position: 'fixed', top: `-${savedScroll}px`, width: '100%'});
+    navigation.querySelectorAll('details').forEach(group => { group.open = false; });
+    dialog.showModal();
+    close.focus({preventScroll: true});
+  }
+  close.addEventListener('click', closeMenu);
+  dialog.addEventListener('cancel', event => { event.preventDefault(); closeMenu(); });
+  dialog.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    closeMenu();
+    const url = new URL(link.href);
+    if (url.origin === location.origin && url.pathname === location.pathname && url.hash) {
+      const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (target) { target.tabIndex = -1; target.focus({preventScroll: true}); }
+    }
+  }));
+  const dialogGroups = [...navigation.querySelectorAll(':scope > details')];
+  dialogGroups.forEach(group => group.addEventListener('toggle', () => {
+    if (group.open) dialogGroups.filter(other => other !== group).forEach(other => { other.open = false; });
+  }));
+  // Header links and category toggles belong to the modal, not an outside click.
+  dialog.addEventListener('click', event => event.stopPropagation());
+  dialog.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled]), summary')]
+      .filter(element => element.getClientRects().length &&
+        (element.tagName === 'SUMMARY' || !element.closest('details:not([open])')));
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+  menu.addEventListener('toggle', syncFullscreenMenu);
+  compactMenu.addEventListener('change', syncFullscreenMenu);
+  window.addEventListener('pagehide', closeMenu);
+}
 
 function syncFilmControl(control, enabled, failed = false) {
   control.setAttribute('aria-pressed', String(enabled));
@@ -63,7 +149,7 @@ if (video) {
 
   function updateFilm() {
     syncFilmControl(control, wantsPlayback);
-    if (!wantsPlayback || !visible || document.hidden) {
+    if (!wantsPlayback || !visible || document.hidden || (compactMenu.matches && menu.open)) {
       video.pause();
       return;
     }
@@ -98,6 +184,7 @@ if (video) {
     updateFilm();
   });
   document.addEventListener('visibilitychange', updateFilm);
+  menu.addEventListener('toggle', updateFilm);
   new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
     updateFilm();

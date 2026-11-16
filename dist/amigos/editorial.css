@@ -318,3 +318,32 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
 @media(max-width:360px){
   .nav-shell>.wordmark{width:52px}
 }
+
+/* Fullscreen mobile navigation in the native modal top layer. */
+.mobile-menu-dialog{inset:0;margin:0;padding:0;width:100%;height:100vh;height:100dvh;max-width:none;max-height:none;border:0;border-radius:0;background:#f2f4f7;color:#101010}
+.mobile-menu-dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr)}
+.mobile-menu-dialog::backdrop{background:#10101066}
+.mobile-menu-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 16px;border-bottom:1px solid #10101018}
+.mobile-menu-header .wordmark{width:64px}
+.mobile-menu-header .wordmark img{filter:brightness(0)}
+.mobile-menu-header .menu-close{justify-self:start;background:transparent;color:#101010;border:0;padding:10px 8px;gap:6px;font-size:.8rem;min-height:44px}
+.mobile-menu-header .account-link{justify-self:end;background:#101010;color:#fff;font-size:.72rem;padding:12px 10px;gap:6px;white-space:nowrap}
+.mobile-menu-dialog>nav{overflow-y:auto;overscroll-behavior:contain;padding:20px clamp(24px,6vw,64px) calc(32px + env(safe-area-inset-bottom,0px))}
+.mobile-menu-dialog nav>details{border-bottom:1px solid #10101025}
+.mobile-menu-dialog nav>details>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:76px;padding:20px 0;font-size:clamp(1.5rem,5vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.15}
+.mobile-menu-dialog nav>details>summary::after{content:"";width:9px;height:9px;flex:none;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+.mobile-menu-dialog nav>details[open]>summary::after{transform:rotate(225deg)}
+.mobile-menu-dialog .dropdown{position:static;display:grid;min-width:0;padding:0 0 20px;border-radius:0;background:transparent;color:#101010;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.mobile-menu-dialog .dropdown a{padding:13px 0;min-height:48px;border-radius:0;font-size:1rem;font-weight:400;line-height:1.4}
+.mobile-menu-dialog .dropdown a:hover{text-decoration:underline;text-underline-offset:5px;background:transparent}
+body.mobile-menu-open{overflow:hidden}
+body.mobile-menu-open .destination-dock{visibility:hidden}
+@media(max-width:900px){
+  .has-fullscreen-menu .nav-toggle>nav{display:none!important}
+}
+@media(max-width:360px){
+  .mobile-menu-header{padding-inline:14px;gap:4px}
+  .mobile-menu-header .wordmark{width:52px}
+  .mobile-menu-header .menu-close{font-size:.74rem}
+  .mobile-menu-header .account-link{font-size:.68rem;padding-inline:9px}
+}

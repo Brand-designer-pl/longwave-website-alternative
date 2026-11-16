@@ -257,3 +257,18 @@ Patch aplikacji sprawdzono w izolowanej przeglądarce przez podmianę odpowiedzi
 app.js: id 4 otwiera ofertę Jastarni, błędny i nieistniejący ID pokazują
 komunikat bez otwarcia oferty. To testy laboratoryjne, bez fizycznego
 telefonu/Safari. Recenzja Claude niedostępna: brak logowania CLI.
+
+### Pełnoekranowe menu mobilne — 16.11.2026
+
+Do 900 px menu otwiera natywny dialog ponad filmem, szkłem i przypiętym CTA.
+Header dialogu ma zamknięcie, centralne logo i konto; kategorie są akordeonem,
+a długie listy przewijają się wewnątrz menu. Tło jest zablokowane, po zamknięciu
+wraca zapisany scroll. Fokus pozostaje w dialogu; Escape, zamknięcie i linki
+odblokowują stronę. Zmiana na desktop zamyka dialog i przywraca zwykłą nawigację.
+Filmy głównej strony i miejscówek pauzują pod menu. Bez JS pozostaje natywna
+nawigacja details. Kod: `editorial.js`, style: `editorial.css`, wspólne dla 10 stron.
+Testy Chrome: 320/390 × 844, 844 × 390, resize do 1440, klawiatura, cykl fokusu,
+szybkie ponowne otwarcie, powrót do scroll 500 px, link #kontakt, reduced motion,
+bez JS. CPU 4×: otwarcie do kolejnej klatki 24–39 ms w sześciu próbach główna/Rodos;
+autostart oraz pauza/wznowienie filmów poprawne. To emulacja, nie fizyczny telefon.
+Recenzja Claude niedostępna: CLI niezalogowane.
