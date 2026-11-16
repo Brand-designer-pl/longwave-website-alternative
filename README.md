@@ -258,17 +258,28 @@ app.js: id 4 otwiera ofertę Jastarni, błędny i nieistniejący ID pokazują
 komunikat bez otwarcia oferty. To testy laboratoryjne, bez fizycznego
 telefonu/Safari. Recenzja Claude niedostępna: brak logowania CLI.
 
-### Pełnoekranowe menu mobilne — 16.11.2026
+### Pełnoekranowe menu desktop i mobile — 16.11.2026
 
-Do 900 px menu otwiera natywny dialog ponad filmem, szkłem i przypiętym CTA.
-Header dialogu ma zamknięcie, centralne logo i konto; kategorie są akordeonem,
-a długie listy przewijają się wewnątrz menu. Tło jest zablokowane, po zamknięciu
-wraca zapisany scroll. Fokus pozostaje w dialogu; Escape, zamknięcie i linki
-odblokowują stronę. Zmiana na desktop zamyka dialog i przywraca zwykłą nawigację.
-Filmy głównej strony i miejscówek pauzują pod menu. Bez JS pozostaje natywna
-nawigacja details. Kod: `editorial.js`, style: `editorial.css`, wspólne dla 10 stron.
-Testy Chrome: 320/390 × 844, 844 × 390, resize do 1440, klawiatura, cykl fokusu,
-szybkie ponowne otwarcie, powrót do scroll 500 px, link #kontakt, reduced motion,
-bez JS. CPU 4×: otwarcie do kolejnej klatki 24–39 ms w sześciu próbach główna/Rodos;
-autostart oraz pauza/wznowienie filmów poprawne. To emulacja, nie fizyczny telefon.
+Na wszystkich szerokościach przycisk menu jest po lewej, logo dokładnie na środku,
+a konto po prawej. Menu otwiera natywny dialog ponad filmem i przypiętym CTA.
+Panel pojawia się przez 360 ms, kategorie w krótkiej sekwencji; zamykanie trwa
+220 ms. Animowane są wyłącznie transform i opacity (Web Animations API), bez
+nowych zależności. Reduced motion, także zmienione podczas animacji, pomija ruch.
+Na desktopie linki rozwiniętej kategorii mają dwie kolumny; telefon ma jedną.
+
+Tło jest zablokowane, po zamknięciu wraca zapisany scroll i fokus przycisku.
+Escape, zamknięcie i linki kończą przejście i odblokowują stronę. Resize zachowuje
+otwarte menu. Filmy głównej strony i miejscówek pauzują pod menu. Bez JS lub
+natywnego dialogu pozostaje nawigacja details. Kod: `editorial.js`, `editorial.css`,
+wspólne dla 10 stron; HTML ma zaktualizowane wersje zasobów.
+
+Testy Chrome: 320/390/1024/1440 × 900 oraz 844 × 390 na głównej, Rodos i Home Spot
+2.0: centrowanie logo, brak overflow, pełny ekran, animacje wejścia/wyjścia,
+Escape i powrót fokusu. Osobno: cykl klawiatury, scroll 500 px, szybkie powtórzenia,
+resize, dynamiczne reduced motion, link #kontakt, przejście do wyjazdów i brak JS.
+CPU 4×, trzy otwarcia/zamknięcia na głównej: mobile 390 px i desktop 1440 px,
+p95 odstępu między klatkami 16,7 ms, 0 długich zadań (>50 ms); pauza i wznowienie
+filmu poprawne. To test laboratoryjny Chrome, bez fizycznego telefonu/Safari.
+Wzorce biblioteki premium-web-agent 1.0.0: `motion-accessibility` i
+`performance-budget` zaadaptowane do istniejącego statycznego stacku.
 Recenzja Claude niedostępna: CLI niezalogowane.

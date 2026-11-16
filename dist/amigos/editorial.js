@@ -3,12 +3,13 @@
 const menu = document.querySelector('.nav-toggle');
 const groups = [...menu.querySelectorAll('nav > details')];
 const compactMenu = matchMedia('(max-width: 900px)');
+const fullscreenMenu = typeof HTMLDialogElement !== 'undefined' && !!HTMLDialogElement.prototype.showModal;
 function syncMenu() {
-  menu.open = !compactMenu.matches;
+  menu.open = !fullscreenMenu && !compactMenu.matches;
   groups.forEach(group => { group.open = false; });
 }
 syncMenu();
-compactMenu.addEventListener('change', syncMenu);
+compactMenu.addEventListener('change', () => { if (!fullscreenMenu) syncMenu(); });
 
 groups.forEach(group => {
   group.addEventListener('toggle', () => {
@@ -42,14 +43,14 @@ document.addEventListener('keydown', event => {
   if (openGroup) {
     openGroup.open = false;
     openGroup.querySelector('summary').focus();
-  } else if (compactMenu.matches && menu.open) {
+  } else if ((fullscreenMenu || compactMenu.matches) && menu.open) {
     menu.open = false;
     menu.querySelector('summary').focus();
   }
 });
 
 // Native top layer avoids clipping by hero transforms and glass navigation.
-if (typeof HTMLDialogElement !== 'undefined' && HTMLDialogElement.prototype.showModal) {
+if (fullscreenMenu) {
   const shell = menu.closest('.nav-shell');
   const dialog = document.createElement('dialog');
   dialog.className = 'mobile-menu-dialog';
@@ -70,6 +71,20 @@ if (typeof HTMLDialogElement !== 'undefined' && HTMLDialogElement.prototype.show
   let locked = false;
   let savedScroll = 0;
   let savedStyle;
+  let animations = [];
+  let generation = 0;
+  let closeTask = null;
+  const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+  const trigger = menu.querySelector('summary');
+  trigger.setAttribute('aria-haspopup', 'dialog');
+  trigger.setAttribute('aria-controls', 'fullscreen-menu');
+  trigger.setAttribute('aria-expanded', 'false');
+  dialog.id = 'fullscreen-menu';
+
+  function cancelAnimations() {
+    animations.forEach(animation => animation.cancel());
+    animations = [];
+  }
 
   function unlockPage() {
     if (!locked) return;
@@ -78,17 +93,41 @@ if (typeof HTMLDialogElement !== 'undefined' && HTMLDialogElement.prototype.show
     for (const [key, value] of Object.entries(savedStyle)) document.body.style[key] = value;
     window.scrollTo(0, savedScroll);
   }
-  function closeMenu() {
+  function finishClose() {
+    cancelAnimations();
     if (dialog.open) dialog.close();
     unlockPage();
-    if (compactMenu.matches) menu.open = false;
+    menu.open = false;
+    trigger.setAttribute('aria-expanded', 'false');
+    closeTask = null;
+  }
+  function closeMenu(immediate = false) {
+    if (immediate || motionPreference.matches || !dialog.animate) {
+      generation++;
+      finishClose();
+      return Promise.resolve();
+    }
+    if (!dialog.open) return Promise.resolve();
+    if (closeTask) return closeTask;
+    const token = ++generation;
+    const current = getComputedStyle(dialog);
+    const from = {opacity: current.opacity, transform: current.transform};
+    cancelAnimations();
+    const animation = dialog.animate([from, {opacity: 0, transform: 'translateY(-24px)'}],
+      {duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'both'});
+    animations.push(animation);
+    closeTask = animation.finished.catch(() => {}).then(() => {
+      if (token === generation) finishClose();
+    });
+    return closeTask;
   }
   function syncFullscreenMenu() {
-    if (!compactMenu.matches || !menu.open) {
-      closeMenu();
+    if (!menu.open) {
+      if (dialog.open) closeMenu();
       return;
     }
     if (dialog.open) return;
+    generation++;
     savedScroll = window.scrollY;
     savedStyle = Object.fromEntries(['position', 'top', 'width'].map(key => [key, document.body.style[key]]));
     locked = true;
@@ -96,17 +135,35 @@ if (typeof HTMLDialogElement !== 'undefined' && HTMLDialogElement.prototype.show
     Object.assign(document.body.style, {position: 'fixed', top: `-${savedScroll}px`, width: '100%'});
     navigation.querySelectorAll('details').forEach(group => { group.open = false; });
     dialog.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
     close.focus({preventScroll: true});
+    if (!motionPreference.matches && dialog.animate) {
+      animations.push(dialog.animate([
+        {opacity: 0, transform: 'translateY(-28px)'},
+        {opacity: 1, transform: 'translateY(0)'}
+      ], {duration: 360, easing: 'cubic-bezier(.22,1,.36,1)'}));
+      [...navigation.children].forEach((group, index) => {
+        animations.push(group.animate([
+          {opacity: 0, transform: 'translateY(18px)'},
+          {opacity: 1, transform: 'translateY(0)'}
+        ], {duration: 380, delay: 70 + index * 35, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards'}));
+      });
+    }
   }
-  close.addEventListener('click', closeMenu);
+  close.addEventListener('click', () => closeMenu());
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeMenu(); });
-  dialog.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-    closeMenu();
+  dialog.querySelectorAll('a').forEach(link => link.addEventListener('click', async event => {
+    const sameTab = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
+      (!link.target || link.target === '_self') && !link.hasAttribute('download');
+    if (!sameTab) { closeMenu(); return; }
+    event.preventDefault();
+    await closeMenu();
     const url = new URL(link.href);
     if (url.origin === location.origin && url.pathname === location.pathname && url.hash) {
       const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
       if (target) { target.tabIndex = -1; target.focus({preventScroll: true}); }
     }
+    location.assign(url.href);
   }));
   const dialogGroups = [...navigation.querySelectorAll(':scope > details')];
   dialogGroups.forEach(group => group.addEventListener('toggle', () => {
@@ -130,8 +187,12 @@ if (typeof HTMLDialogElement !== 'undefined' && HTMLDialogElement.prototype.show
     }
   });
   menu.addEventListener('toggle', syncFullscreenMenu);
-  compactMenu.addEventListener('change', syncFullscreenMenu);
-  window.addEventListener('pagehide', closeMenu);
+  motionPreference.addEventListener('change', () => {
+    if (!motionPreference.matches) return;
+    if (closeTask) closeMenu(true);
+    else cancelAnimations();
+  });
+  window.addEventListener('pagehide', () => closeMenu(true));
 }
 
 function syncFilmControl(control, enabled, failed = false) {
@@ -149,7 +210,7 @@ if (video) {
 
   function updateFilm() {
     syncFilmControl(control, wantsPlayback);
-    if (!wantsPlayback || !visible || document.hidden || (compactMenu.matches && menu.open)) {
+    if (!wantsPlayback || !visible || document.hidden || ((fullscreenMenu || compactMenu.matches) && menu.open)) {
       video.pause();
       return;
     }
@@ -252,7 +313,7 @@ if (locationHero) {
   }
 
   function shouldPlay() {
-    return enabled && visible && !document.hidden && !(compactMenu.matches && menu.open);
+    return enabled && visible && !document.hidden && !((fullscreenMenu || compactMenu.matches) && menu.open);
   }
 
   function showPoster() {
