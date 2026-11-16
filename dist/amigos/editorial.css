@@ -334,7 +334,7 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
 .mobile-menu-dialog nav>details>summary::after{content:"";width:9px;height:9px;flex:none;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
 .mobile-menu-dialog nav>details[open]>summary::after{transform:rotate(225deg)}
 .mobile-menu-dialog .dropdown{position:static;display:grid;min-width:0;padding:0 0 20px;border-radius:0;background:transparent;color:#101010;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-.mobile-menu-dialog .dropdown a{padding:13px 0;min-height:48px;border-radius:0;font-size:1rem;font-weight:400;line-height:1.4}
+.mobile-menu-dialog .dropdown a{background:transparent;padding:13px 0;min-height:48px;border-radius:0;font-size:1rem;font-weight:400;line-height:1.4}
 .mobile-menu-dialog .dropdown a:hover{text-decoration:underline;text-underline-offset:5px;background:transparent}
 body.mobile-menu-open{overflow:hidden}
 body.mobile-menu-open .destination-dock{visibility:hidden}
