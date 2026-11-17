@@ -34,16 +34,8 @@
     media.add('(prefers-reduced-motion: no-preference)', () => {
       let active = true;
       const cleanup = [];
-      document.querySelectorAll('.content-intro h2, .content-gallery-band h2, .content-related h2, .event-format-image').forEach(el => {
+      document.querySelectorAll('.content-intro h2, .content-gallery-band h2, .content-related h2, .event-format').forEach(el => {
         gsap.fromTo(el, {y:20}, {y:0, ease:'none', scrollTrigger:{trigger:el, start:'top 96%', end:'top 70%', scrub:true}});
-      });
-      // Only decorative art travels out again; headings, links and reading content stay legible.
-      document.querySelectorAll('[data-content-mark]').forEach(mark => {
-        const opacity = parseFloat(getComputedStyle(mark).opacity);
-        gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:mark.parentElement,start:'top bottom',end:'bottom top',scrub:true}})
-          .fromTo(mark,{y:-18,rotation:-4,opacity:.025},{y:0,rotation:0,opacity,duration:.35})
-          .to(mark,{y:12,rotation:2,opacity,duration:.4})
-          .to(mark,{y:18,rotation:4,opacity:.025,duration:.25});
       });
       const observer = new IntersectionObserver(entries => entries.forEach(async entry => {
         if (!entry.isIntersecting) return;
@@ -55,21 +47,25 @@
           if (!active) return;
           const [lottie, data] = await Promise.all([loadPlayer(),loadArt(mark.dataset.contentMark)]);
           if (!active) return;
+          const art=JSON.parse(JSON.stringify(data));
+          // Start from a blank line; do not change the shared homepage artwork.
+          art.layers.forEach(layer=>layer.shapes?.filter(shape=>shape.ty==='tm').forEach(trim=>{trim.e.k[0].s=[0];}));
           const animation=lottie.loadAnimation({container:mark.querySelector('.surf-mark-player'),renderer:'svg',autoplay:false,loop:false,
-            animationData:JSON.parse(JSON.stringify(data)),rendererSettings:{progressiveLoad:false}});
-          let trigger;
-          cleanup.push(() => {trigger?.kill();animation.destroy();mark.classList.remove('is-drawn');});
+            animationData:art,rendererSettings:{progressiveLoad:false}});
+          let trigger, exit;
+          cleanup.push(() => {trigger?.kill();exit?.kill();mark.style.removeProperty("opacity");animation.destroy();mark.classList.remove('is-drawn');});
           animation.addEventListener('DOMLoaded', () => {
             if (!active) return;
             mark.classList.add('is-drawn');
-            trigger=ScrollTrigger.create({trigger:mark.parentElement,start:'top bottom',end:'bottom top',
-              onUpdate:self => {
-                if (document.hidden || !active) return;
-                const progress=Math.min(1,self.progress/.3,(1-self.progress)/.22);
-                animation.goToAndStop(Math.max(0,progress)*(animation.totalFrames-1),true);
-              }});
-            const progress=Math.min(1,trigger.progress/.3,(1-trigger.progress)/.22);
-            animation.goToAndStop(Math.max(0,progress)*(animation.totalFrames-1),true);
+            const draw = progress => animation.goToAndStop(progress*(animation.totalFrames-1),true);
+            trigger=ScrollTrigger.create({trigger:mark,start:'top 95%',end:'top 45%',
+              onUpdate:self => {if (!document.hidden && active) draw(self.progress);}});
+            draw(trigger.progress);
+            // Keep the completed drawing visible; fade only when its section leaves.
+            const opacity=parseFloat(getComputedStyle(mark).opacity);
+            exit=ScrollTrigger.create({trigger:mark.parentElement,start:'bottom 25%',end:'bottom top',
+              onUpdate:self => {if(active) mark.style.opacity=opacity*(1-self.progress);}});
+            mark.style.opacity=opacity*(1-exit.progress);
           });
         } catch (_) { /* Keep the authored static SVG if the optional renderer or JSON fails. */ }
       }), {rootMargin:'150px'});
