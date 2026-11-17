@@ -43,6 +43,12 @@ def combine(public, snapshots):
     drafts=[o for o in snapshots if not o.get('active') and o['id'] not in live_ids and location(o['place'])]
     return normalize(public)+normalize(drafts, draft=True)
 
+def filter_terms(terms, group):
+    return [t for t in terms if
+        (group=='camp' and t['category'].casefold()=='camp') or
+        (group in ('family','events') and t['category'].casefold()=='wyjazd rodzinny') or
+        (group=='foreign' and ('zagran' in t['category'].casefold() or t.get('location')=='rodos'))]
+
 def card(t, asset_prefix):
     draft=t.get('draft',False)
     tag='article' if draft else 'a'
@@ -112,10 +118,7 @@ def sync():
         match=re.search(r'data-offer-group="(camp|family|events|foreign)"',page.read_text())
         if not match: continue
         group=match[1]
-        terms=[t for t in public_terms if
-            (group=='camp' and t['category'].casefold()=='camp') or
-            (group in ('family','events') and t['category'].casefold()=='wyjazd rodzinny') or
-            (group=='foreign' and ('zagran' in t['category'].casefold() or t.get('location')=='rodos'))]
+        terms=filter_terms(public_terms,group)
         prefix='../'*len(page.parent.relative_to(ROOT).parts)
         markup=''.join(card(t,prefix) for t in terms) or '<p>Przygotowujemy kolejne terminy. <a href="mailto:info@longwaveboards.com">Zapytaj nas o planowany wyjazd.</a></p>'
         replace(page,'CONTENT_OFFERS',markup)

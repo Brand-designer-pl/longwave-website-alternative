@@ -57,9 +57,19 @@ def header(route):
 def photo(route,path,alt,lazy=True):
  return f'<img src="{asset(route,path)}" alt="{E(alt)}" width="1440" height="960"'+(' loading="lazy"' if lazy else ' fetchpriority="high"')+' decoding="async">'
 def pill(route,label,url):return f'<a class="pill" href="{E(rel(route,url))}">{E(label)}{ARROW}</a>'
+def layout(route):
+ if route.startswith('eventy'):return 'events'
+ if route.startswith('sklep-i-boards'):return 'collection'
+ if route.startswith('o-longwave'):return 'community'
+ return 'destination'
+def decoration(route,kind='wave'):
+ prefix='../'*len([x for x in route.split('/') if x])
+ return f'<div class="surf-mark content-decoration" data-content-mark="{kind}" aria-hidden="true"><img src="{prefix}art/{kind}.svg" alt="" width="100" height="100" loading="lazy"><span class="surf-mark-player"></span></div>'
 def shell(route,title,desc,body):
  prefix='../'*len([x for x in route.split('/') if x]); p=SITE/route/'index.html';p.parent.mkdir(parents=True,exist_ok=True)
- s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=content-20261117"><link rel="stylesheet" href="{prefix}content-pages.css?v=photo-hero-20261117"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script><script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script></head><body class="content-page{' content-article' if route.startswith('blog/') else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main><footer class="footer"><div class="wrap footer-row"><a class="wordmark" href="{prefix}" aria-label="LONGWAVE, strona główna"><img src="{asset(route,'logo.webp')}" width="1920" height="1357" alt="LONGWAVE"></a><nav aria-label="Stopka"><a href="{rel(route,'eventy')}">Eventy</a><a href="{rel(route,'blog')}">Blog</a><a href="{prefix}#kontakt">Kontakt</a><a href="{APP}">Aplikacja</a></nav></div></footer></body></html>'''
+ motion='' if route.startswith('blog/') else f'<script defer src="{prefix}content-motion.js?v=20261117"></script>'
+ carousel=f'<script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script>' if 'data-offers-track' in body else ''
+ s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=content-20261117"><link rel="stylesheet" href="{prefix}content-pages.css?v=distinct-20261117"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script>{carousel}{motion}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main><footer class="footer"><div class="wrap footer-row"><a class="wordmark" href="{prefix}" aria-label="LONGWAVE, strona główna"><img src="{asset(route,'logo.webp')}" width="1920" height="1357" alt="LONGWAVE"></a><nav aria-label="Stopka"><a href="{rel(route,'eventy')}">Eventy</a><a href="{rel(route,'blog')}">Blog</a><a href="{prefix}#kontakt">Kontakt</a><a href="{APP}">Aplikacja</a></nav></div></footer></body></html>'''
  p.write_text(rewrite(s,route))
 def hero(route,title,kicker,lead,img):
  page=next((p for p in PAGES if p['route']==route),{})
@@ -69,7 +79,8 @@ def hero(route,title,kicker,lead,img):
  buttons=pill(route,action[0],action[1]) if not action[1].startswith('#') else f'<a class="pill" href="{action[1]}">{E(action[0])}{ARROW}</a>'
  if action[1]!='#szczegoly':buttons+='<a class="hero-detail" href="#szczegoly">Poznaj szczegóły<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 4v16m-6-6 6 6 6-6"/></svg></a>'
  wide=' content-hero--wide' if page.get('heroMobileWide') else ''
- markup=f'<section class="content-hero{wide}" style="--hero-position:{E(focal)};--hero-position-mobile:{E(mobile)}"><div class="content-hero-photo">{photo(route,img,"",False)}</div><div class="wrap content-hero-inner"><div class="content-hero-copy"><a class="content-back" href="{rel(route,"")}">LONGWAVE / {E(kicker)}</a><h1>{E(title)}</h1><p>{E(lead)}</p><div class="content-hero-actions">{buttons}</div></div></div></section>'
+ hero_art=decoration(route,'sun') if layout(route)=='events' else ''
+ markup=f'<section class="content-hero{wide}" style="--hero-position:{E(focal)};--hero-position-mobile:{E(mobile)}">{hero_art}<div class="content-hero-photo">{photo(route,img,"",False)}</div><div class="wrap content-hero-inner"><div class="content-hero-copy"><a class="content-back" href="{rel(route,"")}">LONGWAVE / {E(kicker)}</a><h1>{E(title)}</h1><p>{E(lead)}</p><div class="content-hero-actions">{buttons}</div></div></div></section>'
  jumps=[('#szczegoly','Historia' if route.startswith('blog/') else 'Poznaj nas' if route.startswith('o-longwave') else 'Artykuły' if route=='blog' else 'W skrócie')]
  if page.get('gallery') or len(post.get('images',[]))>1:jumps.append(('#galeria','Galeria'))
  if page.get('offers'):jumps.append(('#terminy','Terminy wyjazdów'))
@@ -83,17 +94,20 @@ INDEX={p['route']:(p['kicker'],p['image']) for p in PAGES}
 INDEX.update({'blog':('Historie i poradniki','wybor-longwave.webp'),'o-longwave/opinie':('Wasze opinie','together.webp'),'noclegi/home-spot-jastarnia':('Home Spot Jastarnia','home-spot-taras.webp'),'noclegi/home-spot-2-0':('Home Spot 2.0','home-spot-taras.webp')})
 for loc,label,img in [('lazy','Łazy','coast.webp'),('jastarnia','Jastarnia','wybor-oboz.webp'),('dabki','Dąbki','category-family.webp'),('rodos','Rodos','surf.webp')]:INDEX['wyjazdy/'+loc]=(label,img)
 def related(route,items):
+ if route=='eventy':
+  rows=''.join(f'<a class="event-format" href="{rel(route,x)}"><div class="event-format-image">{photo(route,INDEX[x][1],"")}</div><div class="event-format-copy"><p class="kicker">0{i+1} / Wybierz swój klimat</p><h3>{E(INDEX[x][0])}</h3><p>{E(next((p["lead"] for p in PAGES if p["route"]==x),""))}</p><span class="event-format-link">Poznaj ten format {ARROW}</span></div></a>' for i,x in enumerate(items))
+  return '<section class="content-related event-formats"><div class="wrap section"><p class="kicker">Nie tylko jeden sposób na spotkanie</p><h2>Jaki masz plan?</h2>'+rows+'</div></section>'
  cards=''.join(f'<a class="content-card" href="{rel(route,x)}">{photo(route,INDEX[x][1],INDEX[x][0])}<div><h3>{E(INDEX[x][0])}</h3>{ARROW}</div></a>' for x in items)
- return f'<section class="content-related"><div class="wrap section"><p class="kicker">Dalej z LONGWAVE</p><h2>Odkryj więcej.</h2><div class="content-cards">{cards}</div></div></section>'
+ return f'<section class="content-related"><div class="wrap section">{decoration(route,"sun") if not route.startswith("blog/") else ""}<p class="kicker">Dalej z LONGWAVE</p><h2>Odkryj więcej.</h2><div class="content-cards">{cards}</div></div></section>'
 def offer_markup(route,group):
  spec=importlib.util.spec_from_file_location('offers',ROOT/'tools/sync-offers.py');mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
  terms=json.loads((ROOT/'dist/offers.json').read_text())['items']
- terms=[t for t in terms if (group=='camp' and t['category'].casefold()=='camp') or (group in ('family','events') and t['category'].casefold()=='wyjazd rodzinny') or (group=='foreign' and ('zagran' in t['category'].casefold() or t.get('location')=='rodos'))]
+ terms=mod.filter_terms(terms,group)
  return ''.join(mod.card(t,'../'*(len([x for x in route.split('/') if x])+1)) for t in terms) or '<p>Przygotowujemy kolejne terminy. <a href="mailto:info@longwaveboards.com">Zapytaj nas o planowany wyjazd.</a></p>'
 def build():
  for p in PAGES:
   r=p['route'];body=hero(r,p['title'],p['kicker'],p['lead'],p['image'])
-  body+=f'<section class="wrap section content-intro" id="szczegoly"><h2>{E(p["heading"])}</h2><div>'+''.join('<p>'+E(x)+'</p>' for x in p['paragraphs'])+'</div></section>'
+  body+=f'<section class="wrap section content-intro" id="szczegoly">'+decoration(r,'board' if layout(r)=='collection' else 'wave')+f'<h2>{E(p["heading"])}</h2><div>'+''.join('<p>'+E(x)+'</p>' for x in p['paragraphs'])+'</div></section>'
   if p['facts']:body+='<section class="content-facts-band"><div class="wrap"><div class="content-facts">'+''.join('<div>'+WAVE+'<h3>'+E(x)+'</h3></div>' for x in p['facts'])+'</div></div></section>'
   body+=gallery(r,p['gallery'],p.get('galleryTitle','Tak wygląda nasz świat.'),p.get('galleryAlts'))
   if p['offers']:body+='<section class="wrap section content-offers" id="terminy"><p class="kicker">Wybierz swój termin</p><h2>Najbliższe wyjazdy.</h2><div class="offers-grid" id="content-offers-track" data-offers-track role="region" aria-label="Terminy wyjazdów" data-offer-group="'+p['offers']+'"><!-- CONTENT_OFFERS_START -->'+offer_markup(r,p['offers'])+'<!-- CONTENT_OFFERS_END --></div>'+CONTROLS+'</section>'
