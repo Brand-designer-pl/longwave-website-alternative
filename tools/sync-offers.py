@@ -1,7 +1,7 @@
 """Refresh public offers plus owner-approved draft snapshots for destination pages."""
 import json, re, html, urllib.request, unicodedata
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parents[1] / 'dist'
 SOURCE = ROOT.parent / 'sources/location-drafts.json'
@@ -46,7 +46,7 @@ def combine(public, snapshots):
 def card(t, asset_prefix):
     draft=t.get('draft',False)
     tag='article' if draft else 'a'
-    href='' if draft else f' href="{APP}"'
+    href='' if draft else f' href="{esc(APP + "?" + urlencode({"offer": t["offerId"], "term": t["termId"]}))}"'
     badge='<span class="trip-draft">Zapowiedź</span>' if draft else ''
     action='' if draft else '<span class="trip-action">Sprawdź w aplikacji</span>'
     # Drafts are visible previews, never a false booking action or a broken private link.
