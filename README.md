@@ -412,3 +412,48 @@ bez JS, zablokowany GSAP, zatrzymanie poza ekranem i brak poziomego overflow.
 Wizualnie sprawdzono desktop i mobile. Pomiar laboratoryjny Chrome 390×844,
 CPU 4×, 5 sekund ruchu: p95 16,8 ms, 0 długich zadań. Bez testu fizycznego
 telefonu/Safari. Recenzja Claude niedostępna — CLI nadal niezalogowane.
+
+### Oferty na podstronach miejscówek — 17.11.2026
+
+Karuzele w sekcji `#dostepnosc` na Jastarni, Łazach, Dąbkach i Rodos, przed
+kartami innych lokalizacji. Wspólny `offers-carousel.js` obsługuje też stronę
+główną: gest natywny, scroll snap, fragment następnej karty, strzałki, klawiatura,
+reduced motion i statyczny HTML dostępny bez JS. Na miejscówkach przewijanie
+jest aktywne również na desktopie, jeśli karty nie mieszczą się w rzędzie.
+
+SSH działa z kluczem w iCloud Documents/.longwave-deploy/id_ed25519, host
+s26.cyber-folks.pl:222, użytkownik lamitool. Odczytano tylko pola katalogowe ofert
+z produkcyjnego SQLite w trybie mode=ro; bez kopiowania bazy, kont i zapisów.
+Stan eksportu: Jastarnia id 4 — 8 terminów; Łazy id 6 — 2 terminy w szkicu;
+Dąbki id 5 — wydarzenie rodzinne i id 7 — 2 terminy obozu w szkicu.
+W bazie nie ma oferty Rodos, dlatego strona ma uczciwy komunikat i kontakt.
+Oferta Chorwacji nie jest przypisywana do żadnej z tych lokalizacji.
+
+Właściciel zlecił pokazanie również szkiców. `sources/location-drafts.json`
+zawiera ograniczony eksport zatwierdzonych danych katalogowych; generowane
+karty mają oznaczenia „Zapowiedź” i „Zapisy wkrótce”, bez aktywnego zapisu.
+Nie zmieniono statusów ofert, aplikacji ani uprawnień API. Aktywne karty prowadzą
+do katalogu aplikacji; wcześniejszy patch bezpośrednich linków nadal niewdrożony.
+
+Publiczny katalog i lokalizacje aktualizuje istniejący godzinowy workflow
+`tools/sync-offers.py`. Szkice są snapshotem z SSH, nie publicznym API. Odświeżenie:
+`python3 tools/export-location-drafts.py --identity /pełna/ścieżka/do/klucza`
+(opcjonalne `--known-hosts /ścieżka/do/zweryfikowanych/hostów`), następnie
+`python3 tools/sync-offers.py` i publikacja. Skrypt eksportuje tylko szkice
+nieusunięte, niearchiwalne z czterech lokalizacji, bez pojemności turnusów,
+klientów, płatności czy konfiguracji. Po publikacji szkicu live API zastępuje
+cały jego snapshot, także ceny i listę terminów. Zmianę/usunięcie szkicu trzeba
+odświeżyć ponownym eksportem SSH. Daty minione są filtrowane przy każdym buildzie.
+
+Nowe okładki Łazów/Dąbek zoptymalizowano do 960 px i ok. 87/83 kB zamiast
+315/481 kB. Hashowane nazwy uploadów są trwałe; synchronizacja pobiera brakujące
+okładki, zachowując zoptymalizowane istniejące pliki.
+
+Kontrole: dokładne przypisanie 8/2/3/0 terminów, szkice bez akcji zapisu,
+zastąpienie opublikowanego szkicu aktualną ceną/terminami, pominięcie archiwum
+i dawnych dat. Chrome 320/390/1440 px dla wszystkich czterech lokalizacji:
+strzałki i krańce, zdjęcia, brak overflow, brak JS, reduced motion, klawiatura
+oraz regresja karuzeli głównej. Mobile/desktop sprawdzone wizualnie.
+Bez fizycznego telefonu/Safari. Recenzja Claude niedostępna: CLI niezalogowane.
+Końcowy test gestu dotykowego oraz ruchu karuzeli Chrome 390×844, CPU 4×:
+p95 16,7 ms, 0 długich zadań w 3-sekundowym pomiarze. Bez nowych bibliotek.

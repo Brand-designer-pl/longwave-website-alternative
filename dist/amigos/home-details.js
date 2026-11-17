@@ -1,40 +1,4 @@
 (() => {
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const mobile = matchMedia('(max-width: 650px)');
-  const track = document.querySelector('[data-offers-track]');
-  if (track) {
-    const controls = document.querySelector('[data-offers-controls]');
-    const prev = controls.querySelector('[data-prev]');
-    const next = controls.querySelector('[data-next]');
-    const status = controls.querySelector('[data-offers-status]');
-    const cards = [...track.querySelectorAll('.trip-card')];
-    const stops = () => cards.map(card => Math.min(track.scrollWidth - track.clientWidth,
-      card.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft - parseFloat(getComputedStyle(track).paddingLeft)));
-    const current = () => stops().reduce((best, x, i, all) =>
-      Math.abs(x - track.scrollLeft) < Math.abs(all[best] - track.scrollLeft) ? i : best, 0);
-    const update = () => {
-      controls.hidden = !mobile.matches || cards.length < 2;
-      prev.disabled = track.scrollLeft < 2;
-      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
-      status.textContent = `Oferta ${current() + 1} z ${cards.length}`;
-    };
-    const move = direction => track.scrollTo({left: stops()[Math.max(0, Math.min(cards.length - 1, current() + direction))], behavior: reduced.matches ? 'instant' : 'smooth'});
-    prev.addEventListener('click', () => move(-1));
-    next.addEventListener('click', () => move(1));
-    track.addEventListener('focusin', event => {
-      const index = cards.indexOf(event.target.closest('.trip-card'));
-      if (mobile.matches && index >= 0) track.scrollTo({left:stops()[index], behavior:'instant'});
-    });
-    // Native touch scrolling remains owned by the browser.
-    let frame = 0;
-    track.addEventListener('scroll', () => {
-      if (!frame) frame = requestAnimationFrame(() => {frame = 0; update();});
-    }, {passive:true});
-    new ResizeObserver(update).observe(track);
-    mobile.addEventListener('change', update);
-    update();
-  }
-
   const marks = [...document.querySelectorAll('[data-surf-mark]')];
   if (!marks.length || !window.gsap || !window.ScrollTrigger) return;
   const base = new URL('.', document.currentScript.src);

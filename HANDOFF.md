@@ -31,6 +31,18 @@ pauza i pełna statyczna lista. Źródło podpisane; to nie jest integracja Goog
 Dane: sources/reviews.json; generator: tools/build-reviews.py; kod:
 dist/amigos/reviews.js. Kontrole i ograniczenia w końcowej części README.
 
+## Ostatnia zmiana: karuzele lokalizacji (17.11.2026)
+
+Sekcja #dostepnosc: Jastarnia 8 terminów, Łazy 2 zapowiedzi, Dąbki 1 rodzinny
+wyjazd + 2 zapowiedzi obozu. Rodos nie ma jeszcze oferty w produkcyjnej bazie.
+Dane szkiców pobrano po SSH z iCloud Documents/.longwave-deploy/id_ed25519;
+wcześniejsza informacja o braku dostępu SSH jest nieaktualna. Eksport jest
+ograniczony do pól katalogowych; brak zmian w aplikacji i statusach ofert.
+Szczegóły odświeżania w końcowej części README; publiczne dane aktualizuje
+workflow, szkice wymagają ponownego eksportu przez tools/export-location-drafts.py.
+Nowy współdzielony moduł: dist/amigos/offers-carousel.js. Linki aktywnych ofert
+nadal otwierają katalog aplikacji, patch głębokich linków nie został wdrożony.
+
 ## Dalej
 
 Kolejne korekty wizualne według właściciela. Oryginalne filmy Łazy/Jastarnia/Dąbki

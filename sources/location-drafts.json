@@ -1,0 +1,61 @@
+{
+  "exportedAt": "2026-11-16T19:47:29.091654+00:00",
+  "offers": [
+    {
+      "id": 6,
+      "title": "LONGWAVE CAMP ŁAZY",
+      "place": "ŁAZY",
+      "category": "Camp",
+      "active": 0,
+      "start_date": "2027-07-03",
+      "end_date": "2027-07-10",
+      "price": 319000,
+      "promo_price": 309000,
+      "age_min": 7,
+      "age_max": 15,
+      "age_unrestricted": 0,
+      "image": "upload_38aad10e27bbcf947efef6cf92acbe0a",
+      "terms": [
+        {
+          "id": "primary",
+          "start_date": "2027-07-03",
+          "end_date": "2027-07-10"
+        },
+        {
+          "id": "8de2b277-d8dd-474c-974f-eb166a739a13",
+          "start_date": "2027-07-10",
+          "end_date": "2027-07-17"
+        }
+      ],
+      "price_variants": "[]"
+    },
+    {
+      "id": 7,
+      "title": "LONGWAVE CAMP DĄBKI",
+      "place": "DĄBKI",
+      "category": "Camp",
+      "active": 0,
+      "start_date": "2027-07-31",
+      "end_date": "2027-08-07",
+      "price": 319000,
+      "promo_price": 309000,
+      "age_min": 7,
+      "age_max": 15,
+      "age_unrestricted": 0,
+      "image": "upload_6f5359bbac7c124a2ff4356518a6b0f9",
+      "terms": [
+        {
+          "id": "primary",
+          "start_date": "2027-07-31",
+          "end_date": "2027-08-07"
+        },
+        {
+          "id": "1770ab34-ef03-4b66-9ede-143a0e7a704b",
+          "start_date": "2027-08-07",
+          "end_date": "2027-08-14"
+        }
+      ],
+      "price_variants": "[]"
+    }
+  ]
+}
