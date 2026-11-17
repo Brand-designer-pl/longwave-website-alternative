@@ -23,7 +23,10 @@
     ],
     "cta": null,
     "offers": "events",
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 62%",
+    "heroPositionMobile": "55% 52%",
+    "galleryTitle": "Spotkania, które zostają."
   },
   {
     "route": "eventy/dla-firm",
@@ -56,7 +59,15 @@
       "mailto:info@longwaveboards.com?subject=Wyjazd%20firmowy"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 50%",
+    "heroPositionMobile": "50% 50%",
+    "galleryTitle": "Po godzinach. Razem.",
+    "galleryAlts": [
+      "Wieczorny koncert pod namiotem LONGWAVE",
+      "Muzycy na scenie w plenerze",
+      "Podświetlony namiot LONGWAVE o zmierzchu"
+    ]
   },
   {
     "route": "eventy/surf-party",
@@ -89,7 +100,10 @@
       "mailto:info@longwaveboards.com?subject=Surf%20Party"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 38%",
+    "heroPositionMobile": "43% 40%",
+    "galleryTitle": "Zajawka bez granic."
   },
   {
     "route": "eventy/vanlife",
@@ -122,7 +136,11 @@
       "mailto:info@longwaveboards.com?subject=Vanlife"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 50%",
+    "heroPositionMobile": "55% 50%",
+    "galleryTitle": "W drodze po swoje.",
+    "heroMobileWide": true
   },
   {
     "route": "sklep-i-boards",
@@ -146,7 +164,10 @@
       "https://sklep.longwaveboards.com/"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 53%",
+    "heroPositionMobile": "42% 50%",
+    "galleryTitle": "Złap swój rytm."
   },
   {
     "route": "sklep-i-boards/boards",
@@ -178,7 +199,10 @@
       "https://sklep.longwaveboards.com/"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 53%",
+    "heroPositionMobile": "42% 50%",
+    "galleryTitle": "Deski z charakterem."
   },
   {
     "route": "sklep-i-boards/collection",
@@ -205,7 +229,10 @@
       "https://sklep.longwaveboards.com/"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 40%",
+    "heroPositionMobile": "50% 40%",
+    "galleryTitle": "LONGWAVE na co dzień."
   },
   {
     "route": "o-longwave",
@@ -234,7 +261,10 @@
       "mailto:info@longwaveboards.com"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 35%",
+    "heroPositionMobile": "50% 35%",
+    "galleryTitle": "To my. LONGWAVE."
   },
   {
     "route": "o-longwave/program-liderski",
@@ -264,7 +294,10 @@
       "mailto:info@longwaveboards.com?subject=Program%20liderski"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 44%",
+    "heroPositionMobile": "50% 44%",
+    "galleryTitle": "Kolejny krok w naszej ekipie."
   },
   {
     "route": "wyjazdy/obozy-dla-dzieci",
@@ -290,7 +323,10 @@
     ],
     "cta": null,
     "offers": "camp",
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 42%",
+    "heroPositionMobile": "48% 42%",
+    "galleryTitle": "Pierwsze kroki. Wielkie emocje."
   },
   {
     "route": "wyjazdy/rodzinne",
@@ -311,7 +347,10 @@
     ],
     "cta": null,
     "offers": "family",
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 52%",
+    "heroPositionMobile": "50% 52%",
+    "galleryTitle": "Razem nad wodą."
   },
   {
     "route": "wyjazdy/zagraniczne",
@@ -335,7 +374,11 @@
       "mailto:info@longwaveboards.com?subject=Wyjazd%20zagraniczny"
     ],
     "offers": "foreign",
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 48%",
+    "heroPositionMobile": "53% 48%",
+    "galleryTitle": "Dalej po przygodę.",
+    "heroMobileWide": true
   },
   {
     "route": "noclegi/apartament-hiszpania",
@@ -375,6 +418,20 @@
       "mailto:info@longwaveboards.com?subject=Apartament%20La%20Mata"
     ],
     "offers": null,
-    "extra": ""
+    "extra": "",
+    "heroPosition": "50% 45%",
+    "heroPositionMobile": "48% 45%",
+    "galleryTitle": "Rozgość się w La Mata.",
+    "galleryAlts": [
+      "Salon z aneksem kuchennym i wyjściem na taras",
+      "Basen otoczony palmami na terenie osiedla",
+      "Aneks kuchenny z wyspą",
+      "Łóżko i szafka nocna w pierwszej sypialni",
+      "Druga sypialnia z oknami łukowymi",
+      "Trzecia sypialnia z drewnianymi meblami",
+      "Część wspólna osiedla z basenem",
+      "Widok z tarasu w kierunku morza",
+      "Piaszczysta plaża w La Mata"
+    ]
   }
 ]

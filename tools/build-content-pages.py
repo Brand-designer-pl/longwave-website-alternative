@@ -59,18 +59,32 @@ def photo(route,path,alt,lazy=True):
 def pill(route,label,url):return f'<a class="pill" href="{E(rel(route,url))}">{E(label)}{ARROW}</a>'
 def shell(route,title,desc,body):
  prefix='../'*len([x for x in route.split('/') if x]); p=SITE/route/'index.html';p.parent.mkdir(parents=True,exist_ok=True)
- s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=content-20261117"><link rel="stylesheet" href="{prefix}content-pages.css?v=20261117"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script><script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script></head><body class="content-page"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main><footer class="footer"><div class="wrap footer-row"><a class="wordmark" href="{prefix}" aria-label="LONGWAVE, strona główna"><img src="{asset(route,'logo.webp')}" width="1920" height="1357" alt="LONGWAVE"></a><nav aria-label="Stopka"><a href="{rel(route,'eventy')}">Eventy</a><a href="{rel(route,'blog')}">Blog</a><a href="{prefix}#kontakt">Kontakt</a><a href="{APP}">Aplikacja</a></nav></div></footer></body></html>'''
+ s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=content-20261117"><link rel="stylesheet" href="{prefix}content-pages.css?v=photo-hero-20261117"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script><script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script></head><body class="content-page{' content-article' if route.startswith('blog/') else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main><footer class="footer"><div class="wrap footer-row"><a class="wordmark" href="{prefix}" aria-label="LONGWAVE, strona główna"><img src="{asset(route,'logo.webp')}" width="1920" height="1357" alt="LONGWAVE"></a><nav aria-label="Stopka"><a href="{rel(route,'eventy')}">Eventy</a><a href="{rel(route,'blog')}">Blog</a><a href="{prefix}#kontakt">Kontakt</a><a href="{APP}">Aplikacja</a></nav></div></footer></body></html>'''
  p.write_text(rewrite(s,route))
 def hero(route,title,kicker,lead,img):
- return f'<section class="content-hero wrap"><div class="content-hero-copy"><a class="content-back" href="{rel(route,"")}">LONGWAVE / {E(kicker)}</a><h1>{E(title)}</h1><p>{E(lead)}</p><a class="text-link" href="#szczegoly">Odkryj więcej <span aria-hidden="true">↓</span></a></div><div class="content-hero-photo">{photo(route,img,kicker,False)}</div></section>'
-def gallery(route,imgs,label):
- return '<section class="content-band"><div class="wrap section"><p class="kicker">Z bliska</p><h2>'+E(label)+'</h2><div class="content-gallery">'+''.join('<figure>'+photo(route,x,label)+'</figure>' for x in imgs)+'</div></div></section>' if imgs else ''
+ page=next((p for p in PAGES if p['route']==route),{})
+ post=next((p for p in POSTS if 'blog/'+p['slug']==route),{})
+ action=('Sprawdź terminy','#terminy') if page.get('offers') else page.get('cta') or ('Poznaj miejsce' if route.startswith('noclegi/') else 'Czytaj historię' if route.startswith('blog/') else 'Odkryj więcej','#szczegoly')
+ focal=page.get('heroPosition','50% 50%'); mobile=page.get('heroPositionMobile','72% 50%' if route=='blog/szkolenia-surfingowe-nad-baltykiem' else focal)
+ buttons=pill(route,action[0],action[1]) if not action[1].startswith('#') else f'<a class="pill" href="{action[1]}">{E(action[0])}{ARROW}</a>'
+ if action[1]!='#szczegoly':buttons+='<a class="hero-detail" href="#szczegoly">Poznaj szczegóły<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 4v16m-6-6 6 6 6-6"/></svg></a>'
+ wide=' content-hero--wide' if page.get('heroMobileWide') else ''
+ markup=f'<section class="content-hero{wide}" style="--hero-position:{E(focal)};--hero-position-mobile:{E(mobile)}"><div class="content-hero-photo">{photo(route,img,"",False)}</div><div class="wrap content-hero-inner"><div class="content-hero-copy"><a class="content-back" href="{rel(route,"")}">LONGWAVE / {E(kicker)}</a><h1>{E(title)}</h1><p>{E(lead)}</p><div class="content-hero-actions">{buttons}</div></div></div></section>'
+ jumps=[('#szczegoly','Historia' if route.startswith('blog/') else 'Poznaj nas' if route.startswith('o-longwave') else 'Artykuły' if route=='blog' else 'W skrócie')]
+ if page.get('gallery') or len(post.get('images',[]))>1:jumps.append(('#galeria','Galeria'))
+ if page.get('offers'):jumps.append(('#terminy','Terminy wyjazdów'))
+ if page.get('cta'):jumps.append(('#kontakt-strony','Kontakt' if page['cta'][1].startswith('mailto:') else 'Przejdź do sklepu'))
+ markup+='<nav class="content-jump" aria-label="Na tej stronie"><div class="wrap">'+''.join(f'<a href="{url}">{label}</a>' for url,label in jumps)+'</div></nav>'
+ return markup
+def gallery(route,imgs,label,alts=None):
+ alts=alts or []
+ return '<section class="content-band content-gallery-band" id="galeria"><div class="wrap section"><p class="kicker">Kadry LONGWAVE</p><h2>'+E(label)+'</h2><div class="content-gallery">'+''.join('<figure>'+photo(route,x,alts[i] if i<len(alts) else '')+'</figure>' for i,x in enumerate(imgs))+'</div></div></section>' if imgs else ''
 INDEX={p['route']:(p['kicker'],p['image']) for p in PAGES}
 INDEX.update({'blog':('Historie i poradniki','wybor-longwave.webp'),'o-longwave/opinie':('Wasze opinie','together.webp'),'noclegi/home-spot-jastarnia':('Home Spot Jastarnia','home-spot-taras.webp'),'noclegi/home-spot-2-0':('Home Spot 2.0','home-spot-taras.webp')})
 for loc,label,img in [('lazy','Łazy','coast.webp'),('jastarnia','Jastarnia','wybor-oboz.webp'),('dabki','Dąbki','category-family.webp'),('rodos','Rodos','surf.webp')]:INDEX['wyjazdy/'+loc]=(label,img)
 def related(route,items):
  cards=''.join(f'<a class="content-card" href="{rel(route,x)}">{photo(route,INDEX[x][1],INDEX[x][0])}<div><h3>{E(INDEX[x][0])}</h3>{ARROW}</div></a>' for x in items)
- return f'<section class="wrap section"><p class="kicker">Dalej z LONGWAVE</p><h2>Odkryj więcej.</h2><div class="content-cards">{cards}</div></section>'
+ return f'<section class="content-related"><div class="wrap section"><p class="kicker">Dalej z LONGWAVE</p><h2>Odkryj więcej.</h2><div class="content-cards">{cards}</div></div></section>'
 def offer_markup(route,group):
  spec=importlib.util.spec_from_file_location('offers',ROOT/'tools/sync-offers.py');mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
  terms=json.loads((ROOT/'dist/offers.json').read_text())['items']
@@ -80,10 +94,10 @@ def build():
  for p in PAGES:
   r=p['route'];body=hero(r,p['title'],p['kicker'],p['lead'],p['image'])
   body+=f'<section class="wrap section content-intro" id="szczegoly"><h2>{E(p["heading"])}</h2><div>'+''.join('<p>'+E(x)+'</p>' for x in p['paragraphs'])+'</div></section>'
-  if p['facts']:body+='<section class="content-band"><div class="wrap content-facts">'+''.join('<div>'+WAVE+'<h3>'+E(x)+'</h3></div>' for x in p['facts'])+'</div></section>'
-  body+=gallery(r,p['gallery'],'Tak wygląda nasz świat.')
-  if p['offers']:body+='<section class="wrap section" id="terminy"><p class="kicker">Wybierz swój termin</p><h2>Najbliższe wyjazdy.</h2><div class="offers-grid" id="content-offers-track" data-offers-track role="region" aria-label="Terminy wyjazdów" data-offer-group="'+p['offers']+'"><!-- CONTENT_OFFERS_START -->'+offer_markup(r,p['offers'])+'<!-- CONTENT_OFFERS_END --></div>'+CONTROLS+'</section>'
-  if p['cta']:body+='<section class="content-callout"><div class="wrap section"><p class="kicker">Zróbmy kolejny krok</p><h2>'+E(p['cta'][0])+'.</h2>'+pill(r,p['cta'][0],p['cta'][1])+'</div></section>'
+  if p['facts']:body+='<section class="content-facts-band"><div class="wrap"><div class="content-facts">'+''.join('<div>'+WAVE+'<h3>'+E(x)+'</h3></div>' for x in p['facts'])+'</div></div></section>'
+  body+=gallery(r,p['gallery'],p.get('galleryTitle','Tak wygląda nasz świat.'),p.get('galleryAlts'))
+  if p['offers']:body+='<section class="wrap section content-offers" id="terminy"><p class="kicker">Wybierz swój termin</p><h2>Najbliższe wyjazdy.</h2><div class="offers-grid" id="content-offers-track" data-offers-track role="region" aria-label="Terminy wyjazdów" data-offer-group="'+p['offers']+'"><!-- CONTENT_OFFERS_START -->'+offer_markup(r,p['offers'])+'<!-- CONTENT_OFFERS_END --></div>'+CONTROLS+'</section>'
+  if p['cta']:body+='<section class="content-callout" id="kontakt-strony"><div class="wrap section"><p class="kicker">Zróbmy kolejny krok</p><h2>'+E(p['cta'][0])+'.</h2>'+pill(r,p['cta'][0],p['cta'][1])+'</div></section>'
   body+=related(r,p['related']);shell(r,p['kicker'],p['lead'],body)
  r='blog';body=hero(r,'Historie znad wody.','Blog i poradnik','Relacje, ludzie i praktyczne wskazówki. Poznaj świat LONGWAVE z bliska.','wybor-longwave.webp')
  body+='<section class="wrap section" id="szczegoly"><p class="kicker">Archiwum LONGWAVE</p><h2>Czytaj we własnym tempie.</h2><div class="content-cards blog-cards">'
