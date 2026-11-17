@@ -50,7 +50,7 @@ h3{font-size:clamp(1.45rem,2.6vw,3rem)}
 .hero-visual img,.hero-film{object-position:center 56%}
 .hero-film{opacity:0;pointer-events:none}
 .hero-film.is-playing{opacity:1}
-.hero-veil{background:linear-gradient(180deg,#071b23ad 0%,#071b2326 34%,#071b2366 58%,#071b23e8 100%)}
+.hero-veil{background:linear-gradient(180deg,#03151dc7 0px,#03151d99 110px,#03151d00 280px),linear-gradient(180deg,transparent 24%,#071b2326 34%,#071b2366 58%,#071b23e8 100%)}
 .hero-inner{position:relative;min-height:92svh;display:flex;flex-direction:column;justify-content:space-between}
 .nav-shell{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:17px}
 .wordmark{display:block;flex:none;width:clamp(86px,9vw,126px)}
@@ -249,17 +249,18 @@ body :is(.pill,.account-link,.film-control):focus-visible,
   .footer .film-control{font-size:.74rem}
 }
 
-/* A single frosted surface keeps the whole navigation legible over video. */
+/* White navigation sits directly over the shaded hero. */
 .nav-shell{
-  margin-block:16px;padding:6px 20px;min-height:72px;border:1px solid #ffffffa6;border-radius:999px;
-  color:#101010;background:#eef1f2;box-shadow:0 8px 28px #061b2414,inset 0 1px 0 #ffffff80;
+  margin-block:16px;padding:6px 20px;min-height:72px;border:0;border-radius:999px;
+  color:#fff;background:transparent;box-shadow:none;
 }
-.nav-shell .wordmark img{filter:brightness(0);height:100%;object-fit:cover}
+.nav-shell .wordmark img{filter:brightness(0) invert(1);height:100%;object-fit:cover}
 .nav-shell .wordmark{width:120px;height:56px}
-body .nav-shell .account-link{background:#101010;color:#fff;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+body .nav-shell .account-link{background:transparent;color:#fff;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.nav-shell .account-link::before{content:none}
 .nav-shell .dropdown{color:#101010}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .nav-shell{background:#ffffffe0;-webkit-backdrop-filter:blur(16px) saturate(120%);backdrop-filter:blur(16px) saturate(120%)}
+  .nav-shell{-webkit-backdrop-filter:none;backdrop-filter:none}
 }
 @media(max-width:1100px) and (min-width:901px){
   .nav-shell{padding-inline:14px;gap:10px}
@@ -279,7 +280,7 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-shell .account-link{font-size:.7rem;padding-inline:10px;gap:6px}
   .nav-toggle>summary{font-size:.77rem;padding-inline:10px}
   @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-    .nav-shell{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+    .nav-shell{-webkit-backdrop-filter:none;backdrop-filter:none}
   }
 }
 
