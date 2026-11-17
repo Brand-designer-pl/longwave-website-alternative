@@ -194,13 +194,13 @@ summary::-webkit-details-marker{display:none}
 .trip-video-player{display:block;width:100%;max-width:900px;aspect-ratio:16/9;border:0;border-radius:12px;background:var(--ocean)}
 
 /* Shared button sweep, adapted from the original Longwave .button. */
-:is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow){
+:is(.pill,.account-link,.film-control,.round-arrow){
   isolation:isolate;overflow:hidden;
   --button-fill:#287c83;
 }
-:is(.pill,.account-link,.film-control,.nav-toggle>summary){position:relative}
+:is(.pill,.account-link,.film-control){position:relative}
 .round-arrow{position:absolute}
-:is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow)::before{
+:is(.pill,.account-link,.film-control,.round-arrow)::before{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:var(--button-fill);border-radius:inherit;transform:translateY(105%);
 }
@@ -216,19 +216,19 @@ body :is(.hero,.location-hero,.campaign,.photo-card,.nav-shell) :is(.pill,.accou
   .dropdown{background:#fffffff0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 }
 .footer .film-control{margin:0;background:#ffffff14;border-color:#ffffff40;color:white;font-weight:400}
-body :is(.pill,.account-link,.film-control,.nav-toggle>summary):focus-visible,
+body :is(.pill,.account-link,.film-control):focus-visible,
 :is(.choice,.world-card):focus-visible .round-arrow{color:#fff}
-:is(.pill,.account-link,.film-control,.nav-toggle>summary):focus-visible::before,
+:is(.pill,.account-link,.film-control):focus-visible::before,
 :is(.choice,.world-card):focus-visible .round-arrow::before{transform:translateY(0)}
 @media(hover:hover) and (pointer:fine){
-  body :is(.pill,.account-link,.film-control,.nav-toggle>summary):hover,
+  body :is(.pill,.account-link,.film-control):hover,
   :is(.choice,.world-card):hover .round-arrow{color:#fff}
-  :is(.pill,.account-link,.film-control,.nav-toggle>summary):hover::before,
+  :is(.pill,.account-link,.film-control):hover::before,
   :is(.choice,.world-card):hover .round-arrow::before{transform:translateY(0)}
 }
 @media(prefers-reduced-motion:no-preference){
-  :is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow){transition:color .3s ease}
-  :is(.pill,.account-link,.film-control,.nav-toggle>summary,.round-arrow)::before{transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+  :is(.pill,.account-link,.film-control,.round-arrow){transition:color .3s ease}
+  :is(.pill,.account-link,.film-control,.round-arrow)::before{transition:transform .35s cubic-bezier(.22,.61,.36,1)}
   :is(.pill,.account-link)>svg:last-child,.round-arrow .icon{transition:transform .3s ease}
   :is(.pill,.account-link):focus-visible>svg:last-child,
   :is(.choice,.world-card):focus-visible .round-arrow .icon{transform:rotate(45deg)}
@@ -300,14 +300,23 @@ body .nav-shell .account-link{background:#101010;color:#fff;border-color:transpa
   .nav-shell .wordmark{width:64px;height:40px}
   .menu-icon{width:20px;height:20px}
 }
+/* A quiet menu gesture: only strokes and lettering move, never a colour fill. */
+.nav-toggle>summary{background:transparent;color:inherit}
+.nav-toggle>summary>span{display:inline-block}
 @media(prefers-reduced-motion:no-preference){
-  .menu-icon line{transition:transform .28s ease,opacity .2s ease}
-  .nav-toggle:not([open])>summary:focus-visible .menu-icon line:nth-child(2){transform:translateX(-2px)}
+ .menu-icon line{transition:transform .48s cubic-bezier(.22,1,.36,1),opacity .3s ease}
+ .menu-icon line:nth-child(2){transition-delay:.035s}.menu-icon line:nth-child(3){transition-delay:.07s}
+ .nav-toggle>summary>span{transition:transform .48s cubic-bezier(.22,1,.36,1);transition-delay:.035s}
+ .nav-toggle:not([open])>summary:is(:focus-visible,:active) .menu-icon line:nth-child(1){transform:translateX(3px) scaleX(.72)}
+ .nav-toggle:not([open])>summary:is(:focus-visible,:active) .menu-icon line:nth-child(2){transform:translateX(-2px)}
+ .nav-toggle:not([open])>summary:is(:focus-visible,:active) .menu-icon line:nth-child(3){transform:translateX(3px) scaleX(.86)}
+ .nav-toggle:not([open])>summary:is(:focus-visible,:active)>span{transform:translate(3px,-1px)}
 }
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-  .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(1),
-  .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(3){transform:translateX(2px)}
-  .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(2){transform:translateX(-2px)}
+ .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(1){transform:translateX(3px) scaleX(.72)}
+ .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(2){transform:translateX(-2px)}
+ .nav-toggle:not([open])>summary:hover .menu-icon line:nth-child(3){transform:translateX(3px) scaleX(.86)}
+ .nav-toggle:not([open])>summary:hover>span{transform:translate(3px,-1px)}
 }
 
 /* Centre the mobile brand independently of the two controls. */
