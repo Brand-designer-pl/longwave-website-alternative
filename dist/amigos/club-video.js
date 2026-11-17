@@ -4,6 +4,35 @@
   if (!section || !('IntersectionObserver' in window)) return;
   const video = section.querySelector('video');
   const button = section.querySelector('.club-video-toggle');
+  const band = section.closest('.club-section');
+  const canvas = band.querySelector('.club-ambient canvas');
+  const desktop = matchMedia('(min-width: 901px)');
+  let context, frameHandle = null, lastFrame = -Infinity;
+  const videoFrames = typeof video.requestVideoFrameCallback === 'function';
+  function stopAmbient() {
+    if (frameHandle === null) return;
+    if (videoFrames) video.cancelVideoFrameCallback(frameHandle);
+    else cancelAnimationFrame(frameHandle);
+    frameHandle = null;
+  }
+  function paintAmbient(now) {
+    frameHandle = null;
+    if (!canvas || !desktop.matches || video.paused || !shouldPlay()) return;
+    if (video.readyState >= 2 && now - lastFrame >= 80) {
+      context ||= canvas.getContext('2d', {alpha:false});
+      if (!context) return;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      lastFrame = now;
+    }
+    frameHandle = videoFrames ? video.requestVideoFrameCallback(paintAmbient) : requestAnimationFrame(paintAmbient);
+  }
+  function syncAmbient() {
+    stopAmbient();
+    if (canvas && desktop.matches && !video.paused && shouldPlay()) {
+      lastFrame = -Infinity;
+      paintAmbient(performance.now());
+    }
+  }
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const mobile = matchMedia('(max-width: 700px)');
   const connection = navigator.connection;
@@ -15,6 +44,8 @@
   const reflect = () => {
     const playing = !video.paused && !video.ended;
     section.classList.toggle('is-playing', playing);
+    band.classList.toggle('is-playing', playing);
+    syncAmbient();
     button.setAttribute('aria-label', (playing ? 'Wstrzymaj' : 'Odtwórz') + ' film w sekcji aplikacji');
   };
   function update() {
@@ -45,6 +76,7 @@
   reduced.addEventListener('change', preferenceChanged);
   connection?.addEventListener('change', preferenceChanged);
   mobile.addEventListener('change', update);
+  desktop.addEventListener('change', syncAmbient);
   document.addEventListener('visibilitychange', update);
   window.addEventListener('pagehide', () => { pageActive = false; update(); });
   window.addEventListener('pageshow', () => { pageActive = true; update(); });
