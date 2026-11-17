@@ -52,6 +52,32 @@ def card(t, asset_prefix):
     # Drafts are visible previews, never a false booking action or a broken private link.
     return f'''<{tag} class="trip-card{' trip-card-draft' if draft else ''}"{href} data-offer-id="{t['offerId']}"><div class="trip-image"><img src="{esc(asset_prefix+t['image'])}" alt="{esc(t['title'])}" loading="lazy" width="720" height="480"><span class="trip-category">{esc(t['category'])}</span>{badge}</div><div class="trip-body"><p class="trip-place">{esc(t['place'])}</p><h3>{esc(t['title'])}</h3><p class="trip-date">{esc(t['dates'])}</p><p class="trip-age">{esc(t['age'])}</p><div class="trip-foot"><strong class="trip-price">{esc(t['priceLabel'])}</strong><span class="trip-status">{esc(t['status'])}</span>{'' if draft else ARROW}</div>{action}</div></{tag}>'''
 
+def destination_cta(terms, label):
+    # Match the destination and prefer its camp when published; never link to a private draft.
+    active=sorted((t for t in terms if not t['draft']),
+                  key=lambda t:(t['category'].casefold()!='camp',t['status']!='Dostępne',t['start'],t['offerId'],t['termId']))
+    if active:
+        t=active[0]
+        return (APP+'?'+urlencode({'offer':t['offerId'],'term':t['termId']}),
+                'Sprawdź terminy', 'Sprawdź terminy: '+t['title'],
+                'LONGWAVE CAMP' if t['category'].casefold()=='camp' else t['category'].upper())
+    if terms:
+        return ('#dostepnosc','Zobacz zapowiedź','Zobacz zapowiedź wyjazdu: '+label,'ZAPISY WKRÓTCE')
+    return ('mailto:info@longwaveboards.com?subject='+quote('Wyjazd '+label),
+            'Zapytaj o termin','Zapytaj o termin wyjazdu: '+label,'WYJAZDY LONGWAVE')
+
+def sync_destination_ctas(page, terms, label):
+    href,text,aria,kicker=destination_cta(terms,label)
+    content=page.read_text(encoding='utf-8')
+    for slot in ('hero','dock'):
+        cls='pill'+(' destination-dock-cta' if slot=='dock' else '')
+        markup=f'<a class="{cls}" data-location-cta="{slot}" href="{esc(href)}" aria-label="{esc(aria)}">{esc(text)}{ARROW}</a>'
+        content,count=re.subn(rf'<a\b[^>]*data-location-cta="{slot}"[^>]*>.*?</a>',lambda _:markup,content,flags=re.S)
+        if count!=1: raise ValueError(f'Expected one {slot} CTA in {page}')
+    content,count=re.subn(r'<span data-location-offer-label>.*?</span>',lambda _:f'<span data-location-offer-label>{esc(kicker)}</span>',content)
+    if count!=1: raise ValueError(f'Expected one dock label in {page}')
+    page.write_text(content,encoding='utf-8')
+
 def replace(page, marker, markup):
     content=page.read_text(encoding='utf-8')
     pattern=rf'<!-- {marker}_START -->.*?<!-- {marker}_END -->'
@@ -77,7 +103,9 @@ def sync():
         markup=''.join(card(t,'../../../') for t in terms)
         if not terms:
             markup=f'<div class="offers-empty"><h3>Wyjazdy: {esc(label)}.</h3><p>Nowe terminy pojawią się tutaj po dodaniu oferty. Chcesz wiedzieć więcej?</p><a class="pill" href="mailto:info@longwaveboards.com?subject={quote("Wyjazd " + label)}">Zapytaj o wyjazd{ARROW}</a></div>'
-        replace(ROOT/f'amigos/wyjazdy/{key}/index.html','LOCATION_OFFERS',markup)
+        page=ROOT/f'amigos/wyjazdy/{key}/index.html'
+        replace(page,'LOCATION_OFFERS',markup)
+        sync_destination_ctas(page,terms,label)
         print(f'{label}: {len(terms)} terms, {sum(t["draft"] for t in terms)} previews')
     print(f'Synchronized {len(public_terms)} public terms')
 
