@@ -1,0 +1,118 @@
+"""Build informational pages from public, owner-approved LONGWAVE source content."""
+from pathlib import Path
+import html, json, re, os, importlib.util
+from urllib.parse import urlsplit, unquote
+ROOT=Path(__file__).resolve().parents[1]
+SITE=ROOT/'dist/amigos'
+PAGES=json.loads((ROOT/'sources/content-pages.json').read_text())
+POSTS=json.loads((ROOT/'sources/blog-posts.json').read_text())
+E=lambda s:html.escape(str(s),quote=True)
+ARROW='<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg>'
+CONTROLS='<div class="offers-controls" data-offers-controls hidden><span data-offers-status aria-live="polite" aria-atomic="true"></span><div><button class="offer-arrow" data-prev type="button" aria-label="Poprzedni termin" aria-controls="content-offers-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><button class="offer-arrow" data-next type="button" aria-label="Następny termin" aria-controls="content-offers-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button></div></div>'
+WAVE='<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 13c5-8 9 8 14 0s9 8 14 0M2 22c5-8 9 8 14 0s9 8 14 0"/></svg>'
+MAP={'eventy':'eventy','dla-firm':'eventy/dla-firm','surf-party':'eventy/surf-party','vanlife':'eventy/vanlife','boards':'sklep-i-boards/boards','boards-2':'sklep-i-boards/boards','blog':'blog','o-nas':'o-longwave','program-liderski':'o-longwave/program-liderski','campy':'wyjazdy/obozy-dla-dzieci','kategoria/rodzinne':'wyjazdy/rodzinne','kategoria/zagraniczne':'wyjazdy/zagraniczne','hiszpania':'noclegi/apartament-hiszpania','kontakt':'#kontakt'}
+MAP.update({p['slug']:'blog/'+p['slug'] for p in POSTS})
+APP='https://app.longwaveboards.com/'
+OLD_OFFERS={'wyjazdy','wszystkie-wyjazdy','zapisy-2','jastarnia-surfing','boze-cialo','dabki1','golden-resort','jastarnia1','jastarnia5','wing-foil','zakonczenie-sezonu','zjazd-absolwentow'}
+# Historical booking links lead to today's catalogue, never to expired bookings.
+MAP.update({x:APP+'#oferty' for x in OLD_OFFERS})
+SOURCE_HEADER=re.search(r'<header class="nav-shell">.*?</header>',(SITE/'index.html').read_text(),re.S).group()
+def rel(route,target):
+ if target.startswith(('https:','mailto:','tel:')): return target
+ return '../'*len([x for x in route.split('/') if x])+target.rstrip('/')+('/' if target and not '#' in target else '')
+def asset(route,path): return '../'*(len([x for x in route.split('/') if x])+1)+'assets/'+path
+def rewrite(text,route):
+ def label(m):
+  visible=html.unescape(re.sub('<[^>]+>','',m[2])).strip()
+  u=urlsplit(visible)
+  if u.netloc.lower().removeprefix('www.') not in ('longwaveboards.com','longwave.com','hiway.brand-designer.pl'):return m[0]
+  target=MAP.get(unquote(u.path).strip('/').lower(),'')
+  return m[1]+('Sprawdź aktualne wyjazdy' if target.startswith(APP) else 'Poznaj LONGWAVE')+'</a>'
+ text=re.sub(r'(<a\b[^>]*>)(.*?)</a>',label,text,flags=re.S)
+ def fix(m):
+  href=html.unescape(m[1]); u=urlsplit(href); host=u.netloc.lower().removeprefix('www.')
+  if host in ('longwaveboards.com','longwave.com','hiway.brand-designer.pl'):
+   key=unquote(u.path).strip('/').lower()
+   if not key: target='o-longwave/opinie' if 'reviews-source' in text else ''
+   elif key in MAP: target=MAP[key]
+   else: raise ValueError('Unmapped old URL: '+href)
+   return 'href="'+E(rel(route,target))+'"'
+  if host=='longwavehomespot.com': return 'href="https://booking.hotres.pl/v4_step1?lang=pl&amp;oid=5121"'
+  return m[0]
+ return re.sub(r'href="([^"]+)"',fix,text)
+def header(route):
+ prefix='../'*len([x for x in route.split('/') if x])
+ s=SOURCE_HEADER
+ def shift(m):
+  url=m[2]
+  if url.startswith(('https:','mailto:','tel:')): return m[0]
+  return m[1]+'="'+prefix+url+'"'
+ s=re.sub(r'(href|src)="([^"]+)"',shift,s)
+ s=rewrite(s,route)
+ s=s.replace('href="https://sklep.longwaveboards.com/"','href="'+rel(route,'sklep-i-boards/collection')+'"')
+ s=s.replace('href="'+prefix+'#ludzie"','href="'+rel(route,'o-longwave')+'"')
+ if '>Vanlife</a>' not in s:s=s.replace('>Surf Party</a>','>Surf Party</a><a href="'+rel(route,'eventy/vanlife')+'">Vanlife</a>')
+ if '>Program liderski</a>' not in s:s=s.replace('>Blog i poradnik</a>','>Blog i poradnik</a><a href="'+rel(route,'o-longwave/program-liderski')+'">Program liderski</a><a href="'+rel(route,'o-longwave/opinie')+'">Opinie</a>')
+ return '<div class="interior-head"><div class="wrap">'+s+'</div></div>'
+def photo(route,path,alt,lazy=True):
+ return f'<img src="{asset(route,path)}" alt="{E(alt)}" width="1440" height="960"'+(' loading="lazy"' if lazy else ' fetchpriority="high"')+' decoding="async">'
+def pill(route,label,url):return f'<a class="pill" href="{E(rel(route,url))}">{E(label)}{ARROW}</a>'
+def shell(route,title,desc,body):
+ prefix='../'*len([x for x in route.split('/') if x]); p=SITE/route/'index.html';p.parent.mkdir(parents=True,exist_ok=True)
+ s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=content-20261117"><link rel="stylesheet" href="{prefix}content-pages.css?v=20261117"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script><script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script></head><body class="content-page"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main><footer class="footer"><div class="wrap footer-row"><a class="wordmark" href="{prefix}" aria-label="LONGWAVE, strona główna"><img src="{asset(route,'logo.webp')}" width="1920" height="1357" alt="LONGWAVE"></a><nav aria-label="Stopka"><a href="{rel(route,'eventy')}">Eventy</a><a href="{rel(route,'blog')}">Blog</a><a href="{prefix}#kontakt">Kontakt</a><a href="{APP}">Aplikacja</a></nav></div></footer></body></html>'''
+ p.write_text(rewrite(s,route))
+def hero(route,title,kicker,lead,img):
+ return f'<section class="content-hero wrap"><div class="content-hero-copy"><a class="content-back" href="{rel(route,"")}">LONGWAVE / {E(kicker)}</a><h1>{E(title)}</h1><p>{E(lead)}</p><a class="text-link" href="#szczegoly">Odkryj więcej <span aria-hidden="true">↓</span></a></div><div class="content-hero-photo">{photo(route,img,kicker,False)}</div></section>'
+def gallery(route,imgs,label):
+ return '<section class="content-band"><div class="wrap section"><p class="kicker">Z bliska</p><h2>'+E(label)+'</h2><div class="content-gallery">'+''.join('<figure>'+photo(route,x,label)+'</figure>' for x in imgs)+'</div></div></section>' if imgs else ''
+INDEX={p['route']:(p['kicker'],p['image']) for p in PAGES}
+INDEX.update({'blog':('Historie i poradniki','wybor-longwave.webp'),'o-longwave/opinie':('Wasze opinie','together.webp'),'noclegi/home-spot-jastarnia':('Home Spot Jastarnia','home-spot-taras.webp'),'noclegi/home-spot-2-0':('Home Spot 2.0','home-spot-taras.webp')})
+for loc,label,img in [('lazy','Łazy','coast.webp'),('jastarnia','Jastarnia','wybor-oboz.webp'),('dabki','Dąbki','category-family.webp'),('rodos','Rodos','surf.webp')]:INDEX['wyjazdy/'+loc]=(label,img)
+def related(route,items):
+ cards=''.join(f'<a class="content-card" href="{rel(route,x)}">{photo(route,INDEX[x][1],INDEX[x][0])}<div><h3>{E(INDEX[x][0])}</h3>{ARROW}</div></a>' for x in items)
+ return f'<section class="wrap section"><p class="kicker">Dalej z LONGWAVE</p><h2>Odkryj więcej.</h2><div class="content-cards">{cards}</div></section>'
+def offer_markup(route,group):
+ spec=importlib.util.spec_from_file_location('offers',ROOT/'tools/sync-offers.py');mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+ terms=json.loads((ROOT/'dist/offers.json').read_text())['items']
+ terms=[t for t in terms if (group=='camp' and t['category'].casefold()=='camp') or (group in ('family','events') and t['category'].casefold()=='wyjazd rodzinny') or (group=='foreign' and ('zagran' in t['category'].casefold() or t.get('location')=='rodos'))]
+ return ''.join(mod.card(t,'../'*(len([x for x in route.split('/') if x])+1)) for t in terms) or '<p>Przygotowujemy kolejne terminy. <a href="mailto:info@longwaveboards.com">Zapytaj nas o planowany wyjazd.</a></p>'
+def build():
+ for p in PAGES:
+  r=p['route'];body=hero(r,p['title'],p['kicker'],p['lead'],p['image'])
+  body+=f'<section class="wrap section content-intro" id="szczegoly"><h2>{E(p["heading"])}</h2><div>'+''.join('<p>'+E(x)+'</p>' for x in p['paragraphs'])+'</div></section>'
+  if p['facts']:body+='<section class="content-band"><div class="wrap content-facts">'+''.join('<div>'+WAVE+'<h3>'+E(x)+'</h3></div>' for x in p['facts'])+'</div></section>'
+  body+=gallery(r,p['gallery'],'Tak wygląda nasz świat.')
+  if p['offers']:body+='<section class="wrap section" id="terminy"><p class="kicker">Wybierz swój termin</p><h2>Najbliższe wyjazdy.</h2><div class="offers-grid" id="content-offers-track" data-offers-track role="region" aria-label="Terminy wyjazdów" data-offer-group="'+p['offers']+'"><!-- CONTENT_OFFERS_START -->'+offer_markup(r,p['offers'])+'<!-- CONTENT_OFFERS_END --></div>'+CONTROLS+'</section>'
+  if p['cta']:body+='<section class="content-callout"><div class="wrap section"><p class="kicker">Zróbmy kolejny krok</p><h2>'+E(p['cta'][0])+'.</h2>'+pill(r,p['cta'][0],p['cta'][1])+'</div></section>'
+  body+=related(r,p['related']);shell(r,p['kicker'],p['lead'],body)
+ r='blog';body=hero(r,'Historie znad wody.','Blog i poradnik','Relacje, ludzie i praktyczne wskazówki. Poznaj świat LONGWAVE z bliska.','wybor-longwave.webp')
+ body+='<section class="wrap section" id="szczegoly"><p class="kicker">Archiwum LONGWAVE</p><h2>Czytaj we własnym tempie.</h2><div class="content-cards blog-cards">'
+ for p in POSTS:
+  body+=f'<a class="content-card" href="{p["slug"]}/">{photo(r,p["images"][0],p["title"])}<div><time datetime="{p["date"]}">{p["date"]}</time><h3>{E(p["title"])}</h3>{ARROW}</div></a>'
+ body+='</div></section>';shell(r,'Blog i poradnik','Relacje z wyjazdów, historie LONGWAVE i poradniki dla uczestników oraz rodziców.',body)
+ for p in POSTS:
+  r='blog/'+p['slug'];desc=re.sub('<[^>]+>',' ',p['body']);desc=' '.join(html.unescape(desc).split())[:155]
+  body=hero(r,p['title'],'Z archiwum LONGWAVE',p['date'],p['images'][0])
+  body+='<div class="wrap archive-note">Artykuł archiwalny. Opisane terminy, ceny i warunki mogą być nieaktualne. '+pill(r,'Aktualne wyjazdy',APP+'#oferty')+'</div>'
+  body+='<article class="content-prose" id="szczegoly">'+p['body']+('<h2>Filmy z relacji</h2><ul>'+''.join('<li><a href="'+E(url)+'">Zobacz film z relacji '+str(i+1)+' w YouTube</a></li>' for i,url in enumerate(p.get('videos',[])))+'</ul>' if p.get('videos') else '')+'</article>'+gallery(r,p['images'][1:],'Zobacz także kadry z relacji.')+'<div class="wrap section">'+pill(r,'Wróć do bloga','blog')+'</div>'
+  shell(r,p['title'],desc,body)
+ r='o-longwave/opinie';reviews=json.loads((ROOT/'sources/reviews.json').read_text())['reviews']
+ body=hero(r,'Tak nas wspominacie.','Opinie uczestników i rodziców','Głosy naszej społeczności. Obozy, pasja i wspomnienia, do których chce się wracać.','together.webp')
+ body+='<section class="wrap section" id="szczegoly"><p>Opinie z karuzeli dotychczasowej strony LONGWAVE, zapisane 16 listopada 2026. To archiwalny wybór opinii, bez bieżącej synchronizacji z Google.</p><div class="content-quotes">'+''.join('<figure><blockquote>'+E(x['text'])+'</blockquote><figcaption>'+E(x['author'])+' · '+str(x['rating'])+'/5</figcaption></figure>' for x in reviews)+'</div></section>'+related(r,['wyjazdy/obozy-dla-dzieci','wyjazdy/rodzinne'])
+ shell(r,'Opinie uczestników i rodziców','Przeczytaj autentyczne opinie rodziców i uczestników LONGWAVE.',body)
+ # Update original pages without replacing their layouts, video or interactions.
+ generated={p['route'] for p in PAGES}|{'blog','o-longwave/opinie'}|{'blog/'+p['slug'] for p in POSTS}
+ for file in SITE.rglob('index.html'):
+  route=str(file.parent.relative_to(SITE));route='' if route=='.' else route
+  if route in generated:continue
+  text=file.read_text();base='../'*len([x for x in route.split('/') if x]) if route else ''
+  # header() counts path components; the homepage has depth zero.
+  text=rewrite(text,route) if route else rewrite(text,'')
+  text=re.sub(r'<header class="nav-shell">.*?</header>',lambda _:re.search(r'<header.*?</header>',header(route),re.S).group(),text,flags=re.S)
+  if not route:
+   # rel('') uses a dedicated root normalization below.
+   text=text.replace('class="world-card world-card-collection" href="https://sklep.longwaveboards.com/"','class="world-card world-card-collection" href="sklep-i-boards/collection/"')
+  file.write_text(text)
+ (ROOT/'sources/url-map.json').write_text(json.dumps(MAP,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
+ print('Generated',len(generated),'pages; migrated all shared navigation links.')
+if __name__=='__main__':build()

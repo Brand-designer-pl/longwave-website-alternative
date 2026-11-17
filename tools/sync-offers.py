@@ -107,6 +107,18 @@ def sync():
         replace(page,'LOCATION_OFFERS',markup)
         sync_destination_ctas(page,terms,label)
         print(f'{label}: {len(terms)} terms, {sum(t["draft"] for t in terms)} previews')
+    # Informational category and event pages use the same live offer snapshot.
+    for page in (ROOT/'amigos').rglob('index.html'):
+        match=re.search(r'data-offer-group="(camp|family|events|foreign)"',page.read_text())
+        if not match: continue
+        group=match[1]
+        terms=[t for t in public_terms if
+            (group=='camp' and t['category'].casefold()=='camp') or
+            (group in ('family','events') and t['category'].casefold()=='wyjazd rodzinny') or
+            (group=='foreign' and ('zagran' in t['category'].casefold() or t.get('location')=='rodos'))]
+        prefix='../'*len(page.parent.relative_to(ROOT).parts)
+        markup=''.join(card(t,prefix) for t in terms) or '<p>Przygotowujemy kolejne terminy. <a href="mailto:info@longwaveboards.com">Zapytaj nas o planowany wyjazd.</a></p>'
+        replace(page,'CONTENT_OFFERS',markup)
     print(f'Synchronized {len(public_terms)} public terms')
 
 if __name__=='__main__': sync()

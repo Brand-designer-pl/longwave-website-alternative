@@ -1,0 +1,380 @@
+[
+  {
+    "route": "eventy",
+    "title": "Spotkajmy się.",
+    "kicker": "Eventy LONGWAVE",
+    "lead": "Sport, muzyka i ludzie. Wydarzenia, które łączą pokolenia.",
+    "image": "world-eventy.webp",
+    "heading": "Razem, także poza campem.",
+    "paragraphs": [
+      "Organizujemy wydarzenia sportowe, rodzinne spotkania i wyjazdy tematyczne w Polsce oraz za granicą. Wspólnym mianownikiem są ruch, nowe zajawki i surferska atmosfera.",
+      "Od rozpoczęcia sezonu nad wodą, przez integrację zespołu, po Surf Party w mieście. Poznaj formaty naszych wydarzeń i wybierz swój sposób na spotkanie z LONGWAVE."
+    ],
+    "facts": [
+      "Wydarzenia rodzinne",
+      "Integracja firm",
+      "Sport i muzyka"
+    ],
+    "gallery": [],
+    "related": [
+      "eventy/dla-firm",
+      "eventy/surf-party",
+      "eventy/vanlife"
+    ],
+    "cta": null,
+    "offers": "events",
+    "extra": ""
+  },
+  {
+    "route": "eventy/dla-firm",
+    "title": "Zespół na jednej fali.",
+    "kicker": "LONGWAVE dla firm",
+    "lead": "Wyjazdy integracyjne, aktywność i czas na relacje. Program dopasowany do Waszej ekipy.",
+    "image": "pages/media-96428b04305a.webp",
+    "heading": "Wspólne doświadczenia zostają na dłużej.",
+    "paragraphs": [
+      "Przygotowujemy wyjazdy firmowe nad morzem oraz w zagranicznych lokalizacjach. Łączymy aktywny wypoczynek z programem, który odpowiada potrzebom zespołu.",
+      "Windsurfing, sporty wodne, zajęcia outdoorowe i warsztaty zespołowe mogą stać się częścią Waszego wyjazdu. Zakres aktywności i organizację ustalamy wspólnie, z uwzględnieniem celu spotkania i doświadczenia uczestników.",
+      "Napisz, ile osób planuje udział, jaki termin bierzecie pod uwagę i czego szukacie. Na tej podstawie porozmawiamy o programie i miejscu."
+    ],
+    "facts": [
+      "Program dla zespołu",
+      "Polska i zagranica",
+      "Sport i integracja"
+    ],
+    "gallery": [
+      "pages/media-96428b04305a.webp",
+      "pages/media-8b484c75bb98.webp",
+      "pages/media-2b351384e9c0.webp"
+    ],
+    "related": [
+      "eventy/surf-party",
+      "noclegi/home-spot-jastarnia"
+    ],
+    "cta": [
+      "Porozmawiajmy o Waszym wyjeździe",
+      "mailto:info@longwaveboards.com?subject=Wyjazd%20firmowy"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "eventy/surf-party",
+    "title": "Surf Party w Twoim mieście.",
+    "kicker": "Sport · zabawa · spotkania",
+    "lead": "Surferski klimat, warsztaty i wspólna zabawa dla dzieci, młodzieży i dorosłych.",
+    "image": "pages/media-8a2766d59fa4.webp",
+    "heading": "Dobra energia nie potrzebuje oceanu.",
+    "paragraphs": [
+      "Surf Party łączy sport, zabawę i integrację. To okazja, żeby spróbować nowych aktywności, spotkać ekipę LONGWAVE i spędzić dzień razem.",
+      "W programie mogą znaleźć się balance board i trickboard, warsztaty, animacje i gry integracyjne, pokazy oraz konkursy. Muzyka i strefa relaksu dopełniają atmosferę wydarzenia.",
+      "Chcesz zaprosić LONGWAVE do swojej miejscowości lub zorganizować piknik? Ustalimy format, miejsce i atrakcje odpowiednie dla uczestników."
+    ],
+    "facts": [
+      "Warsztaty i pokazy",
+      "Aktywności dla rodzin",
+      "Muzyka i strefa relaksu"
+    ],
+    "gallery": [
+      "pages/media-8a2766d59fa4.webp",
+      "pages/media-1c901fa7dc57.webp",
+      "pages/media-ae56b97ce02b.webp"
+    ],
+    "related": [
+      "eventy",
+      "eventy/dla-firm"
+    ],
+    "cta": [
+      "Zorganizujmy Surf Party",
+      "mailto:info@longwaveboards.com?subject=Surf%20Party"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "eventy/vanlife",
+    "title": "Dom jest tam, gdzie parkujemy.",
+    "kicker": "LONGWAVE Vanlife",
+    "lead": "Podróże kamperem, spotkania i ludzie, których łączy ciekawość świata.",
+    "image": "world-vanlife.webp",
+    "heading": "W drodze po wspólne historie.",
+    "paragraphs": [
+      "Kamperowanie jest częścią naszego życia od lat. Wokół podróży budujemy społeczność: spotykamy się, poznajemy nowe miejsca i dzielimy doświadczeniami.",
+      "Wyjazdy kamperowe LONGWAVE łączą rodzinne podróżowanie z aktywnościami i integracją. Program oraz sposób udziału zależą od konkretnej wyprawy.",
+      "Historię naszego vana i jego przebudowy znajdziesz w blogu. O nowe terminy wypraw zapytaj ekipę — aktualne oferty publikujemy w aplikacji."
+    ],
+    "facts": [
+      "Podróżowanie kamperem",
+      "Rodzinne wyprawy",
+      "Społeczność"
+    ],
+    "gallery": [
+      "pages/media-9e22645d0e7d.webp",
+      "pages/media-8d9a52ff59a6.webp",
+      "pages/media-3595bcb96c46.webp"
+    ],
+    "related": [
+      "blog",
+      "eventy"
+    ],
+    "cta": [
+      "Zapytaj o kolejną wyprawę",
+      "mailto:info@longwaveboards.com?subject=Vanlife"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "sklep-i-boards",
+    "title": "Surferski styl. Na co dzień.",
+    "kicker": "Boards · Collection · vouchery",
+    "lead": "Autorskie deski, ubrania i akcesoria LONGWAVE.",
+    "image": "world-boards.webp",
+    "heading": "Z wody na miasto.",
+    "paragraphs": [
+      "LONGWAVE to także rzeczy, które towarzyszą nam pomiędzy wyjazdami. Projektujemy deski inspirowane surfingiem i kolekcję związaną z naszym stylem życia.",
+      "Tutaj poznasz idee i produkty. Aktualne warianty, ceny, dostępność i zakupy obsługuje sklep LONGWAVE."
+    ],
+    "facts": [],
+    "gallery": [],
+    "related": [
+      "sklep-i-boards/boards",
+      "sklep-i-boards/collection"
+    ],
+    "cta": [
+      "Przejdź do sklepu",
+      "https://sklep.longwaveboards.com/"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "sklep-i-boards/boards",
+    "title": "Surfing zaczyna się na lądzie.",
+    "kicker": "LONGWAVE Boards",
+    "lead": "Bambusowe deski i autorskie rozwiązania stworzone z pasji do surfingu.",
+    "image": "world-boards.webp",
+    "heading": "Jedna zajawka. Dwa style jazdy.",
+    "paragraphs": [
+      "Deski LONGWAVE powstały z myślą o przeniesieniu surferskiego ruchu na ląd. Modele LONGWAVE BOARD 140 i 100 łączą bambusową konstrukcję z charakterystycznym wykończeniem.",
+      "Trójwarstwowy bambus, pady antypoślizgowe i autorski system trucków są częścią projektu. Mechanizm pozwala łączyć styl surf i longboard; szczegółową specyfikację wybranego modelu sprawdzisz przy produkcie.",
+      "Proces projektowy, rozwój technologii i współpracę z projektantami opisujemy w naszych artykułach."
+    ],
+    "facts": [
+      "Bambusowa konstrukcja",
+      "Autorskie trucki",
+      "Surf & longboard"
+    ],
+    "gallery": [
+      "board-140.webp",
+      "board-100.webp"
+    ],
+    "related": [
+      "blog",
+      "sklep-i-boards/collection"
+    ],
+    "cta": [
+      "Sprawdź modele w sklepie",
+      "https://sklep.longwaveboards.com/"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "sklep-i-boards/collection",
+    "title": "Zabierz ten klimat ze sobą.",
+    "kicker": "LONGWAVE Collection",
+    "lead": "Ubrania, akcesoria i vouchery dla ludzi LONGWAVE.",
+    "image": "world-collection.webp",
+    "heading": "Pomiędzy miastem a plażą.",
+    "paragraphs": [
+      "Collection wyrasta z tego samego świata co nasze wyjazdy: podróży, sportu i spotkań. Kolekcje towarzyszą nam na plaży, w drodze i na co dzień.",
+      "Poznaj dostępne ubrania, dodatki i vouchery w sklepie. Tam znajdziesz aktualne rozmiary, warianty i warunki zakupu."
+    ],
+    "facts": [],
+    "gallery": [
+      "world-collection.webp",
+      "collection.webp"
+    ],
+    "related": [
+      "sklep-i-boards/boards",
+      "blog"
+    ],
+    "cta": [
+      "Zobacz Collection i vouchery",
+      "https://sklep.longwaveboards.com/"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "o-longwave",
+    "title": "Ludzie tworzą LONGWAVE.",
+    "kicker": "O nas",
+    "lead": "Zuzia, Tomek i ekipa. Łączy nas ruch, podróże i bycie razem.",
+    "image": "team.webp",
+    "heading": "Za każdym wyjazdem stoją ludzie.",
+    "paragraphs": [
+      "LONGWAVE tworzą Zuzia i Tomek. Rozmawiamy z Wami przez telefon, przygotowujemy treści, rozwijamy nowe pomysły i jesteśmy obecni na wydarzeniach oraz obozach.",
+      "Obozy, wyjazdy rodzinne, eventy, deski, kolekcja i Home Spot są różnymi odsłonami tej samej pasji. Chcemy tworzyć przestrzeń do spotkań, nowych doświadczeń i rozwijania zainteresowań.",
+      "Jeśli znasz już campowy klimat i chcesz spróbować swoich sił po drugiej stronie organizacji, poznaj program liderski."
+    ],
+    "facts": [],
+    "gallery": [
+      "pages/media-134d38e54155.webp",
+      "pages/media-13f4bc88e92d.webp"
+    ],
+    "related": [
+      "o-longwave/program-liderski",
+      "o-longwave/opinie",
+      "blog"
+    ],
+    "cta": [
+      "Porozmawiaj z nami",
+      "mailto:info@longwaveboards.com"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "o-longwave/program-liderski",
+    "title": "Z uczestnika w lidera.",
+    "kicker": "Program liderski",
+    "lead": "Pierwsze doświadczenia w organizacji campu i pracy z ludźmi.",
+    "image": "pages/media-258a617a2857.webp",
+    "heading": "Spróbuj nowej roli w znanej ekipie.",
+    "paragraphs": [
+      "Program jest skierowany do absolwentów LONGWAVE CAMP, którzy chcą kontynuować współpracę z nami i uczestnikami obozów.",
+      "Zaczynamy od stażu: bierzesz udział w programie campu, a jednocześnie realizujesz specjalne zadania lub odpowiadasz za wybrane czynności. To okazja do poznania roli wolontariusza i aktywnego asystenta.",
+      "Ćwiczysz komunikację, planowanie, współpracę i odpowiedzialność. Ważne są chęć pomocy, punktualność, kreatywność i otwartość na nowe zadania.",
+      "Zasady udziału oraz dostępne możliwości ustalamy z organizatorami. Napisz, na którym campie byliśmy razem i dlaczego chcesz dołączyć."
+    ],
+    "facts": [
+      "Staż na campie",
+      "Praca z ludźmi",
+      "Rozwój samodzielności"
+    ],
+    "gallery": [],
+    "related": [
+      "o-longwave",
+      "wyjazdy/obozy-dla-dzieci"
+    ],
+    "cta": [
+      "Zapytaj o program",
+      "mailto:info@longwaveboards.com?subject=Program%20liderski"
+    ],
+    "offers": null,
+    "extra": ""
+  },
+  {
+    "route": "wyjazdy/obozy-dla-dzieci",
+    "title": "Pierwszy obóz. Nowa zajawka.",
+    "kicker": "LONGWAVE CAMP",
+    "lead": "Sport, rozwój i surferski klimat dla dzieci i młodzieży.",
+    "image": "wybor-oboz.webp",
+    "heading": "Aktywne wakacje, wspólne doświadczenia.",
+    "paragraphs": [
+      "Campy LONGWAVE łączą sporty wodne i lądowe z zajęciami rozwijającymi samodzielność, kreatywność i współpracę. Program dobieramy do lokalizacji i grupy.",
+      "W opisach turnusów znajdziesz wiek uczestników, aktywności, zakwaterowanie, transport i świadczenia w cenie. Wybierz miejsce, a szczegóły terminu oraz zapis sprawdź w aplikacji."
+    ],
+    "facts": [
+      "Łazy",
+      "Jastarnia",
+      "Dąbki"
+    ],
+    "gallery": [],
+    "related": [
+      "wyjazdy/lazy",
+      "wyjazdy/jastarnia",
+      "wyjazdy/dabki"
+    ],
+    "cta": null,
+    "offers": "camp",
+    "extra": ""
+  },
+  {
+    "route": "wyjazdy/rodzinne",
+    "title": "Łączymy pokolenia.",
+    "kicker": "Wyjazdy rodzinne",
+    "lead": "Aktywny czas razem, wspólne odkrycia i chwile dla siebie.",
+    "image": "wybor-rodzina.webp",
+    "heading": "Każdy znajdzie swój rytm.",
+    "paragraphs": [
+      "Rodzinne wyjazdy LONGWAVE powstają z myślą o wspólnym spędzaniu czasu. Łączą aktywności, integrację i odpoczynek dla uczestników w różnym wieku.",
+      "Program, zasady udziału dzieci i dorosłych oraz warianty cenowe są opisane przy konkretnym wydarzeniu. Aktualne terminy i zgłoszenia obsługuje aplikacja."
+    ],
+    "facts": [],
+    "gallery": [],
+    "related": [
+      "eventy",
+      "wyjazdy/dabki"
+    ],
+    "cta": null,
+    "offers": "family",
+    "extra": ""
+  },
+  {
+    "route": "wyjazdy/zagraniczne",
+    "title": "Dalej po przygodę.",
+    "kicker": "Wyjazdy zagraniczne",
+    "lead": "Nowe miejsca, wiatr i ludzie, z którymi chcesz podróżować.",
+    "image": "surf.webp",
+    "heading": "Poza znanym horyzontem.",
+    "paragraphs": [
+      "Zagraniczne wyjazdy LONGWAVE to sport, odkrywanie nowych miejsc i wspólne doświadczenia. Jednym z naszych kierunków jest Rodos i Prasonisi.",
+      "Każdy wyjazd ma własny program i zasady organizacyjne. Informacje o aktualnych terminach, cenach, transporcie i zapisie są dostępne przy konkretnej ofercie w aplikacji."
+    ],
+    "facts": [],
+    "gallery": [],
+    "related": [
+      "wyjazdy/rodos",
+      "eventy/vanlife"
+    ],
+    "cta": [
+      "Zapytaj o nowy termin",
+      "mailto:info@longwaveboards.com?subject=Wyjazd%20zagraniczny"
+    ],
+    "offers": "foreign",
+    "extra": ""
+  },
+  {
+    "route": "noclegi/apartament-hiszpania",
+    "title": "Twoje miejsce na Costa Blanca.",
+    "kicker": "La Mata · Hiszpania",
+    "lead": "Apartament LONGWAVE nad Morzem Śródziemnym, dostępny przez cały rok.",
+    "image": "pages/media-a934c48cc963.webp",
+    "heading": "Dzień zaczyna się na tarasie.",
+    "paragraphs": [
+      "Apartament w La Mata ma 105 m²: trzy sypialnie, salon z kuchnią, taras i dwie łazienki. Wszystkie pomieszczenia są klimatyzowane, na miejscu jest Wi-Fi.",
+      "Prywatne osiedle oferuje ogród z basenem, podziemny parking, boiska i strefę grillową. W pobliżu znajdują się plaża, promenada, restauracje oraz sklepy.",
+      "To baza do poznawania Costa Blanca: Torrevieja, Alicante, Altea i innych miejsc na wybrzeżu. Lotnisko Alicante znajduje się w odległości około 30 minut jazdy.",
+      "Termin pobytu, wyposażenie, transfer i warunki wynajmu potwierdzisz bezpośrednio z LONGWAVE. Napisz daty i liczbę gości — odpowiemy na pytania o dostępność."
+    ],
+    "facts": [
+      "105 m²",
+      "3 sypialnie · 2 łazienki",
+      "Taras · Wi-Fi · klimatyzacja"
+    ],
+    "gallery": [
+      "pages/media-a934c48cc963.webp",
+      "pages/media-ae84af0e5dc9.webp",
+      "pages/media-a725fe4f18b7.webp",
+      "pages/media-a9acd9bbdf32.webp",
+      "pages/media-1c7d8d80c71e.webp",
+      "pages/media-31cfc0464ab1.webp",
+      "pages/media-31ce57b21fa5.webp",
+      "pages/media-96a817687ea5.webp",
+      "pages/media-4852de993256.webp"
+    ],
+    "related": [
+      "noclegi/home-spot-jastarnia",
+      "wyjazdy/zagraniczne"
+    ],
+    "cta": [
+      "Zapytaj o dostępność",
+      "mailto:info@longwaveboards.com?subject=Apartament%20La%20Mata"
+    ],
+    "offers": null,
+    "extra": ""
+  }
+]
