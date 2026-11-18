@@ -29,11 +29,20 @@
   const finish=()=>{transition=null;current=index;outgoing.hidden=true;gsap.set([outgoing,incoming,copy],{clearProps:'transform,opacity'});if(volume){volume.state.turn=-.24;volume.setModel(index);}syncAmbient();if(requested!==index)select(requested);};
   transition=gsap.timeline({onComplete:finish});
   if(volume){
-   // One uninterrupted revolution. Swap meshes edge-on so their silhouettes don't jump.
-   let swapped=false;const turn=volume.state;
-   transition.to(turn,{turn:Math.PI*2-.24,duration:2.05,ease:'power1.inOut',onUpdate(){if(!swapped&&turn.turn>=Math.PI*1.5){swapped=true;volume.setModel(index);}volume.draw();}},0)
-    .to(turn,{tilt:-.12,roll:.045,duration:1,ease:'sine.inOut'},0)
-    .to(turn,{tilt:.075,roll:-.035,duration:1.05,ease:'sine.inOut'},1);
+   // Brisk continuous spin; match dimensions at the edge-on swap, then ease to the new shape.
+   let swapped=false,swapAngle=0,fromWidth=1,fromLength=1;const turn=volume.state,end=Math.PI*2-.24;
+   transition.to(turn,{turn:end,duration:1.25,ease:'power2.inOut',onUpdate(){
+    if(!swapped&&turn.turn>=Math.PI/2){
+     swapped=true;swapAngle=turn.turn;volume.setModel(index,true);
+     fromWidth=turn.modelWidth;fromLength=turn.modelLength;
+    }
+    if(swapped){const p=Math.min(1,Math.max(0,(turn.turn-swapAngle)/(end-swapAngle))),blend=p*p*(3-2*p);
+     turn.modelWidth=fromWidth+(1-fromWidth)*blend;turn.modelLength=fromLength+(1-fromLength)*blend;
+    }
+    volume.draw();
+   }},0)
+    .to(turn,{tilt:-.16,roll:.065,y:.08,duration:.44,ease:'sine.inOut'},0)
+    .to(turn,{tilt:.075,roll:-.035,y:0,duration:.81,ease:'power2.out'},.44);
   }else{
    // A graceful photographic fallback, never a flat photograph pretending to be a 3D spin.
    gsap.set(incoming,{opacity:0});
@@ -59,7 +68,7 @@
  async function loadWater(){if(water||waterLoading||motion.matches||!alive)return;waterLoading=true;try{const module=await import(new URL('boards-water.js?v=volume-20261118',base));if(alive&&!motion.matches){water=module.createWater(root.querySelector('canvas'));syncAmbient();}}catch(_){/* The static pale-water background stays visible. */}finally{waterLoading=false;}}
  async function loadVolume(){
   if(volume||volumeLoading||!alive)return;volumeLoading=true;
-  try{const module=await import(new URL('boards-volume.js?v=inset-wheels-20261118',base));
+  try{const module=await import(new URL('boards-volume.js?v=fluid-spin-20261118',base));
    const created=await module.createBoards(stage,()=>{const failed=volume;volume=null;settle(requested,false);failed?.dispose();});
    if(!created)return;if(!alive){created.dispose();return;}
    volume=created;settle(requested,false);

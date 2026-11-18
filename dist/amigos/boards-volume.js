@@ -11,9 +11,9 @@ export async function createBoards(stage, onLost) {
  scene.add(new THREE.HemisphereLight(0xffffff,0x777568,2.3));
  const key=new THREE.DirectionalLight(0xffffff,3.0);key.position.set(-4,6,8);scene.add(key);
  const rim=new THREE.DirectionalLight(0xf5e7cf,2);rim.position.set(5,-1,-4);scene.add(rim);
- const loader=new THREE.TextureLoader(),models=[],textures=[],geometries=new Set(),materials=new Set();
+ const loader=new THREE.TextureLoader(),models=[],dimensions=[],textures=[],geometries=new Set(),materials=new Set();
  let disposed=false,lost=false,playing=false,raf=0,last=0,elapsed=0,current=0;
- const state={turn:-.24,tilt:.075,roll:-.035,y:0,scale:1};
+ const state={turn:-.24,tilt:.075,roll:-.035,y:0,scale:1,modelWidth:1,modelLength:1};
  const remember=m=>{materials.add(m);return m;};
  function mesh(geometry,material,parent){geometries.add(geometry);const m=new THREE.Mesh(geometry,material);parent.add(m);return m;}
  function cleanup(){cancelAnimationFrame(raf);geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());renderer.dispose();canvas.remove();stage.classList.remove('has-volume');}
@@ -32,7 +32,7 @@ export async function createBoards(stage, onLost) {
   const hub=remember(new THREE.MeshStandardMaterial({color:0x222522,metalness:.45,roughness:.42}));
   profiles.forEach((p,index)=>{
    const length=index?5.05:6.2,width=length*p.ratio,thickness=.075;
-   const group=new THREE.Group();scene.add(group);models.push(group);
+   const group=new THREE.Group();scene.add(group);models.push(group);dimensions.push({length,width});
    // Smooth the photographed outline, excluding the wheels outside the bamboo deck.
    const smooth=p.samples.map((s,i,a)=>[s[0],s[1]].map((_,k)=>{let v=0,n=0;for(let j=Math.max(0,i-2);j<=Math.min(a.length-1,i+2);j++){v+=a[j][k];n++;}return v/n;}).concat(s[2]));
    const points=[...smooth.map(s=>new THREE.Vector2((s[0]-.5)*width,(.5-s[2])*length)),...smooth.slice().reverse().map(s=>new THREE.Vector2((s[1]-.5)*width,(.5-s[2])*length))];
@@ -72,11 +72,15 @@ export async function createBoards(stage, onLost) {
   });
  }catch(error){cleanup();return null;}
  stage.append(canvas);
- function draw(){if(disposed||lost)return;const g=models[current];g.rotation.set(state.tilt+Math.sin(elapsed*.42)*.012,state.turn+Math.sin(elapsed*.33)*.018,state.roll+Math.sin(elapsed*.38)*.009);g.position.y=state.y+Math.sin(elapsed*.6)*.035;g.scale.setScalar(state.scale);renderer.render(scene,camera);}
+ function draw(){if(disposed||lost)return;const g=models[current];g.rotation.set(state.tilt+Math.sin(elapsed*.42)*.012,state.turn+Math.sin(elapsed*.33)*.018,state.roll+Math.sin(elapsed*.38)*.009);g.position.y=state.y+Math.sin(elapsed*.6)*.035;g.scale.set(state.scale*state.modelWidth,state.scale*state.modelLength,state.scale);renderer.render(scene,camera);}
  function resize(){if(disposed||lost)return;const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.position.z=Math.max(13.5,6.3/camera.aspect);camera.updateProjectionMatrix();draw();}
  function frame(now){if(!playing||disposed||lost)return;elapsed+=Math.min((now-last)/1000,.05);last=now;draw();raf=requestAnimationFrame(frame);}
  function setPlaying(value){playing=!!value&&!disposed&&!lost;cancelAnimationFrame(raf);if(playing){last=performance.now();raf=requestAnimationFrame(frame);}else draw();}
- function setModel(index){current=index;models.forEach((m,i)=>m.visible=i===index);draw();}
+ function setModel(index,matchDimensions=false){
+  state.modelLength=matchDimensions?dimensions[current].length/dimensions[index].length:1;
+  state.modelWidth=matchDimensions?dimensions[current].width/dimensions[index].width:1;
+  current=index;models.forEach((m,i)=>m.visible=i===index);draw();
+ }
  const observer=new ResizeObserver(resize);observer.observe(canvas);resize();stage.classList.add('has-volume');
  const contextLost=e=>{e.preventDefault();lost=true;setPlaying(false);stage.classList.remove('has-volume');onLost?.();};canvas.addEventListener('webglcontextlost',contextLost);
  return {state,setModel,setPlaying,draw,dispose(){disposed=true;observer.disconnect();canvas.removeEventListener('webglcontextlost',contextLost);cleanup();}};
