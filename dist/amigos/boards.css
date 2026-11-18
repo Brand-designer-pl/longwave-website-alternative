@@ -53,3 +53,7 @@ body.boards-page .nav-shell .account-link{color:#191b1a}
  .boards-origin{grid-template-columns:1fr;padding:40px 20px;gap:36px}.boards-origin-photo img{aspect-ratio:4/3}.boards-origin h2{font-size:2.7rem}.boards-detail-grid{grid-template-columns:1fr;gap:38px;margin-top:36px}
 }
 @media(prefers-reduced-motion:no-preference){.boards-models button,.boards-shop svg,.boards-story svg,.boards-origin-copy svg{transition:color .3s ease,transform .4s cubic-bezier(.22,1,.36,1)}.boards-models button:hover{transform:translateX(4px);color:#111}.boards-shop:hover svg,.boards-story:hover svg,.boards-origin-copy>a:hover svg{transform:translate(3px,-3px)}.boards-arrows button{transition:background .3s,transform .3s}.boards-arrows button:hover{background:#dce3db;transform:scale(1.06)}}
+.boards-volume{position:absolute;inset:0 0 58px;width:100%;height:calc(100% - 58px);pointer-events:none}
+.boards-stage.has-volume .board-object{visibility:hidden}
+.boards-water::before{display:none}
+@media(max-width:700px){.boards-volume{bottom:48px;height:calc(100% - 48px)}}

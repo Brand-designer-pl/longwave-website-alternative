@@ -1,4 +1,4 @@
-/* Original pale-water caustics. Low-resolution decorative canvas; no third-party renderer. */
+/* Original pale-water reflection study. Low-resolution decorative canvas; no third-party renderer. */
 export function createWater(canvas) {
  const gl=canvas.getContext('webgl',{alpha:false,antialias:false,depth:false,powerPreference:'low-power'});
  if(!gl)return null;
@@ -6,23 +6,28 @@ export function createWater(canvas) {
  const vertex='attribute vec2 p; varying vec2 uv; void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}';
  const fragment=`precision mediump float;
  varying vec2 uv; uniform float t; uniform vec2 size;
- float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
- float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}
- float surface(vec2 p){return .55*noise(p)+.3*noise(p*2.03)+.15*noise(p*4.01);}
+ // Summed travelling swells. Lighting follows the surface normal, not height contours.
+ vec3 wave(vec2 p,float frequency,float angle,float speed,float amplitude){
+  vec2 d=vec2(cos(angle),sin(angle));float phase=dot(p,d)*frequency+t*speed;
+  return vec3(sin(phase)*amplitude,d*cos(phase)*frequency*amplitude);
+ }
  void main(){
- vec2 p=uv*vec2(size.x/size.y,1.)*3.6;
- vec2 drift=vec2(t*.045,-t*.035);
- vec2 warp=vec2(surface(p*.9+drift),surface(p*.9-drift+4.));
- float a=surface(p+warp*1.8+drift);
- float b=surface(p*1.27+warp*1.3-drift+8.);
- float flow=p.x*.65+p.y*1.45+warp.x*2.8+warp.y*.9;
- float fold=sin(flow*3.8+t*.16)+.2*sin(p.x*3.2-p.y*2.1-t*.12);
- float ridge=pow(max(0.,1.-abs(fold)*3.4),4.);
- float broad=surface(p*.65+drift*.7);
- float light=.917+.035*broad+.04*ridge-.014*fold;
- float edge=smoothstep(.8,.05,length(uv-.5));
- vec3 color=vec3(light,light+.004,light-.003)+edge*.012;
- gl_FragColor=vec4(color,1.);
+ vec2 p=(uv-.5)*vec2(size.x/size.y,1.)*5.;
+ p=mat2(.94,-.34,.34,.94)*p;p.y*=1.8;
+ vec3 w=wave(p,2.7,.45,.34,.18)+wave(p,4.1,1.15,-.29,.11)
+  +wave(p,6.9,-.6,.43,.045)+wave(p,11.3,.8,-.51,.023)
+  +wave(p,17.7,1.7,.61,.01)+wave(p,26.1,-.3,-.72,.004);
+ vec3 n=normalize(vec3(-w.yz,1.));
+ vec3 v=normalize(vec3(.12,.25,1.));vec3 r=reflect(-v,n);
+ // Broad reflected sky and soft windows create liquid, continuous highlights.
+ float sky=smoothstep(-.65,.9,r.y);
+ float softbox=pow(max(0.,dot(r,normalize(vec3(-.45,.6,1.)))),12.);
+ float sheen=pow(max(0.,dot(n,normalize(vec3(.6,-.45,1.)))),32.);
+ float fresnel=pow(1.-max(0.,dot(n,v)),3.);
+ vec3 water=vec3(.908,.922,.916)+n.y*.045+n.x*.018;
+ water+=pow(softbox,3.)*.065+sheen*.025+fresnel*.025;
+ water+=sky*.018;
+ gl_FragColor=vec4(water,1.);
  }`;
  const compile=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){gl.deleteShader(s);throw Error('Water shader unavailable');}return s;};
  let vs,fs,program,buffer;
