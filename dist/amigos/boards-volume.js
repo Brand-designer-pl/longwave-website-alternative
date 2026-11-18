@@ -50,22 +50,23 @@ export async function createBoards(stage, onLost) {
    mesh(geometry,[top,edge,wood],group);
    // Independent axle, pivot, baseplate, bearings and four rounded wheels.
    [-1,1].forEach(sign=>{
-    const y=sign*length*.31,truck=new THREE.Group();truck.position.set(0,y,-.08);group.add(truck);
+    const y=sign*length*(sign>0?.24:.31),truck=new THREE.Group();truck.position.set(0,y,-.08);group.add(truck);
     const plate=mesh(new THREE.BoxGeometry(.29,.43,.075),metal,truck);plate.position.z=-.02;
     const stem=mesh(new THREE.CylinderGeometry(.065,.09,.25,12),metal,truck);stem.rotation.x=Math.PI/2;stem.position.z=-.16;
     // Fit the complete tyre/bearing envelope under the narrowest local deck outline.
     // Extra inset keeps the wheels covered in the gently tilted resting view.
     const localRows=smooth.filter(s=>Math.abs((.5-s[2])*length-y)<=.28);
     const halfDeck=Math.min(...localRows.map(s=>Math.min(.5-s[0],s[1]-.5)*width));
-    const wheelOffset=halfDeck-.1425-.16;
+    const tyreHalfWidth=.18,bearingHalfWidth=.1875;
+    const wheelOffset=halfDeck-bearingHalfWidth-.13;
     const axle=mesh(new THREE.CylinderGeometry(.055,.055,wheelOffset*2,16),metal,truck);axle.rotation.z=Math.PI/2;axle.position.z=-.3;
     [-1,1].forEach(side=>{
      const wheel=new THREE.Group();wheel.position.set(side*wheelOffset,0,-.3);wheel.rotation.z=Math.PI/2;truck.add(wheel);
      // Lathed profile gives the tyre a round shoulder rather than a hard cylinder.
-     const profile=[new THREE.Vector2(.105,-.135),new THREE.Vector2(.19,-.135),new THREE.Vector2(.215,-.11),new THREE.Vector2(.22,-.07),new THREE.Vector2(.22,.07),new THREE.Vector2(.215,.11),new THREE.Vector2(.19,.135),new THREE.Vector2(.105,.135)];
+     const profile=[new THREE.Vector2(.105,-tyreHalfWidth),new THREE.Vector2(.19,-tyreHalfWidth),new THREE.Vector2(.215,-.155),new THREE.Vector2(.22,-.115),new THREE.Vector2(.22,.115),new THREE.Vector2(.215,.155),new THREE.Vector2(.19,tyreHalfWidth),new THREE.Vector2(.105,tyreHalfWidth)];
      mesh(new THREE.LatheGeometry(profile,24),rubber,wheel);
-     mesh(new THREE.CylinderGeometry(.107,.107,.27,20),hub,wheel);
-     mesh(new THREE.CylinderGeometry(.039,.039,.285,12),metal,wheel);
+     mesh(new THREE.CylinderGeometry(.107,.107,tyreHalfWidth*2,20),hub,wheel);
+     mesh(new THREE.CylinderGeometry(.039,.039,bearingHalfWidth*2,12),metal,wheel);
     });
    });
    group.visible=index===0;
