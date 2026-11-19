@@ -34,7 +34,9 @@
     media.add('(prefers-reduced-motion: no-preference)', () => {
       let active = true;
       const cleanup = [];
-      document.querySelectorAll('.content-intro h2, .content-gallery-band h2, .content-related h2, .event-format').forEach(el => {
+      // Move only editorial headings, photographs and Club steps.
+      // Checklists, contact actions and FAQ remain still for comfortable reading.
+      document.querySelectorAll('.content-intro h2, .content-gallery-band h2, .content-related h2, .event-format, .support-story h2, .support-photo, .club-steps article').forEach(el => {
         gsap.fromTo(el, {y:20}, {y:0, ease:'none', scrollTrigger:{trigger:el, start:'top 96%', end:'top 70%', scrub:true}});
       });
       const observer = new IntersectionObserver(entries => entries.forEach(async entry => {

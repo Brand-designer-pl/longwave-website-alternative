@@ -442,23 +442,15 @@
     "title": "Razem poza klasą.",
     "kicker": "Dla szkół i grup",
     "lead": "Zielona szkoła, wyjazd klasowy lub pobyt grupowy. Zacznijmy od Waszego pomysłu.",
-    "image": "wybor-oboz.webp",
+    "image": "pages/media-91125ee98bd7.webp",
     "heading": "Dobra przygoda zaczyna się od rozmowy.",
     "paragraphs": [
       "Planujecie wyjazd dla klasy lub zorganizowanej grupy? Porozmawiajmy o miejscu, terminie i aktywnościach, które odpowiadają uczestnikom. Każda grupa ma swój rytm — warto go poznać, zanim powstanie program.",
       "W świecie LONGWAVE łączymy ruch, integrację i edukację przez doświadczenie. Inspiracją są nasze campy: sporty wodne, longboardy, warsztaty i zadania zespołowe. Możliwość realizacji konkretnych zajęć zależy od miejsca, terminu i grupy."
     ],
-    "facts": [
-      "Wspólny czas",
-      "Aktywność i współpraca",
-      "Program do uzgodnienia"
-    ],
+    "facts": [],
     "gallery": [],
-    "related": [
-      "wyjazdy/obozy-dla-dzieci",
-      "noclegi/home-spot-jastarnia",
-      "o-longwave/bezpieczenstwo"
-    ],
+    "related": [],
     "cta": [
       "Porozmawiajmy o wyjeździe",
       "kontakt/#wybierz-temat"
@@ -496,30 +488,49 @@
         "items": []
       }
     ],
-    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków."
+    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków.",
+    "design": {
+      "eyebrow": "Wspólnie, poza szkolną ławką",
+      "wide": {
+        "src": "pages/media-69d004163092.webp",
+        "alt": "Uczestnicy LONGWAVE w kamizelkach podczas przygotowań do zajęć",
+        "caption": "Zaczynamy razem."
+      },
+      "portrait": {
+        "src": "pages/media-b6a6b002cbe4.webp",
+        "alt": "Grupa w kaskach i kamizelkach przy bazie sportów wodnych",
+        "caption": "Nowe doświadczenia, wspólna ekipa."
+      },
+      "caption": "Kadry z campów LONGWAVE. Program wyjazdu szkolnego lub grupowego ustalamy indywidualnie.",
+      "outro": "Opowiedzcie nam o swoim planie.",
+      "next": [
+        [
+          "Obozy dla dzieci",
+          "wyjazdy/obozy-dla-dzieci"
+        ],
+        [
+          "Organizacja i bezpieczeństwo",
+          "o-longwave/bezpieczenstwo"
+        ]
+      ]
+    },
+    "heroPosition": "50% 45%",
+    "heroPositionMobile": "50% 45%"
   },
   {
     "route": "o-longwave/bezpieczenstwo",
     "title": "Spokojna głowa. Dobra przygoda.",
     "kicker": "Organizacja i bezpieczeństwo",
     "lead": "Zanim wybierzesz wyjazd, poznaj zasady i porozmawiaj z nami o potrzebach uczestnika.",
-    "image": "wybor-oboz.webp",
+    "image": "pages/media-69d004163092.webp",
     "heading": "Odpowiedzialna organizacja ma znaczenie.",
     "paragraphs": [
       "Dobre doświadczenia zaczynają się od odpowiedzialnej organizacji. W LONGWAVE stawiamy na komunikację z opiekunami i program dopasowany do uczestników.",
       "Wiek, poziom aktywności i warunki udziału zależą od konkretnego turnusu. Przed zgłoszeniem sprawdź jego opis w aplikacji. Jeśli potrzebujesz dodatkowych informacji o opiece lub programie, skontaktuj się z nami."
     ],
-    "facts": [
-      "Program i wiek",
-      "Kontakt z organizatorem",
-      "Zasady konkretnego turnusu"
-    ],
+    "facts": [],
     "gallery": [],
-    "related": [
-      "wyjazdy/obozy-dla-dzieci",
-      "o-longwave/ekipa",
-      "faq"
-    ],
+    "related": [],
     "cta": [
       "Zapytaj o organizację",
       "kontakt/#wybierz-temat"
@@ -557,34 +568,45 @@
         "items": []
       }
     ],
-    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków."
+    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków.",
+    "design": {
+      "eyebrow": "Zaufanie zaczyna się od informacji",
+      "portrait": {
+        "src": "first-aid.webp",
+        "alt": "Ćwiczenia pierwszej pomocy na fantomie podczas zajęć LONGWAVE",
+        "caption": "Uczymy się przez doświadczenie."
+      },
+      "photoNote": "Zdjęcie z zajęć LONGWAVE. Zakres aktywności i organizację opieki sprawdź w wybranej ofercie.",
+      "outro": "Dobra rozmowa przed pierwszym wyjazdem.",
+      "next": [
+        [
+          "Poznaj ekipę",
+          "o-longwave/ekipa"
+        ],
+        [
+          "Pytania i odpowiedzi",
+          "faq"
+        ]
+      ]
+    },
+    "heroPosition": "50% 35%",
+    "heroPositionMobile": "50% 35%"
   },
   {
     "route": "o-longwave/ekipa",
     "title": "Ludzie, których poznasz.",
     "kicker": "Ekipa LONGWAVE",
     "lead": "Zuzia, Tomek i ludzie, z którymi tworzymy wyjazdy, wydarzenia i miejsca.",
-    "image": "team.webp",
+    "image": "pages/media-688b659cda59.webp",
     "heading": "Jesteśmy częścią tej historii.",
     "paragraphs": [
       "Tworzymy LONGWAVE razem — od pierwszych pomysłów po kolejne realizacje. Rozmawiamy z klientami, planujemy programy, rozwijamy produkty i jesteśmy obecni na naszych wydarzeniach oraz obozach.",
       "To marka osobista: znamy ludzi, z którymi pracujemy, i chcemy, żeby każdy projekt miał sens oraz własną atmosferę. Łączą nas ruch, podróże i czas spędzony razem.",
       "Skład kadry zależy od terminu i programu. Jeśli chcesz poznać osoby prowadzące wybrany turnus, zapytaj nas przed wyjazdem."
     ],
-    "facts": [
-      "Zuzia i Tomek",
-      "Wspólne projekty",
-      "Ludzie z pasją"
-    ],
-    "gallery": [
-      "team.webp",
-      "together.webp"
-    ],
-    "related": [
-      "o-longwave",
-      "o-longwave/bezpieczenstwo",
-      "o-longwave/program-liderski"
-    ],
+    "facts": [],
+    "gallery": [],
+    "related": [],
     "cta": [
       "Poznajmy się",
       "kontakt/"
@@ -593,33 +615,53 @@
     "extra": "",
     "sections": [],
     "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków.",
-    "galleryAlts": [
-      "Ekipa LONGWAVE przy sprzęcie do sportów wodnych",
-      "Uczestnicy LONGWAVE spędzający razem czas nad wodą"
-    ]
+    "design": {
+      "eyebrow": "Markę tworzą ludzie",
+      "portrait": {
+        "src": "team.webp",
+        "alt": "Trzy osoby z ekipy LONGWAVE przy bazie sprzętu wodnego",
+        "caption": "Razem przy kolejnych projektach."
+      },
+      "wide": {
+        "src": "pages/media-cc665918a46a.webp",
+        "alt": "Grupa LONGWAVE z deskami podczas spotkania",
+        "caption": "Na deskach i poza nimi."
+      },
+      "detail": {
+        "src": "pages/media-eafa862b40e8.webp",
+        "alt": "Uczestnicy LONGWAVE przy wspólnym posiłku",
+        "caption": "Przy wspólnym stole."
+      },
+      "outro": "Poznajmy się nad wodą.",
+      "next": [
+        [
+          "Historia LONGWAVE",
+          "o-longwave"
+        ],
+        [
+          "Program liderski",
+          "o-longwave/program-liderski"
+        ]
+      ],
+      "galleryAnchor": true
+    },
+    "heroPosition": "50% 35%",
+    "heroPositionMobile": "50% 35%"
   },
   {
     "route": "o-longwave/club",
     "title": "Zostań na naszej fali.",
     "kicker": "LONGWAVE Club · Falki",
     "lead": "Wyjazd się kończy. Zajawka zostaje. Wracaj do swoich przygód w aplikacji LONGWAVE.",
-    "image": "together.webp",
+    "image": "pages/media-011021336446.webp",
     "heading": "Jedno miejsce dla Twoich wyjazdów.",
     "paragraphs": [
       "LONGWAVE Club i Falki są częścią naszej społeczności także pomiędzy wyjazdami. W aplikacji wrócisz do swoich zgłoszeń, informacji o uczestnikach i dostępnych funkcji programu.",
       "Zacznij od swojego konta LONGWAVE. Aktualne informacje o Falkach i dostępnych możliwościach sprawdzaj w aplikacji; w razie pytań napisz do zespołu."
     ],
-    "facts": [
-      "Twoje konto",
-      "Uczestnicy i zgłoszenia",
-      "Falki w aplikacji"
-    ],
+    "facts": [],
     "gallery": [],
-    "related": [
-      "wyjazdy/rodzinne",
-      "o-longwave/program-liderski",
-      "o-longwave"
-    ],
+    "related": [],
     "cta": [
       "Otwórz aplikację",
       "https://app.longwaveboards.com/"
@@ -653,14 +695,41 @@
         "items": []
       }
     ],
-    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków."
+    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków.",
+    "design": {
+      "eyebrow": "Na wodzie. I pomiędzy wyjazdami.",
+      "portrait": {
+        "src": "pages/media-3646a0f073f0.webp",
+        "alt": "Grupa przyjaciół LONGWAVE na trawie o zachodzie słońca",
+        "caption": "Kolejny wyjazd. Te same znajomości."
+      },
+      "wide": {
+        "src": "pages/media-91125ee98bd7.webp",
+        "alt": "Uczestnicy w kręgu wyciągają ręce w stronę nieba",
+        "caption": "Wspólna zajawka zostaje na dłużej."
+      },
+      "outro": "Widzimy się na kolejnej fali.",
+      "outroKicker": "LONGWAVE App & Club",
+      "next": [
+        [
+          "Wyjazdy rodzinne",
+          "wyjazdy/rodzinne"
+        ],
+        [
+          "Program liderski",
+          "o-longwave/program-liderski"
+        ]
+      ]
+    },
+    "heroPosition": "50% 45%",
+    "heroPositionMobile": "50% 45%"
   },
   {
     "route": "kontakt",
     "title": "Porozmawiajmy o Twojej przygodzie.",
     "kicker": "Kontakt LONGWAVE",
     "lead": "Obóz, wyjazd rodzinny, nocleg czy wspólny projekt? Jesteśmy tutaj.",
-    "image": "together.webp",
+    "image": "wybor-rodzina.webp",
     "heading": "Napisz albo zadzwoń.",
     "paragraphs": [
       "Masz pytanie o program, termin lub organizację wyjazdu? Napisz do nas — pomożemy znaleźć odpowiednią ofertę i wyjaśnimy kolejne kroki.",
@@ -668,11 +737,7 @@
     ],
     "facts": [],
     "gallery": [],
-    "related": [
-      "faq",
-      "o-longwave/bezpieczenstwo",
-      "wyjazdy/dla-szkol-i-grup"
-    ],
+    "related": [],
     "cta": null,
     "offers": null,
     "extra": "",
@@ -721,25 +786,41 @@
         ]
       }
     ],
-    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków."
+    "source": "Brief LONGWAVE 2.0, s. 11–15 i 19–20; materiały marki i publiczna aplikacja. Bez niepotwierdzonych świadczeń, kwalifikacji lub przeliczników Falków.",
+    "design": {
+      "eyebrow": "Porozmawiajmy",
+      "wide": {
+        "src": "pages/media-253d6b54ece7.webp",
+        "alt": "Dwie uczestniczki LONGWAVE w kamizelkach nad wodą",
+        "caption": "Do zobaczenia na wyjeździe."
+      },
+      "next": [
+        [
+          "Pytania i odpowiedzi",
+          "faq"
+        ],
+        [
+          "Dla szkół i grup",
+          "wyjazdy/dla-szkol-i-grup"
+        ]
+      ]
+    },
+    "heroPosition": "50% 42%",
+    "heroPositionMobile": "50% 42%"
   },
   {
     "route": "faq",
     "title": "Dobrze wiedzieć przed wyjazdem.",
     "kicker": "Pytania i odpowiedzi",
     "lead": "Pierwszy obóz, zapisy i pobyt nad wodą. Zebraliśmy odpowiedzi, od których warto zacząć.",
-    "image": "wybor-rodzina.webp",
+    "image": "pages/media-fdd100a3a20b.webp",
     "heading": "Pytaj śmiało.",
     "paragraphs": [
       "Wybierając wyjazd lub nocleg, sprawdź warunki konkretnej oferty. Program, dojazd, cena i wymagania mogą różnić się między terminami. Jeśli czegoś brakuje w opisie, odezwij się do nas przed rezerwacją."
     ],
     "facts": [],
     "gallery": [],
-    "related": [
-      "wyjazdy/obozy-dla-dzieci",
-      "noclegi/home-spot-jastarnia",
-      "kontakt"
-    ],
+    "related": [],
     "cta": [
       "Porozmawiaj z nami",
       "kontakt/"
@@ -792,6 +873,27 @@
         "answer": "Home Spot 2.0 jest obecnie zapowiedzią projektu. Informacje o miejscu i uruchomieniu rezerwacji pojawią się po potwierdzeniu szczegółów. Ogłoszenie projektu nie oznacza automatycznie otwarcia sprzedaży."
       }
     ],
-    "source": "Brief LONGWAVE 2.0, s. 13–15, 22–23; późniejsza decyzja właściciela: Home Spot 2.0 pozostaje zapowiedzią."
+    "source": "Brief LONGWAVE 2.0, s. 13–15, 22–23; późniejsza decyzja właściciela: Home Spot 2.0 pozostaje zapowiedzią.",
+    "design": {
+      "eyebrow": "Dobrze wiedzieć",
+      "portrait": {
+        "src": "together.webp",
+        "alt": "Uczestnicy LONGWAVE przy bazie nad wodą",
+        "caption": ""
+      },
+      "outro": "Nadal masz pytanie?",
+      "next": [
+        [
+          "Organizacja i bezpieczeństwo",
+          "o-longwave/bezpieczenstwo"
+        ],
+        [
+          "Home Spot Jastarnia",
+          "noclegi/home-spot-jastarnia"
+        ]
+      ]
+    },
+    "heroPosition": "50% 40%",
+    "heroPositionMobile": "50% 40%"
   }
 ]

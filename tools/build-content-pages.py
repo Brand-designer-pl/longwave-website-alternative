@@ -1,5 +1,6 @@
 """Build informational pages from public, owner-approved LONGWAVE source content."""
 from pathlib import Path
+from support_layouts import KINDS, render_support
 import html, json, re, os, importlib.util
 from urllib.parse import urlsplit, unquote
 ROOT=Path(__file__).resolve().parents[1]
@@ -60,6 +61,7 @@ def photo(route,path,alt,lazy=True):
  return f'<img src="{asset(route,path)}" alt="{E(alt)}" width="1440" height="960"'+(' loading="lazy"' if lazy else ' fetchpriority="high"')+' decoding="async">'
 def pill(route,label,url):return f'<a class="pill" href="{E(rel(route,url))}">{E(label)}{ARROW}</a>'
 def layout(route):
+ if route in KINDS:return KINDS[route]
  if route.startswith('eventy'):return 'events'
  if route.startswith('sklep-i-boards'):return 'collection'
  if route.startswith('o-longwave'):return 'community'
@@ -72,8 +74,6 @@ def footer(route):
  return '<footer class="footer"><div class="wrap footer-row"><a class="wordmark" href="'+rel(route,'')+'" aria-label="LONGWAVE, strona główna"><img src="'+asset(route,'logo.webp')+'" width="1920" height="1357" alt="" decoding="async"></a><nav aria-label="Stopka">'+''.join('<a href="'+rel(route,url)+'">'+label+'</a>' for url,label in links)+'</nav><div class="footer-meta"><span>LONGWAVE Zuzanna Przybylska · NIP 5842812617</span><a href="mailto:info@longwaveboards.com">info@longwaveboards.com</a><a href="tel:+48882334889">+48 882 334 889</a></div></div></footer>'
 def support_sections(route,page):
  out=''
- if route=='kontakt':
-  out+='<section class="wrap contact-direct" aria-label="Dane kontaktowe">'+pill(route,'info@longwaveboards.com','mailto:info@longwaveboards.com')+pill(route,'+48 882 334 889','tel:+48882334889')+'</section>'
  for i,s in enumerate(page.get('sections',[])):
   out+='<section class="support-band'+(' support-band--dark' if i%2 else '')+'" id="'+E(s['id'])+'"><div class="wrap section"><h2>'+E(s['title'])+'</h2><p class="support-lead">'+E(s['text'])+'</p>'
   if s.get('items'):
@@ -84,10 +84,11 @@ def support_sections(route,page):
  return out
 def shell(route,title,desc,body):
  prefix='../'*len([x for x in route.split('/') if x]); p=SITE/route/'index.html';p.parent.mkdir(parents=True,exist_ok=True)
- motion='' if route.startswith('blog/') or route=='sklep-i-boards/boards' else f'<script defer src="{prefix}content-motion.js?v=draw-20261117"></script>'
+ motion='' if route.startswith('blog/') or route=='sklep-i-boards/boards' else f'<script defer src="{prefix}content-motion.js?v=editorial-20261119"></script>'
  boards=f'<link rel="stylesheet" href="{prefix}boards.css?v=volume-20261118"><script defer src="{prefix}../vendor/gsap.min.js"></script><script defer src="{prefix}boards.js?v=wide-tyres-20261118"></script>' if route=='sklep-i-boards/boards' else ''
  carousel=f'<script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script>' if 'data-offers-track' in body else ''
- s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=brief-20261119"><link rel="stylesheet" href="{prefix}content-pages.css?v=brief-20261119"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script>{carousel}{motion}{boards}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ' boards-page' if route=='sklep-i-boards/boards' else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main>{footer(route)}</body></html>'''
+ support_css=f'<link rel="stylesheet" href="{prefix}support-layouts.css?v=editorial-20261119">' if route in KINDS else ''
+ s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=brief-20261119"><link rel="stylesheet" href="{prefix}content-pages.css?v=brief-20261119"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script>{carousel}{motion}{boards}{support_css}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ' boards-page' if route=='sklep-i-boards/boards' else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main>{footer(route)}</body></html>'''
  p.write_text(rewrite(s,route))
 def hero(route,title,kicker,lead,img):
  page=next((p for p in PAGES if p['route']==route),{})
@@ -99,7 +100,7 @@ def hero(route,title,kicker,lead,img):
  wide=' content-hero--wide' if page.get('heroMobileWide') else ''
  markup=f'<section class="content-hero{wide}" style="--hero-position:{E(focal)};--hero-position-mobile:{E(mobile)}"><div class="content-hero-photo">{photo(route,img,"",False)}</div><div class="wrap content-hero-inner"><div class="content-hero-copy"><a class="content-back" href="{rel(route,"")}">LONGWAVE / {E(kicker)}</a><h1>{E(title)}</h1><p>{E(lead)}</p><div class="content-hero-actions">{buttons}</div></div></div></section>'
  jumps=[('#szczegoly','Historia' if route.startswith('blog/') else 'Poznaj nas' if route.startswith('o-longwave') else 'Artykuły' if route=='blog' else 'W skrócie')]
- if page.get('gallery') or len(post.get('images',[]))>1:jumps.append(('#galeria','Galeria'))
+ if page.get('gallery') or page.get('design',{}).get('galleryAnchor') or len(post.get('images',[]))>1:jumps.append(('#galeria','Galeria'))
  if page.get('sections') and route!='kontakt':jumps.append(('#'+page['sections'][0]['id'],'Informacje'))
  if page.get('faq'):jumps.append(('#pytania','Pytania i odpowiedzi'))
  if route=='kontakt':jumps.append(('#wybierz-temat','Kontakt'))
@@ -129,6 +130,8 @@ def build():
  for p in PAGES:
   if p['route']=='sklep-i-boards/boards':
    shell(p['route'],'LONGWAVE Boards','Poznaj bambusowe deski LONGWAVE Board 140 i 100. Surferski ruch na lądzie i autorski system trucków.',(ROOT/'sources/boards-page.html').read_text());continue
+  if p['route'] in KINDS:
+   body=render_support(p,hero,photo,pill,ARROW);shell(p['route'],p['kicker'],p['lead'],body);continue
   r=p['route'];body=hero(r,p['title'],p['kicker'],p['lead'],p['image'])
   body+=f'<section class="wrap section content-intro" id="szczegoly">'+decoration(r,'board' if layout(r)=='collection' else 'wave')+f'<h2>{E(p["heading"])}</h2><div>'+''.join('<p>'+E(x)+'</p>' for x in p['paragraphs'])+'</div></section>'
   if p['facts']:body+='<section class="content-facts-band"><div class="wrap"><div class="content-facts">'+''.join('<div>'+WAVE+'<h3>'+E(x)+'</h3></div>' for x in p['facts'])+'</div></div></section>'
