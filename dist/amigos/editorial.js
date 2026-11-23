@@ -312,6 +312,7 @@ if (fullscreenMenu) {
 }
 
 function syncFilmControl(control, enabled, failed = false) {
+  if (!control) return; // Hero controls may intentionally be omitted by the design.
   control.setAttribute('aria-pressed', String(enabled));
   control.textContent = failed ? 'Ponów film w tle' : enabled ? 'Wyłącz film w tle' : 'Włącz film w tle';
 }
@@ -343,8 +344,8 @@ if (video) {
     });
   }
 
-  control.hidden = false;
-  control.addEventListener('click', () => {
+  if (control) control.hidden = false;
+  control?.addEventListener('click', () => {
     wantsPlayback = !wantsPlayback;
     updateFilm();
   });

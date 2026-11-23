@@ -600,3 +600,10 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
 /* Shared contact and document links, including original location pages. */
 .footer-row{flex-wrap:wrap}.footer-row nav{display:flex;flex-wrap:wrap;gap:12px 24px;max-width:760px}.footer-row nav a{padding:8px 0}.footer-meta{width:100%;display:flex;flex-wrap:wrap;gap:12px 28px;font-size:.8rem;line-height:1.7;border-top:1px solid #17262b22;padding-top:24px;margin-top:12px}.footer-meta a{overflow-wrap:anywhere}
 @media(max-width:650px){.footer-row nav{gap:8px 20px}.footer-meta{flex-direction:column;gap:8px}.footer-row{align-items:flex-start}}
+/* Shared participant-panel label from homepage brief 0471ef0cc78bf239. */
+.nav-shell .account-link>span{display:block;text-align:left;line-height:1.2}.nav-shell .account-link small{display:block;font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;margin-top:4px}
+@media(max-width:700px){.nav-shell .account-link>span{max-width:85px;font-size:.65rem;text-align:right}.nav-shell .account-link small{font-size:.46rem;letter-spacing:0}.nav-shell>.account-link>.icon{display:none}}
+
+/* Fullscreen participant-panel label also applies to all destination pages. */
+.mobile-menu-header .account-link small{display:block;font-size:.6rem;font-weight:400}.mobile-menu-header .account-link span{line-height:1.2}
+@media(max-width:700px){.mobile-menu-header .account-link{max-width:118px;white-space:normal}.mobile-menu-header .account-link small{font-size:.5rem}.mobile-menu-header .account-link>.icon{display:none}}

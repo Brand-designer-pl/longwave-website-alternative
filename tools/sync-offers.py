@@ -91,6 +91,9 @@ def replace(page, marker, markup):
     if count!=1: raise ValueError(f'Expected one {marker} marker in {page}')
     page.write_text(updated,encoding='utf-8')
 
+def homepage_cards(terms, prefix):
+    return "".join(card(t,prefix) for t in terms[:3]) or "<p>Sprawdź kolejne terminy w aplikacji LONGWAVE.</p>"
+
 def sync():
     public=json.loads(get(APP+'api/offers'))['offers']
     snapshot=json.loads(SOURCE.read_text()) if SOURCE.exists() else {'offers':[],'exportedAt':None}
@@ -103,7 +106,14 @@ def sync():
     (ROOT/'offers.json').write_text(json.dumps(dict(updatedAt=updated,items=public_terms),ensure_ascii=False))
     (ROOT/'amigos/location-offers.json').write_text(json.dumps(dict(updatedAt=updated,draftsExportedAt=snapshot['exportedAt'],items=[t for t in all_terms if t['location']]),ensure_ascii=False))
     for page,prefix in [(ROOT/'index.html',''),(ROOT/'amigos/index.html','../')]:
-        replace(page,'OFFERS',''.join(card(t,prefix) for t in public_terms[:3]) or '<p>Sprawdź kolejne terminy w aplikacji LONGWAVE.</p>')
+        replace(page,'OFFERS',homepage_cards(public_terms,prefix))
+    # Homepage brief 0471ef0cc78bf239: calendar and featured cards share this live catalog.
+    home=ROOT/'amigos/index.html'
+    if '<!-- HOME_TIMELINE_START -->' in home.read_text():
+        from home_offers import render
+        calendar,featured=render(public_terms)
+        replace(home,'HOME_TIMELINE',calendar)
+        replace(home,'HOME_FEATURED',featured)
     for key,label in LOCATIONS.items():
         terms=[t for t in all_terms if t['location']==key]
         markup=''.join(card(t,'../../../') for t in terms)

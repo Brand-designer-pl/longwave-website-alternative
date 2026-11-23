@@ -18,7 +18,8 @@ APP='https://app.longwaveboards.com/'
 OLD_OFFERS={'wyjazdy','wszystkie-wyjazdy','zapisy-2','jastarnia-surfing','boze-cialo','dabki1','golden-resort','jastarnia1','jastarnia5','wing-foil','zakonczenie-sezonu','zjazd-absolwentow'}
 # Historical booking links lead to today's catalogue, never to expired bookings.
 MAP.update({x:APP+'#oferty' for x in OLD_OFFERS})
-SOURCE_HEADER=re.search(r'<header class="nav-shell">.*?</header>',(SITE/'index.html').read_text(),re.S).group()
+HEADER_SOURCE=ROOT/'sources/homepage.html'
+SOURCE_HEADER=re.search(r'<header class="nav-shell">.*?</header>',(HEADER_SOURCE if HEADER_SOURCE.exists() else SITE/'index.html').read_text(),re.S).group()
 def rel(route,target):
  if target.startswith(('https:','mailto:','tel:')): return target
  u=urlsplit(target);path=u.path.rstrip('/')
@@ -88,7 +89,7 @@ def shell(route,title,desc,body):
  boards=f'<link rel="stylesheet" href="{prefix}boards.css?v=volume-20261118"><script defer src="{prefix}../vendor/gsap.min.js"></script><script defer src="{prefix}boards.js?v=wide-tyres-20261118"></script>' if route=='sklep-i-boards/boards' else ''
  carousel=f'<script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script>' if 'data-offers-track' in body else ''
  support_css=f'<link rel="stylesheet" href="{prefix}support-layouts.css?v=editorial-20261119">' if route in KINDS else ''
- s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=brief-20261119"><link rel="stylesheet" href="{prefix}content-pages.css?v=brief-20261119"><script defer src="{prefix}editorial.js?v=menu-photos-20261116"></script>{carousel}{motion}{boards}{support_css}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ' boards-page' if route=='sklep-i-boards/boards' else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main>{footer(route)}</body></html>'''
+ s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=home-0471ef-20261123"><link rel="stylesheet" href="{prefix}content-pages.css?v=brief-20261119"><script defer src="{prefix}editorial.js?v=home-0471ef-20261123"></script>{carousel}{motion}{boards}{support_css}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ' boards-page' if route=='sklep-i-boards/boards' else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main>{footer(route)}</body></html>'''
  p.write_text(rewrite(s,route))
 def hero(route,title,kicker,lead,img):
  page=next((p for p in PAGES if p['route']==route),{})
@@ -165,8 +166,11 @@ def build():
  generated={p['route'] for p in PAGES}|{p['route'] for p in legal_pages}|{'blog','o-longwave/opinie'}|{'blog/'+p['slug'] for p in POSTS}
  for file in SITE.rglob('index.html'):
   route=str(file.parent.relative_to(SITE));route='' if route=='.' else route
+  # The 0471ef homepage has its own source/template and intentional Home Spot link.
+  if not route and (ROOT/'sources/homepage.html').exists():continue
   if route in generated:continue
   text=file.read_text();base='../'*len([x for x in route.split('/') if x]) if route else ''
+  text=text.replace('editorial.js?v=menu-photos-20261116','editorial.js?v=home-0471ef-20261123').replace('editorial.css?v=brief-20261119','editorial.css?v=home-0471ef-20261123')
   # header() counts path components; the homepage has depth zero.
   text=rewrite(text,route) if route else rewrite(text,'')
   text=re.sub(r'<header class="nav-shell">.*?</header>',lambda _:re.search(r'<header.*?</header>',header(route),re.S).group(),text,flags=re.S)
