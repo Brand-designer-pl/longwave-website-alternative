@@ -1,0 +1,252 @@
+{
+  "home-spot-2-front": {
+    "src": "places/home-spot-2-front.webp",
+    "small": "places/home-spot-2-front-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Home Spot 2.0 — wizualizacja frontu i wspólnego tarasu",
+    "source": "sources/wetransfer_wiz_7-png_2026-11-23_1327 2/Wiz_1-2.png",
+    "bytes": 139046
+  },
+  "home-spot-2-lounge": {
+    "src": "places/home-spot-2-lounge.webp",
+    "small": "places/home-spot-2-lounge-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Home Spot 2.0 — wizualizacja strefy wypoczynku",
+    "source": "sources/wetransfer_wiz_7-png_2026-11-23_1327 2/Wiz_2-2.png",
+    "bytes": 103664
+  },
+  "home-spot-2-aerial": {
+    "src": "places/home-spot-2-aerial.webp",
+    "small": "places/home-spot-2-aerial-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Home Spot 2.0 — wizualizacja bryły z góry",
+    "source": "sources/wetransfer_wiz_7-png_2026-11-23_1327 2/Wiz_6.png",
+    "bytes": 244800
+  },
+  "dabki-domki": {
+    "src": "places/dabki-domki.webp",
+    "small": "places/dabki-domki-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Domki w ośrodku w Dąbkach",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/Zakwaterownaie DĄBKI/SAND_SURF_wind4you8.jpg",
+    "bytes": 180566
+  },
+  "dabki-pokoj": {
+    "src": "places/dabki-pokoj.webp",
+    "small": "places/dabki-pokoj-small.webp",
+    "width": 1280,
+    "height": 847,
+    "smallWidth": 640,
+    "alt": "Pokój z łóżkami w Dąbkach",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/Zakwaterownaie DĄBKI/SAND_SURF_wind4you4.jpg",
+    "bytes": 69446
+  },
+  "dabki-wnetrze": {
+    "src": "places/dabki-wnetrze.webp",
+    "small": "places/dabki-wnetrze-small.webp",
+    "width": 1280,
+    "height": 848,
+    "smallWidth": 640,
+    "alt": "Wnętrze pokoju w ośrodku w Dąbkach",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/Zakwaterownaie DĄBKI/SAND_SURF_wind4you6.jpg",
+    "bytes": 93482
+  },
+  "rodos-basen": {
+    "src": "places/rodos-basen.webp",
+    "small": "places/rodos-basen-small.webp",
+    "width": 1024,
+    "height": 740,
+    "smallWidth": 640,
+    "alt": "Basen i zabudowania ośrodka na Rodos",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie GRECJA/SAND_SURF_232855292.jpg",
+    "bytes": 123540
+  },
+  "rodos-pokoj": {
+    "src": "places/rodos-pokoj.webp",
+    "small": "places/rodos-pokoj-small.webp",
+    "width": 1017,
+    "height": 768,
+    "smallWidth": 640,
+    "alt": "Pokój w ośrodku na Rodos",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie GRECJA/SAND_SURF_235683922.jpg",
+    "bytes": 68354
+  },
+  "rodos-taras": {
+    "src": "places/rodos-taras.webp",
+    "small": "places/rodos-taras-small.webp",
+    "width": 1024,
+    "height": 739,
+    "smallWidth": 640,
+    "alt": "Zadaszony taras przy basenie na Rodos",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie GRECJA/SAND_SURF_232857699.jpg",
+    "bytes": 127838
+  },
+  "chorwacja-katamaran": {
+    "src": "places/chorwacja-katamaran.webp",
+    "small": "places/chorwacja-katamaran-small.webp",
+    "width": 1280,
+    "height": 719,
+    "smallWidth": 640,
+    "alt": "Katamaran na wodzie w Chorwacji",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie chorwacja katamaran/SAND_SURF_Jubilo_drone14.jpg",
+    "bytes": 248088
+  },
+  "chorwacja-kabina": {
+    "src": "places/chorwacja-kabina.webp",
+    "small": "places/chorwacja-kabina-small.webp",
+    "width": 1280,
+    "height": 855,
+    "smallWidth": 640,
+    "alt": "Kabina katamaranu",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie chorwacja katamaran/SAND_SURF_DSC00745.jpg",
+    "bytes": 84742
+  },
+  "chorwacja-poklad": {
+    "src": "places/chorwacja-poklad.webp",
+    "small": "places/chorwacja-poklad-small.webp",
+    "width": 1280,
+    "height": 823,
+    "smallWidth": 640,
+    "alt": "Miejsce do odpoczynku na pokładzie katamaranu",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie chorwacja katamaran/SAND_SURF_IMG_1900.jpg",
+    "bytes": 105356
+  },
+  "lazy-domki": {
+    "src": "places/lazy-domki.webp",
+    "small": "places/lazy-domki-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Domki w ośrodku w Łazach",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie ŁAZY/SAND_SURF_a_001.jpeg",
+    "bytes": 73426
+  },
+  "lazy-salon": {
+    "src": "places/lazy-salon.webp",
+    "small": "places/lazy-salon-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Część dzienna domku w Łazach",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie ŁAZY/SAND_SURF_domki_070.jpeg",
+    "bytes": 93964
+  },
+  "lazy-sypialnia": {
+    "src": "places/lazy-sypialnia.webp",
+    "small": "places/lazy-sypialnia-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Sypialnia z dwoma łóżkami w domku w Łazach",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterowanie ŁAZY/SAND_SURF_domki_078.jpeg",
+    "bytes": 48336
+  },
+  "jastarnia-kuchnia": {
+    "src": "places/jastarnia-kuchnia.webp",
+    "small": "places/jastarnia-kuchnia-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Wspólna kuchnia Home Spot Jastarnia",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterownie JASTARNIA/SAND_SURF_Strefa wspólna 1.JPG",
+    "bytes": 148288
+  },
+  "jastarnia-pokoj": {
+    "src": "places/jastarnia-pokoj.webp",
+    "small": "places/jastarnia-pokoj-small.webp",
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "alt": "Łóżka piętrowe w Home Spot Jastarnia",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterownie JASTARNIA/SAND_SURF_Zakwaterowanie 3.jpg",
+    "bytes": 203574
+  },
+  "jastarnia-domek": {
+    "src": "places/jastarnia-domek.webp",
+    "small": "places/jastarnia-domek-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Drewniany domek Home Spot Jastarnia",
+    "source": "sources/wetransfer_zakwaterowanie-foto_2026-11-24_1821/zakwaterownie JASTARNIA/SAND_SURF_home spot2.JPG",
+    "bytes": 125522
+  },
+  "lazy-longboard": {
+    "src": "places/lazy-longboard.webp",
+    "small": "places/lazy-longboard-small.webp",
+    "width": 1086,
+    "height": 1448,
+    "smallWidth": 600,
+    "alt": "Uczestnik obozu w Łazach z deską LONGWAVE",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/DD317417-908C-41D4-9DC3-37F5F7C4FDC6.PNG",
+    "bytes": 303636
+  },
+  "lazy-nauka": {
+    "src": "places/lazy-nauka.webp",
+    "small": "places/lazy-nauka-small.webp",
+    "width": 1152,
+    "height": 1536,
+    "smallWidth": 600,
+    "alt": "Wspólna nauka jazdy na desce podczas obozu",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/8522965B-584F-4F9D-889E-940F1212447A.JPEG",
+    "bytes": 353018
+  },
+  "lazy-grupa": {
+    "src": "places/lazy-grupa.webp",
+    "small": "places/lazy-grupa-small.webp",
+    "width": 1280,
+    "height": 991,
+    "smallWidth": 640,
+    "alt": "Uczestnicy LONGWAVE CAMP na plaży o zachodzie słońca",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/9D8CFFCC-17E5-4667-B2EA-DFA132AA24AC.JPEG",
+    "bytes": 161024
+  },
+  "lazy-plaza": {
+    "src": "places/lazy-plaza.webp",
+    "small": "places/lazy-plaza-small.webp",
+    "width": 1152,
+    "height": 1536,
+    "smallWidth": 600,
+    "alt": "Wspólny czas uczestników obozu na plaży",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/F1F0A822-1288-42E7-B0E1-C137EE9A0A63.JPEG",
+    "bytes": 213416
+  },
+  "lazy-zjezdzalnia": {
+    "src": "places/lazy-zjezdzalnia.webp",
+    "small": "places/lazy-zjezdzalnia-small.webp",
+    "width": 1152,
+    "height": 1536,
+    "smallWidth": 600,
+    "alt": "Uczestnik obozu przy zjeżdżalni w Łazach",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/22EDB218-E98E-4198-96E2-0948B401A534.JPEG",
+    "bytes": 162596
+  },
+  "lazy-gry": {
+    "src": "places/lazy-gry.webp",
+    "small": "places/lazy-gry-small.webp",
+    "width": 1152,
+    "height": 1536,
+    "smallWidth": 600,
+    "alt": "Gry przy stole podczas obozu w Łazach",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/DB7983E9-4BD0-4521-8834-6EB1E4D32671.JPEG",
+    "bytes": 225830
+  },
+  "lazy-ruch": {
+    "src": "places/lazy-ruch.webp",
+    "small": "places/lazy-ruch-small.webp",
+    "width": 1152,
+    "height": 1536,
+    "smallWidth": 600,
+    "alt": "Zajęcia ruchowe na trawie podczas obozu",
+    "source": "sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/EFB60DE0-54EC-43D2-9323-8005630E14DF.JPEG",
+    "bytes": 187650
+  }
+}

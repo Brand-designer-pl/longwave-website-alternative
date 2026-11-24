@@ -565,8 +565,8 @@ if (locationHero) {
     updateLocationFilm();
   });
 
-  control.hidden = false;
-  control.addEventListener('click', () => {
+  if (control) control.hidden = false;
+  control?.addEventListener('click', () => {
     enabled = !enabled;
     if (enabled && failed) {
       if (usesNativeFilm()) nativeVideo.load();

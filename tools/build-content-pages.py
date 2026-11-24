@@ -89,7 +89,7 @@ def shell(route,title,desc,body):
  boards=f'<link rel="stylesheet" href="{prefix}boards.css?v=volume-20261118"><script defer src="{prefix}../vendor/gsap.min.js"></script><script defer src="{prefix}boards.js?v=wide-tyres-20261118"></script>' if route=='sklep-i-boards/boards' else ''
  carousel=f'<script defer src="{prefix}offers-carousel.js?v=locations-20261116"></script>' if 'data-offers-track' in body else ''
  support_css=f'<link rel="stylesheet" href="{prefix}support-layouts.css?v=editorial-20261119">' if route in KINDS else ''
- s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=home-0471ef-20261123"><link rel="stylesheet" href="{prefix}content-pages.css?v=brief-20261119"><script defer src="{prefix}editorial.js?v=home-0471ef-20261123"></script>{carousel}{motion}{boards}{support_css}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ' boards-page' if route=='sklep-i-boards/boards' else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main>{footer(route)}</body></html>'''
+ s=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{E(title)} | LONGWAVE</title><meta name="description" content="{E(desc)}"><meta property="og:title" content="{E(title)} | LONGWAVE"><meta property="og:description" content="{E(desc)}"><link rel="icon" href="{asset(route,'favicon.webp')}"><link rel="stylesheet" href="{prefix}editorial.css?v=home-0471ef-20261123"><link rel="stylesheet" href="{prefix}content-pages.css?v=brief-20261119"><script defer src="{prefix}editorial.js?v=photos-20261124"></script>{carousel}{motion}{boards}{support_css}</head><body class="content-page content-layout-{layout(route)}{' content-article' if route.startswith('blog/') else ' boards-page' if route=='sklep-i-boards/boards' else ''}"><a class="skip" href="#main">Przejdź do treści</a>{header(route)}<main id="main">{body}</main>{footer(route)}</body></html>'''
  p.write_text(rewrite(s,route))
 def hero(route,title,kicker,lead,img):
  page=next((p for p in PAGES if p['route']==route),{})
@@ -170,7 +170,7 @@ def build():
   if not route and (ROOT/'sources/homepage.html').exists():continue
   if route in generated:continue
   text=file.read_text();base='../'*len([x for x in route.split('/') if x]) if route else ''
-  text=text.replace('editorial.js?v=menu-photos-20261116','editorial.js?v=home-0471ef-20261123').replace('editorial.css?v=brief-20261119','editorial.css?v=home-0471ef-20261123')
+  text=text.replace('editorial.js?v=menu-photos-20261116','editorial.js?v=photos-20261124').replace('editorial.css?v=brief-20261119','editorial.css?v=home-0471ef-20261123')
   # header() counts path components; the homepage has depth zero.
   text=rewrite(text,route) if route else rewrite(text,'')
   text=re.sub(r'<header class="nav-shell">.*?</header>',lambda _:re.search(r'<header.*?</header>',header(route),re.S).group(),text,flags=re.S)
@@ -180,5 +180,7 @@ def build():
   text=re.sub(r'<footer class="footer">.*?</footer>',lambda _:footer(route),text,flags=re.S)
   file.write_text(text)
  (ROOT/'sources/url-map.json').write_text(json.dumps(MAP,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
+ from place_photos import build as build_place_photos
+ build_place_photos()
  print('Generated',len(generated),'pages; migrated all shared navigation links.')
 if __name__=='__main__':build()
