@@ -68,3 +68,33 @@
   window.addEventListener('pageshow',()=>{active=true;update();});
   update();
 })();
+
+/* Sticky booking and touch-first gallery. No global scroll interception. */
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const bar = document.querySelector('.home-booking');
+  const menu = document.querySelector('#fullscreen-menu');
+  if (bar) {
+    const footer = document.querySelector('.home-footer');
+    let footerVisible = false, frame = 0;
+    const update = () => { frame = 0; bar.hidden = scrollY < 90 || footerVisible || !!menu?.open; };
+    const request = () => { if (!frame) frame = requestAnimationFrame(update); };
+    addEventListener('scroll', request, {passive:true});
+    addEventListener('resize', request, {passive:true});
+    if (footer) new IntersectionObserver(([entry]) => {footerVisible = entry.isIntersecting; update();}).observe(footer);
+    if (menu) new MutationObserver(update).observe(menu,{attributes:true,attributeFilter:['open']});
+    addEventListener('pagehide',()=>cancelAnimationFrame(frame));
+    update();
+  }
+  const gallery = document.querySelector('.social-filmstrip');
+  const controls = document.querySelector('.social-gallery-controls');
+  if (gallery && controls) {
+    const previous=controls.querySelector('[data-gallery-prev]'), next=controls.querySelector('[data-gallery-next]'), status=controls.querySelector('[data-gallery-status]');
+    const cards=[...gallery.children];
+    const update=()=>{previous.disabled=gallery.scrollLeft<2;next.disabled=gallery.scrollLeft+gallery.clientWidth>=gallery.scrollWidth-2;status.textContent=`${Math.min(cards.length,Math.round(gallery.scrollLeft/cards[0].getBoundingClientRect().width)+1)} / ${cards.length}`;};
+    const go=direction=>gallery.scrollBy({left:direction*cards[0].getBoundingClientRect().width,behavior:reduced.matches?'instant':'smooth'});
+    previous.addEventListener('click',()=>go(-1));next.addEventListener('click',()=>go(1));
+    gallery.addEventListener('keydown',event=>{if(event.target===gallery&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();go(event.key==='ArrowLeft'?-1:1);}});
+    gallery.addEventListener('scroll',update,{passive:true});new ResizeObserver(update).observe(gallery);controls.hidden=false;update();
+  }
+})();

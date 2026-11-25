@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1] / 'dist'
 SOURCE = ROOT.parent / 'sources/location-drafts.json'
 APP = 'https://app.longwaveboards.com/'
 LOCATIONS = {'jastarnia':'Jastarnia', 'lazy':'Łazy', 'dabki':'Dąbki', 'rodos':'Rodos'}
-ARROW = '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg>'
+ARROW = '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15"/></svg>'
 def get(url):
     with urllib.request.urlopen(url, timeout=30) as r: return r.read()
 def esc(v): return html.escape(str(v), quote=True)

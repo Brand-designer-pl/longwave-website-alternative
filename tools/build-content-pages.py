@@ -8,7 +8,7 @@ SITE=ROOT/'dist/amigos'
 PAGES=json.loads((ROOT/'sources/content-pages.json').read_text())
 POSTS=json.loads((ROOT/'sources/blog-posts.json').read_text())
 E=lambda s:html.escape(str(s),quote=True)
-ARROW='<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg>'
+ARROW='<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15"/></svg>'
 CONTROLS='<div class="offers-controls" data-offers-controls hidden><span data-offers-status aria-live="polite" aria-atomic="true"></span><div><button class="offer-arrow" data-prev type="button" aria-label="Poprzedni termin" aria-controls="content-offers-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><button class="offer-arrow" data-next type="button" aria-label="Następny termin" aria-controls="content-offers-track"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg></button></div></div>'
 WAVE='<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 13c5-8 9 8 14 0s9 8 14 0M2 22c5-8 9 8 14 0s9 8 14 0"/></svg>'
 MAP={'eventy':'eventy','dla-firm':'eventy/dla-firm','surf-party':'eventy/surf-party','vanlife':'eventy/vanlife','boards':'sklep-i-boards/boards','boards-2':'sklep-i-boards/boards','blog':'blog','o-nas':'o-longwave','program-liderski':'o-longwave/program-liderski','campy':'wyjazdy/obozy-dla-dzieci','kategoria/rodzinne':'wyjazdy/rodzinne','kategoria/zagraniczne':'wyjazdy/zagraniczne','hiszpania':'noclegi/apartament-hiszpania','kontakt':'#kontakt'}

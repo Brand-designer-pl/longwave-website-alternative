@@ -248,5 +248,85 @@
     "alt": "Zajęcia ruchowe na trawie podczas obozu",
     "source": "../strona-www/sources/wetransfer_zdjecia-oferta-lazy_2026-11-24_1043/piaskowe/EFB60DE0-54EC-43D2-9323-8005630E14DF.JPEG",
     "bytes": 187650
+  },
+  "jastarnia-ekipa": {
+    "src": "places/jastarnia-ekipa.webp",
+    "small": "places/jastarnia-ekipa-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Ekipa LONGWAVE przed wspólnym wyjściem na wodę",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/79A4E713-9D9F-4456-9D4C-DAD8BEA79382.JPEG",
+    "bytes": 416178
+  },
+  "jastarnia-zagle": {
+    "src": "places/jastarnia-zagle.webp",
+    "small": "places/jastarnia-zagle-small.webp",
+    "width": 1200,
+    "height": 675,
+    "smallWidth": 600,
+    "alt": "Kolorowe żagle na wodzie w Jastarni",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/2762F4D4-E4DA-41C8-85B0-C3AF83B3BA92.JPEG",
+    "bytes": 108582
+  },
+  "jastarnia-zachod": {
+    "src": "places/jastarnia-zachod.webp",
+    "small": "places/jastarnia-zachod-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Wieczorne światło nad plażą w Jastarni",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/C23B21F4-F7D0-44D1-927E-1F85C3BAE457.JPEG",
+    "bytes": 228540
+  },
+  "jastarnia-woda": {
+    "src": "places/jastarnia-woda.webp",
+    "small": "places/jastarnia-woda-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Uczestniczka obozu w Jastarni po zajęciach na wodzie",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/1D16CBD9-70E8-4FB0-8EBA-11A2BC59F0F1.JPEG",
+    "bytes": 150766
+  },
+  "jastarnia-tenis": {
+    "src": "places/jastarnia-tenis.webp",
+    "small": "places/jastarnia-tenis-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Aktywny dzień na korcie podczas obozu",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/3B093CBA-81F9-4176-97B1-9F29554AFF61.JPEG",
+    "bytes": 293310
+  },
+  "jastarnia-wspomnienia": {
+    "src": "places/jastarnia-wspomnienia.webp",
+    "small": "places/jastarnia-wspomnienia-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Zdjęcie z wyjazdu na tle plaży",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/9032CB0B-C5D0-49E5-9756-85F7AF56EE50.JPEG",
+    "bytes": 105824
+  },
+  "jastarnia-relaks": {
+    "src": "places/jastarnia-relaks.webp",
+    "small": "places/jastarnia-relaks-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Chwila z książką w Home Spot Jastarnia",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/B467CD71-560B-4D1F-B9D0-28D7185FDF08 2.JPEG",
+    "bytes": 204506
+  },
+  "jastarnia-windsurfing": {
+    "src": "places/jastarnia-windsurfing.webp",
+    "small": "places/jastarnia-windsurfing-small.webp",
+    "width": 1050,
+    "height": 1400,
+    "smallWidth": 600,
+    "alt": "Windsurfing podczas wyjazdu LONGWAVE",
+    "source": "../strona-www/sources/JASTARNIA PIASKOWA/29BA196C-5140-4128-9EA5-C84EDA28FBD6.JPEG",
+    "bytes": 227064
   }
 }

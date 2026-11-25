@@ -6,7 +6,7 @@ from html import escape as E
 from urllib.parse import urlencode
 
 MONTHS = ('Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień')
-ARROW = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg>'
+ARROW = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15"/></svg>'
 
 def link(t):
     return E('https://app.longwaveboards.com/?'+urlencode({'offer':t['offerId'],'term':t['termId']}),quote=True)

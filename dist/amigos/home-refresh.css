@@ -26,3 +26,86 @@
 .home-footer .footer-shore{height:auto;min-height:45px;background:var(--paper);display:flex;align-items:end}.footer-shore img{width:100%;height:auto;min-height:45px;object-fit:cover;object-position:center bottom}
 .home-footer-grid>nav{display:block}.home-footer-grid>nav h3{width:100%}
 @media(max-width:700px){.calendar-nav button{display:grid;grid-template-columns:1fr 16px;grid-template-rows:auto auto;text-align:left;min-height:74px}.calendar-nav button span{grid-column:1}.calendar-nav button small{grid-column:1;grid-row:2}.calendar-nav button .icon{grid-column:2;grid-row:1/3}}
+
+/* Client checklist 25.11: cocoa, compact editorial cards and unframed photography.
+   Display/hand font variables are ready for the client's licensed webfont files. */
+.home-refresh{--cocoa:#594536;--ocean:var(--cocoa);--ink:var(--cocoa);--teal:#88664c;--display-font:"Druk Wide",Manrope,Arial,sans-serif;--hand-font:"Sticky RG","Bradley Hand","Segoe Print",cursive;color:var(--cocoa)}
+.home-refresh h1,.home-refresh h2,.home-refresh h3{font-family:var(--display-font)}
+.home-refresh .hero-copy h1,.home-refresh .hero-copy>p{color:#fff4c8}
+.home-refresh .hero-row h1{max-width:17ch;font-size:clamp(2.5rem,5.6vw,6rem);line-height:1.05;letter-spacing:-.045em}
+.home-refresh .hero-copy>p:not(.kicker){max-width:65ch;font-size:clamp(.95rem,1.2vw,1.16rem);line-height:1.65;margin-top:24px}
+.home-refresh .hero-row{align-items:end}.home-refresh .hero-copy{max-width:860px}
+.home-refresh .hero-mark{width:140px;margin-bottom:28px}
+.home-refresh .hero-veil{background:linear-gradient(180deg,rgba(25,18,14,.66),rgba(25,18,14,.08) 35%,rgba(25,18,14,.76))}
+.home-refresh h2{font-size:clamp(2.15rem,4.4vw,4.6rem);line-height:1.06}
+.home-refresh .calendar-heading{align-items:start;gap:30px}.calendar-heading>p{max-width:48ch;font-size:.94rem;line-height:1.65}
+.home-refresh .sketch-link em{font-family:var(--hand-font);font-style:normal;font-weight:700;color:#d95022;font-size:1.6rem}
+.home-refresh .calendar-heading h3,.home-refresh .home-calendar,.home-refresh .calendar-date{font-family:var(--hand-font)}
+.home-refresh .home-calendar{border:0;margin-top:40px}.home-refresh .calendar-panel{border-radius:14px;margin-top:12px;padding:24px 30px}
+.home-refresh .calendar-term{border-color:#59453625}.home-refresh .calendar-date{font-size:1rem}.home-refresh .calendar-term strong{font-size:1.1rem}.home-refresh .calendar-term small{font-size:.9rem}.home-refresh .calendar-term:hover{color:#8a4a2c}
+.calendar-nav{position:relative;isolation:isolate;gap:0;padding-bottom:20px}
+.calendar-nav button{position:relative;display:flex;flex-direction:column;justify-content:start;align-items:center;gap:2px;font-size:1.5rem;padding:14px 10px 28px;min-height:115px}
+.calendar-nav button small{margin:0;font-size:.9rem}.calendar-nav button .icon{display:none}
+.calendar-nav button::after{content:"";position:absolute;bottom:9px;left:50%;width:12px;height:12px;border:2px solid var(--cocoa);background:var(--paper);border-radius:47% 53% 51% 49%;transform:translateX(-50%) rotate(-8deg);z-index:1}
+.calendar-nav button::before{content:"";position:absolute;bottom:15px;left:0;right:0;height:7px;background:var(--cocoa);clip-path:polygon(0 34%,22% 15%,44% 40%,67% 28%,100% 48%,100% 71%,67% 53%,44% 66%,22% 44%,0 63%);opacity:.65}
+.home-refresh .calendar-nav button[aria-expanded=true]{background:transparent;color:var(--cocoa)}
+.calendar-nav button[aria-expanded=true]::after{background:var(--cocoa);box-shadow:0 0 0 5px #59453615}
+.calendar-nav button[aria-expanded=true]>span{transform:rotate(-3deg);text-decoration:underline;text-decoration-style:wavy;text-underline-offset:7px;text-decoration-thickness:1px}
+/* Featured trips sit like loose notes beside the calendar instead of framed prints. */
+.featured-trips{max-width:1060px;gap:55px;margin:64px 0 24px auto;align-items:start}
+.taped-trip{background:transparent;padding:0;box-shadow:none;transform:rotate(-2deg)}.taped-trip:nth-child(even){transform:rotate(2deg);margin-top:35px}
+.taped-photo{aspect-ratio:1.8;border-radius:10px}.taped-caption{padding:18px 0 0}.taped-caption h3{font-size:clamp(1.3rem,2.1vw,2rem);line-height:1.2}
+.paper-tape{top:22px;left:-20px;max-width:85%;padding:10px 27px;background:#f5ce4e;color:#392b1f;font:700 clamp(1.2rem,2.1vw,1.8rem)/1.3 var(--hand-font);transform:rotate(-11deg);clip-path:polygon(3% 0,98% 3%,96% 15%,100% 28%,97% 43%,99% 62%,96% 80%,98% 99%,2% 96%,4% 80%,0 64%,3% 49%,1% 28%,4% 13%)}
+.taped-trip:nth-child(even) .paper-tape{left:auto;right:-12px;top:auto;bottom:96px;transform:rotate(8deg)}
+/* Larger photo share, shorter cards; text is never cropped or line-clamped. */
+.home-slide,.community-slide{grid-template-columns:1.35fr 1fr;padding:14px;gap:clamp(24px,3vw,48px);align-items:center}
+.home-slide figure,.community-slide figure{height:100%;aspect-ratio:1.65;min-height:340px;max-height:440px}
+.home-slide>div,.why-slide:nth-child(even)>div{padding:20px 24px 20px 0}.why-slide:nth-child(even)>figure{order:0}
+.home-slide h3{font-size:clamp(1.55rem,2.5vw,2.65rem);line-height:1.15;letter-spacing:-.035em;margin-bottom:16px}
+.home-slide p:not(.kicker){font-size:clamp(.9rem,1vw,1rem);line-height:1.65}.home-slide .kicker{font-size:.65rem;margin-bottom:12px}.home-slide .pill{margin-top:20px}
+.home-refresh h2.community-title{font:700 .85rem/1.5 ui-monospace,monospace;letter-spacing:.12em;max-width:none}
+.home-refresh main>#zycie,.home-refresh main>#aplikacja{background:var(--cocoa);color:var(--paper)}
+.home-refresh #zycie .section-heading{align-items:center}.home-refresh #zycie .kicker{margin:0;font-size:clamp(.8rem,1.3vw,1.1rem)}
+.social-gallery{position:relative;margin-top:34px}.social-filmstrip{padding:0;gap:0;align-items:stretch;scroll-snap-type:x mandatory;scrollbar-width:none}
+.social-filmstrip figure,.social-filmstrip figure:nth-child(2n){flex:0 0 25%;max-width:none;aspect-ratio:3/4;border-radius:0;scroll-snap-align:start}
+.social-gallery-controls{display:flex;align-items:center;justify-content:center;gap:24px;margin:24px var(--pad) 0}.social-gallery-controls button{width:46px;height:46px;border:0;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--cocoa)}.social-gallery-controls button:disabled{opacity:.35}.social-gallery-controls span{font:.8rem ui-monospace,monospace}
+.vibe-marquee{margin-top:30px;border:0}.vibe-track span{font:700 clamp(1.3rem,2.5vw,2.3rem)/1.5 var(--hand-font)}
+.home-refresh #aplikacja .app-copy .kicker{color:var(--paper)}.app-copy .pill{color:var(--cocoa)}
+.home-refresh main>.instagram-section{padding-inline:0;max-width:none}
+.instagram-section>.kicker,.instagram-section>.section-heading{padding-inline:var(--pad);max-width:1560px;margin-inline:auto}
+.instagram-section>.section-heading{justify-content:center;gap:32px;align-items:center}
+.instagram-profile{display:flex;gap:16px;align-items:center}.instagram-profile>img{width:64px;height:64px;object-fit:contain;border:1px solid #59453630;border-radius:50%;padding:10px}
+.home-refresh .instagram-profile h2{font:800 1.1rem/1.4 Manrope,Arial,sans-serif;letter-spacing:0}.instagram-profile span{font-size:.9rem}
+.instagram-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:34px}
+.instagram-grid a,.instagram-grid a:nth-child(even),.instagram-grid a:nth-child(3n+2){position:relative;aspect-ratio:1;border-radius:0;margin:0;transform:none}
+.instagram-grid a>img{width:100%;height:100%;object-fit:cover}
+.instagram-caption{position:absolute;inset:0;padding:clamp(16px,2.3vw,36px);background:#21170fde;color:#fffbea;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:22px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;font-size:clamp(.85rem,1.2vw,1.05rem);line-height:1.6}
+.instagram-caption small{font-size:.72rem;text-decoration:underline;text-underline-offset:4px}.instagram-grid a:hover .instagram-caption,.instagram-grid a:focus-visible .instagram-caption{opacity:1;transform:none}
+.home-footer-grid h3{color:#fff4c8}.footer-socials{display:flex;gap:18px;flex-wrap:wrap}.home-footer-grid .footer-socials a{display:inline-block}
+.home-booking{position:fixed;z-index:35;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(850px,calc(100% - 36px));display:flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 14px 12px 30px;background:#fffbeaef;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:100px;box-shadow:0 8px 36px #21170f22;color:var(--cocoa)}
+.home-booking strong,.home-booking span{display:block}.home-booking strong{font-size:1rem}.home-booking span{font-size:.75rem;margin-top:3px}.home-booking .pill{background:#171411;color:#fffbea;white-space:nowrap}
+.home-refresh:has(.home-booking:not([hidden])){scroll-padding-bottom:110px}.home-refresh .home-footer{padding-bottom:120px}
+.home-refresh .icon{stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:1000px){.home-slide figure,.community-slide figure{min-height:310px}.home-slide>div,.why-slide:nth-child(even)>div{padding:12px}.home-slide,.community-slide{gap:22px}.social-filmstrip figure,.social-filmstrip figure:nth-child(2n){flex-basis:33.333%}}
+@media(max-width:700px){
+ .home-refresh .hero-mark{width:100px;margin-bottom:24px}.home-refresh .hero-row h1{font-size:clamp(2.1rem,8vw,3rem)}.home-refresh .hero-row{gap:24px}.home-refresh .hero-copy>p:not(.kicker){font-size:.94rem;line-height:1.6;margin-top:18px}
+ .calendar-nav button{display:flex;flex:0 0 128px;font-size:1.35rem;min-height:110px;padding:10px 8px 34px}.calendar-nav button small{font-size:.85rem}.calendar-nav{padding-bottom:10px}.home-refresh .calendar-panel{padding:20px 16px}.home-refresh .calendar-term strong{font-size:1rem}
+ .featured-trips{max-width:none;gap:40px;margin:52px 10px 20px}.taped-trip:nth-child(even){margin-top:0}.paper-tape{left:-12px;top:18px}.taped-trip:nth-child(even) .paper-tape{bottom:110px}
+ .home-slide,.community-slide{grid-template-columns:1fr;padding:10px;gap:16px;flex-basis:94%}.home-slide figure,.community-slide figure{height:auto;min-height:0;max-height:none;aspect-ratio:1.5}.home-slide>div,.why-slide:nth-child(even)>div{padding:8px 12px 18px}.home-slide h3{font-size:1.6rem}.home-slide p:not(.kicker){font-size:.9rem;line-height:1.6}
+ .social-filmstrip figure,.social-filmstrip figure:nth-child(2n){flex-basis:76%;max-width:360px;aspect-ratio:3/4}.home-refresh #zycie .section-heading{flex-direction:row;gap:20px}.home-refresh #zycie .pill{font-size:.7rem;padding:10px 14px}
+ .instagram-section>.section-heading{flex-direction:row;flex-wrap:wrap;justify-content:start;gap:20px}.instagram-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.instagram-grid a{aspect-ratio:3/4}.instagram-caption{font-size:.78rem;gap:10px;padding:14px}.instagram-caption small{font-size:.65rem}
+ .home-booking{width:calc(100% - 24px);gap:10px;padding:10px 10px 10px 18px;bottom:max(12px,env(safe-area-inset-bottom))}.home-booking strong{font-size:.78rem}.home-booking span{font-size:.64rem;max-width:23ch}.home-booking .pill{font-size:.72rem;padding:14px 16px;gap:8px}
+}
+@media(hover:none){.instagram-caption{opacity:1;transform:none;justify-content:end;background:linear-gradient(transparent 30%,#21170fe6);text-align:left}.instagram-caption small{display:none}}
+@media(prefers-reduced-motion:reduce){.instagram-caption{transition:none;transform:none}}
+/* Original LONGWAVE archive illustrations, kept away from readable copy. */
+.journey-section,.community-section{position:relative;isolation:isolate}
+.brand-decoration{position:absolute;pointer-events:none;z-index:-1;object-fit:contain}
+.brand-decoration-leaf{width:clamp(100px,17vw,240px);right:20px;top:12px;opacity:.24;transform:rotate(10deg)}
+.brand-decoration-sun{width:clamp(90px,12vw,175px);right:7%;top:22px;transform:rotate(-9deg);opacity:.8}
+.instagram-grid a,.instagram-grid a:nth-child(even),.instagram-grid a:nth-child(3n+2){display:block;align-self:stretch;height:auto;aspect-ratio:1;min-width:0;min-height:0}
+.instagram-grid a>img{position:absolute;inset:0}
+@media(max-width:700px){.instagram-grid a,.instagram-grid a:nth-child(even),.instagram-grid a:nth-child(3n+2){aspect-ratio:3/4}.brand-decoration-sun{width:85px;top:0;right:5%}}
+
+/* Paint the native video poster immediately while the complete movie buffers. */
+.home-refresh .hero-film[poster]{opacity:1}

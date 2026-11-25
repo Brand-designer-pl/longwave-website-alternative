@@ -322,20 +322,20 @@ if (video) {
   const control = document.querySelector('.film-control');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const smallScreen = matchMedia('(max-width: 650px)');
-  let wantsPlayback = !reducedMotion.matches;
+  let wantsPlayback = !reducedMotion.matches && !navigator.connection?.saveData;
   let visible = false;
 
   function updateFilm() {
     syncFilmControl(control, wantsPlayback);
-    if (!wantsPlayback || !visible || document.hidden || ((fullscreenMenu || compactMenu.matches) && menu.open)) {
+    if (!wantsPlayback || navigator.connection?.saveData || !visible || document.hidden || ((fullscreenMenu || compactMenu.matches) && menu.open)) {
       video.pause();
       return;
     }
 
     if (!video.src) {
       video.src = smallScreen.matches
-        ? 'festival-mobile.mp4'
-        : 'festival-desktop.mp4';
+        ? (video.dataset.mobileSrc || 'festival-mobile.mp4')
+        : (video.dataset.desktopSrc || 'festival-desktop.mp4');
     }
     video.play().catch(error => {
       if (error.name === 'AbortError') return;
@@ -361,6 +361,7 @@ if (video) {
     if (reducedMotion.matches) video.classList.remove('is-playing');
     updateFilm();
   });
+  navigator.connection?.addEventListener('change', updateFilm);
   document.addEventListener('visibilitychange', updateFilm);
   menu.addEventListener('toggle', updateFilm);
   new IntersectionObserver(([entry]) => {
