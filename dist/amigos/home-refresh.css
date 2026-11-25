@@ -109,3 +109,9 @@
 
 /* Paint the native video poster immediately while the complete movie buffers. */
 .home-refresh .hero-film[poster]{opacity:1}
+
+/* Keep glass CTA text and animated fills in the homepage cocoa palette. */
+.home-refresh :is(.pill,.account-link,.film-control,.round-arrow){--button-fill:var(--cocoa)}
+body.home-refresh .hero .pill{color:var(--cocoa)}
+body.home-refresh .hero .pill:focus-visible{color:#fffbea}
+@media(hover:hover) and (pointer:fine){body.home-refresh .hero .pill:hover{color:#fffbea}}
