@@ -28,5 +28,11 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+      # Allow the uploaded artifact metadata to become visible to the Pages API.
+      - name: Wait for artifact indexing
+        run: sleep 10
       - uses: actions/deploy-pages@v4
         id: deployment
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
