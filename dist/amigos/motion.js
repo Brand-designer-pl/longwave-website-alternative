@@ -26,7 +26,8 @@
       });
     }
 
-    gsap.utils.toArray('main .section').forEach(section => {
+    // The refreshed homepage has a dedicated one-time entrance controller.
+    if (!document.body.classList.contains('home-refresh')) gsap.utils.toArray('main .section').forEach(section => {
       if (section.hidden) return;
 
       const heading = section.querySelector('h1, h2');
