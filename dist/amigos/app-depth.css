@@ -1,0 +1,49 @@
+/* A layered, decorative reconstruction of the real LONGWAVE application. */
+.home-refresh #aplikacja{column-gap:clamp(48px,8vw,120px);padding-block:clamp(80px,8vw,130px)}
+.home-refresh #aplikacja .app-depth{width:min(100%,350px);max-width:350px;transform:none;container-type:inline-size;justify-self:center;position:relative;isolation:isolate}
+.app-depth-stage{width:100%;aspect-ratio:1/2.02;position:relative;perspective:1300px;touch-action:pan-y}
+.app-phone-pose{position:absolute;inset:0;transform:rotate(-6deg) rotateY(-9deg) rotateX(3deg);transform-style:preserve-3d}
+.app-phone-tilt{position:absolute;inset:0;transform-style:preserve-3d}
+.app-phone-body{position:absolute;inset:0;border-radius:14%/7%;background:linear-gradient(115deg,#a4a6a9,#323538 14%,#74777a 48%,#16181a 75%,#686b6e);box-shadow:28px 40px 60px #0009,inset 0 0 0 1px #ffffff30}
+.app-phone-body::before{content:"";position:absolute;inset:3px;border-radius:inherit;background:#08090b}
+.app-side-key{position:absolute;left:-3px;top:24%;width:3px;height:9%;border-radius:3px;background:#616367;box-shadow:0 -40px 0 -1px #616367}
+.app-phone-wallpaper{position:absolute;inset:2.1% 4.2%;border-radius:10%/5%;overflow:hidden;background:#173a49;transform:translateZ(3px)}
+#aplikacja .app-phone-wallpaper img{width:100%;height:100%;object-fit:cover;object-position:42% center;opacity:.88}
+.app-phone-wallpaper::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#101a2859,transparent 30%,#09253570 85%,#1525359c)}
+.app-phone-island{position:absolute;top:2.1%;left:34%;width:32%;height:3.5%;background:#090a0c;border-radius:0 0 18px 18px;transform:translateZ(9px)}
+.app-phone-home{position:absolute;bottom:2.9%;left:35%;width:30%;height:3px;background:#fff9;border-radius:3px;transform:translateZ(10px)}
+.app-plane{position:absolute;transform-style:preserve-3d;backface-visibility:hidden}
+.app-ui-enter{height:100%;width:100%}
+.app-depth svg{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app-ui-status{top:4.8%;left:10%;right:10%;display:flex;justify-content:space-between;align-items:center;color:#fff;font:700 11px/1 Arial,sans-serif;font-size:3.2cqw;transform:translateZ(10px)}
+.app-ui-status svg{width:42px;height:14px}
+.app-ui-brand{top:10%;left:36%;width:28%;height:9%;transform:translateZ(15px)}
+#aplikacja .app-ui-brand img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
+.app-ui-heading{top:22%;left:9%;right:7%;font:700 31px/1.08 Manrope,Arial,sans-serif;font-size:9cqw;letter-spacing:-.06em;color:#fff;transform:translateZ(28px)}
+.app-ui-search{top:36%;left:9%;right:9%;height:6.5%;transform:translateZ(40px)}
+.app-ui-search .app-ui-enter{display:flex;align-items:center;gap:9px;padding:0 14px;background:#fffffff0;border-radius:99px;box-shadow:0 8px 16px #0002;color:#6d7279;font-size:3.7cqw}
+.app-ui-search span{flex:1}
+.app-ui-recommended{top:46%;left:9%;right:7%;color:#fff;transform:translateZ(25px)}
+.app-ui-recommended .app-ui-enter{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:4.1cqw;letter-spacing:-.03em}
+.app-ui-recommended small{font-size:2.6cqw;color:#e9eef0}
+.app-ui-card{top:51%;height:31%;color:#fff}
+.app-ui-card .app-ui-enter{position:relative;isolation:isolate;border-radius:20px;overflow:hidden;background:#12313d;box-shadow:0 15px 22px #0006,0 0 0 1px #ffffff30}
+#aplikacja .app-ui-card img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.app-ui-card .app-ui-enter::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 18%,#101a2b26 35%,#101a2bf2 100%)}
+.app-ui-card-front{left:5%;width:78%;transform:translateZ(64px)}
+.app-ui-card-back{left:65%;width:31%;top:53%;height:28%;transform:translateZ(30px)}
+.app-ui-card-back img{object-position:55% center}
+.app-card-tag{position:absolute;top:12px;left:12px;padding:6px 9px;border-radius:99px;background:#fff;color:#17212c;font-size:2.5cqw;font-weight:800;letter-spacing:.02em}
+.app-card-copy{position:absolute;bottom:14px;left:14px;right:14px;line-height:1.2}
+.app-card-copy strong{display:block;font-size:6.2cqw;font-weight:800;letter-spacing:-.04em}
+.app-card-copy small{display:block;margin-top:6px;font-size:3cqw;color:#d5dfe7}
+.app-card-link{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;padding:9px 12px;background:#fff;color:#17212c;border-radius:99px;font-size:3cqw;font-weight:800}
+.app-ui-card-back .app-card-copy{left:8px;right:4px;bottom:18px}.app-ui-card-back strong{font-size:4cqw}.app-ui-card-back small{font-size:2.6cqw}
+.app-ui-dock{left:7%;right:7%;bottom:6%;height:9%;transform:translateZ(45px)}
+.app-ui-dock .app-ui-enter{display:flex;align-items:stretch;padding:5px;border-radius:22px;background:linear-gradient(135deg,#ffffffed,#e5edf4eb);box-shadow:0 10px 24px #0005;border:1px solid #fff8;color:#56616c}
+.app-ui-dock span{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:2.6cqw;letter-spacing:-.02em;white-space:nowrap}
+.app-ui-dock svg{width:18px;height:18px}
+.app-ui-dock .app-dock-active{background:#293342;color:#fff;border-radius:17px}
+@media(max-width:900px) and (min-width:701px){.home-refresh #aplikacja{column-gap:45px}.app-ui-card .app-ui-enter{border-radius:16px}.app-card-copy{left:10px;right:10px;bottom:10px}.app-card-link{margin-top:8px;padding:7px 9px}.app-card-tag{top:8px;left:8px;padding:5px 7px}}
+@media(max-width:700px){.home-refresh #aplikacja{gap:56px;padding-block:64px}.home-refresh #aplikacja .app-depth{width:min(80vw,290px);max-width:290px}.app-phone-pose{transform:rotate(-4deg)}.app-ui-card-front{left:7%}.app-ui-card .app-ui-enter{border-radius:17px}.app-card-tag{top:9px;left:9px;padding:5px 7px}.app-card-copy{left:12px;right:12px;bottom:12px}.app-card-link{margin-top:10px;padding:8px 10px}.app-ui-search .app-ui-enter{gap:7px;padding-inline:12px}.app-ui-dock .app-ui-enter{border-radius:18px}.app-ui-dock .app-dock-active{border-radius:14px}}
+@media(prefers-reduced-motion:reduce){.app-phone-pose{transform:none}.app-plane{transform:none!important}.app-phone-island,.app-phone-home{transform:none}}
