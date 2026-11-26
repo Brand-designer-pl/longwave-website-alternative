@@ -105,8 +105,8 @@ def sync():
     updated=datetime.now(timezone.utc).isoformat()
     (ROOT/'offers.json').write_text(json.dumps(dict(updatedAt=updated,items=public_terms),ensure_ascii=False))
     (ROOT/'amigos/location-offers.json').write_text(json.dumps(dict(updatedAt=updated,draftsExportedAt=snapshot['exportedAt'],items=[t for t in all_terms if t['location']]),ensure_ascii=False))
-    for page,prefix in [(ROOT/'index.html',''),(ROOT/'amigos/index.html','../')]:
-        replace(page,'OFFERS',homepage_cards(public_terms,prefix))
+    # Legacy preview keeps offer cards; /amigos uses only the calendar and featured trips.
+    replace(ROOT/'index.html','OFFERS',homepage_cards(public_terms,''))
     # Homepage brief 0471ef0cc78bf239: calendar and featured cards share this live catalog.
     home=ROOT/'amigos/index.html'
     if '<!-- HOME_TIMELINE_START -->' in home.read_text():
