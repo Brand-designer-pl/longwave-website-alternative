@@ -324,6 +324,19 @@ if (video) {
   const smallScreen = matchMedia('(max-width: 650px)');
   let wantsPlayback = !reducedMotion.matches && !navigator.connection?.saveData;
   let visible = false;
+  const filmStart = Math.max(0, Number(video.dataset.start) || 0);
+  if (filmStart > 0) {
+    // Repeat the selected opening too, without replaying the skipped intro.
+    video.loop = false;
+    const seekOpening = () => {
+      video.currentTime = Math.min(filmStart, Math.max(0, video.duration - 0.1));
+    };
+    video.addEventListener('loadedmetadata', seekOpening);
+    video.addEventListener('ended', () => {
+      seekOpening();
+      updateFilm();
+    });
+  }
 
   function updateFilm() {
     syncFilmControl(control, wantsPlayback);
