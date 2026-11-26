@@ -36,7 +36,7 @@
         rotationX(-py * 7); rotationY(px * 10);
         movers.forEach(m => {m.x(px * (m.depth - 15) * .2);m.y(py * (m.depth - 15) * .14);});
       };
-      const enter = () => {rect = stage.getBoundingClientRect();};
+      const enter = () => {rect = section.getBoundingClientRect();};
       const move = event => {
         if (event.pointerType !== 'mouse' || !visible || document.hidden || menu?.open) return;
         if (!rect) enter();
@@ -48,18 +48,18 @@
       const visibility = () => {if (document.hidden) reset();};
       const invalidate = () => {rect = null;};
       const observer = new IntersectionObserver(([entry]) => {visible = entry.isIntersecting;if (!visible) reset();});
-      observer.observe(stage);
+      observer.observe(section);
       const menuObserver = menu ? new MutationObserver(() => {if (menu.open) reset();}) : null;
       menuObserver?.observe(menu, {attributes: true, attributeFilter: ['open']});
-      stage.addEventListener('pointerenter', enter);
-      stage.addEventListener('pointermove', move, {passive: true});
-      stage.addEventListener('pointerleave', leave);
+      section.addEventListener('pointerenter', enter);
+      section.addEventListener('pointermove', move, {passive: true});
+      section.addEventListener('pointerleave', leave);
       window.addEventListener('resize', invalidate, {passive: true});
       window.addEventListener('scroll', invalidate, {passive: true});
       document.addEventListener('visibilitychange', visibility);
       return () => {
         cancelAnimationFrame(frame); observer.disconnect(); menuObserver?.disconnect();
-        stage.removeEventListener('pointerenter', enter); stage.removeEventListener('pointermove', move); stage.removeEventListener('pointerleave', leave);
+        section.removeEventListener('pointerenter', enter); section.removeEventListener('pointermove', move); section.removeEventListener('pointerleave', leave);
         window.removeEventListener('resize', invalidate); window.removeEventListener('scroll', invalidate); document.removeEventListener('visibilitychange', visibility);
       };
     });
