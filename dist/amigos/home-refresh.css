@@ -132,3 +132,23 @@ body.home-refresh .hero .pill:focus-visible{color:#fffbea}
 .destination-photo.sketch-3>img{object-position:50% 30%}
 .home-refresh .destination-photo>span{color:#fff}
 @media(max-width:700px){.home-refresh .destination-photo{min-height:190px;padding:16px 13px;border-radius:14px;gap:6px}}
+
+/* Hand-drawn destination frames: replay on hover/focus, no JS or idle animation. */
+.sketch-link>.sketch-outline{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.sketch-outline path{stroke-dasharray:100;stroke-dashoffset:0}
+.sketch-link{--outline-time:.64s;--echo-delay:.18s}
+.sketch-1{--outline-time:.82s;--echo-delay:.27s}
+.sketch-2{--outline-time:.58s;--echo-delay:.14s}
+.sketch-3{--outline-time:.74s;--echo-delay:.22s}
+.sketch-new{--outline-time:.92s;--echo-delay:.12s}
+.home-refresh .destination-photo>.sketch-outline{inset:5px;width:calc(100% - 10px);height:calc(100% - 10px);stroke:#fff;stroke-width:1.2;opacity:.85}
+.home-refresh .destination-photo{padding-bottom:28px}
+@keyframes destination-outline-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:no-preference){
+ .sketch-link:focus-visible>.sketch-outline path{animation:destination-outline-draw var(--outline-time) cubic-bezier(.32,.05,.2,1) both}
+ .sketch-link:focus-visible>.sketch-outline path+path{animation-duration:.38s;animation-delay:var(--echo-delay)}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .sketch-link:hover>.sketch-outline path{animation:destination-outline-draw var(--outline-time) cubic-bezier(.32,.05,.2,1) both}
+ .sketch-link:hover>.sketch-outline path+path{animation-duration:.38s;animation-delay:var(--echo-delay)}
+}
