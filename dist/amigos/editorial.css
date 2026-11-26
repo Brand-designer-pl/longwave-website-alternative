@@ -620,3 +620,16 @@ body .account-link>.account-label-short,body .account-link>.account-user{display
  body :is(.nav-shell,.mobile-menu-header)>.account-link>.account-user,body.home-refresh .nav-shell>.account-link>.account-user{display:block;flex:0 0 20px;width:20px;height:20px;transform:none}
  body :is(.nav-shell,.mobile-menu-header)>.account-link>.icon:not(.account-user){display:none}
 }
+
+/* Shared action arrows: one quarter-turn, replacing local hover transforms.
+   !important deliberately overrides component sheets loaded after this file. */
+.action-arrow{transform:rotate(var(--arrow-rest,0deg))!important;transform-origin:50% 50%;transform-box:view-box}
+.home-slider-controls button:first-child .action-arrow{--arrow-rest:180deg}
+@media(prefers-reduced-motion:no-preference){
+ .action-arrow{transition:transform .45s cubic-bezier(.22,.61,.36,1)!important}
+ :is(a,button):not(:disabled):not([aria-disabled="true"]):focus-visible .action-arrow{transform:rotate(calc(var(--arrow-rest,0deg) + 90deg))!important}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ :is(a,button):not(:disabled):not([aria-disabled="true"]):hover .action-arrow{transform:rotate(calc(var(--arrow-rest,0deg) + 90deg))!important}
+}
+@media(prefers-reduced-motion:reduce){.action-arrow{transition:none!important}}
