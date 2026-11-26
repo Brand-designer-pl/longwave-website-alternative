@@ -13,6 +13,8 @@ def prepare():
  for file in sorted((output/'amigos').rglob('index.html')):
   route=file.parent.relative_to(output/'amigos').as_posix();route='' if route=='.' else route+'/'
   url=urljoin(base,route);text=file.read_text()
+  text=text.replace('<span>Panel uczestnika<small>Aplikacja LONGWAVE</small></span>','<span class="account-label-full">Panel uczestnika<small>Aplikacja LONGWAVE</small></span><svg class="icon account-user" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg><span class="account-label-short">Panel</span>')
+  text=re.sub(r'editorial\.css\?v=[^\"\']+','editorial.css?v=mobile-panel-20261126',text)
   text=text.replace('M5 19 19 5M5 5h14v14','M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15')
   text=text.replace('editorial.js?v=photos-20261124','editorial.js?v=notes-20261125')
   text=text.replace('M19 12H5m7-7-7 7 7 7','M20 12C15 11 10 13 4 12M10 5C8 8 6 10 4 12C6 14 8 16 10 19')
