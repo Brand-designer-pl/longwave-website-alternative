@@ -10,3 +10,13 @@
 .place-photo-grid figcaption{font-size:.78rem;line-height:1.5;padding:12px 2px;color:#526065}
 .place-photo-section .pill{margin-top:28px}
 @media(max-width:700px){.place-photo-section{margin-top:24px}.place-photo-heading{grid-template-columns:1fr;gap:16px;margin-bottom:24px}.place-photo-heading>p{margin:0}.place-photo-grid{grid-template-columns:1fr;gap:20px}.place-photo-grid figure:first-child{grid-row:auto}.place-photo-grid img{border-radius:18px;max-height:520px}.place-photo-grid figcaption{padding-top:9px}}
+
+/* Authentic camp moments: consistent crops, responsive images and no extra JS. */
+.place-photo-moments{background:#111;color:#fff}
+.place-photo-moments+.place-photo-section{margin-top:0}
+.place-photo-moments h2,.place-photo-moments .kicker{color:inherit}
+.place-moments-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 22px}
+.place-moments-grid figure{margin:0;min-width:0}
+.place-moments-grid img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:22px;display:block;background:#262626}
+.place-moments-grid figcaption{font-size:.85rem;line-height:1.5;margin-top:12px;color:#e1e1e1}
+@media(max-width:700px){.place-moments-grid{grid-template-columns:1fr;gap:26px}.place-moments-grid img{aspect-ratio:4/3;border-radius:18px;max-height:460px}.place-moments-grid figcaption{margin-top:9px}}

@@ -328,5 +328,185 @@
     "alt": "Windsurfing podczas wyjazdu LONGWAVE",
     "source": "../strona-www/sources/JASTARNIA PIASKOWA/29BA196C-5140-4128-9EA5-C84EDA28FBD6.JPEG",
     "bytes": 227064
+  },
+  "dabki-windsurf": {
+    "src": "places/dabki-windsurf.webp",
+    "small": "places/dabki-windsurf-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Windsurfing na jeziorze w Dąbkach",
+    "source": "../strona-www/sources/DABKI NA STR/2AD58C8C-CEBF-451E-98D6-6A5917D9F1A9.JPEG",
+    "bytes": 137050
+  },
+  "dabki-sup": {
+    "src": "places/dabki-sup.webp",
+    "small": "places/dabki-sup-small.webp",
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "alt": "Wspólne pływanie na desce SUP w Dąbkach",
+    "source": "../strona-www/sources/DABKI NA STR/83A7CAC9-3A81-40C3-A543-AF0DE799BBB6.JPEG",
+    "bytes": 80224
+  },
+  "dabki-warsztaty": {
+    "src": "places/dabki-warsztaty.webp",
+    "small": "places/dabki-warsztaty-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Warsztaty podczas obozu w Dąbkach",
+    "source": "../strona-www/sources/DABKI NA STR/1A8A5DE9-A7D1-4BE1-BD40-E0A9C804EDF6 2.JPEG",
+    "bytes": 164774
+  },
+  "dabki-ognisko": {
+    "src": "places/dabki-ognisko.webp",
+    "small": "places/dabki-ognisko-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Wieczorne spotkanie przy ognisku w Dąbkach",
+    "source": "../strona-www/sources/DABKI NA STR/35943243-48D8-4C8B-97D8-4B08B960EA31.JPEG",
+    "bytes": 229988
+  },
+  "dabki-sport": {
+    "src": "places/dabki-sport.webp",
+    "small": "places/dabki-sport-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Gra na boisku podczas obozu w Dąbkach",
+    "source": "../strona-www/sources/DABKI NA STR/2B7BB5B9-27A2-454F-ADFB-023D348D2F38.JPEG",
+    "bytes": 301702
+  },
+  "dabki-razem": {
+    "src": "places/dabki-razem.webp",
+    "small": "places/dabki-razem-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Uczestnicy obozu przy wspólnym stole",
+    "source": "../strona-www/sources/DABKI NA STR/5CB5F0DF-C1D9-46E8-A387-B322569E516D.JPEG",
+    "bytes": 160370
+  },
+  "festiwal-ruch": {
+    "src": "places/festiwal-ruch.webp",
+    "small": "places/festiwal-ruch-small.webp",
+    "width": 960,
+    "height": 1440,
+    "smallWidth": 533,
+    "alt": "Wspólne zajęcia ruchowe podczas festiwalu LONGWAVE",
+    "source": "../strona-www/sources/FESTIWALOWY DUMP/DSC_5275.jpg",
+    "bytes": 71178
+  },
+  "festiwal-muzyka": {
+    "src": "places/festiwal-muzyka.webp",
+    "small": "places/festiwal-muzyka-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Muzyka i spotkania przy kamperze LONGWAVE",
+    "source": "../strona-www/sources/FESTIWALOWY DUMP/DSC_9016.jpg",
+    "bytes": 88464
+  },
+  "festiwal-kamper": {
+    "src": "places/festiwal-kamper.webp",
+    "small": "places/festiwal-kamper-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Kamper LONGWAVE podczas wieczornego wydarzenia",
+    "source": "../strona-www/sources/FESTIWALOWY DUMP/DSC_9176.jpg",
+    "bytes": 40446
+  },
+  "festiwal-koncert": {
+    "src": "places/festiwal-koncert.webp",
+    "small": "places/festiwal-koncert-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Koncert podczas festiwalu LONGWAVE",
+    "source": "../strona-www/sources/FESTIWALOWY DUMP/DSC_9858.jpg",
+    "bytes": 86302
+  },
+  "festiwal-taniec": {
+    "src": "places/festiwal-taniec.webp",
+    "small": "places/festiwal-taniec-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Uczestnicy bawiący się razem na festiwalu LONGWAVE",
+    "source": "../strona-www/sources/FESTIWALOWY DUMP/DSC_9001.jpg",
+    "bytes": 80598
+  },
+  "festiwal-ekipa": {
+    "src": "places/festiwal-ekipa.webp",
+    "small": "places/festiwal-ekipa-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Uczestnicy festiwalu przy stoisku LONGWAVE",
+    "source": "../strona-www/sources/FESTIWALOWY DUMP/DSC_8774.jpg",
+    "bytes": 127340
+  },
+  "rodos-przygotowanie": {
+    "src": "places/rodos-przygotowanie.webp",
+    "small": "places/rodos-przygotowanie-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Przygotowanie sprzętu windsurfingowego na Prasonisi",
+    "source": "../strona-www/sources/do doslania praso/2626C0C0-C434-4D1C-A481-5F541C45B256.JPEG",
+    "bytes": 93190
+  },
+  "rodos-windsurf": {
+    "src": "places/rodos-windsurf.webp",
+    "small": "places/rodos-windsurf-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Windsurfing na wodach Prasonisi",
+    "source": "../strona-www/sources/do doslania praso/FED72593-DDD6-4DD9-80D6-E00BA11B7427.JPEG",
+    "bytes": 102294
+  },
+  "rodos-kolacja": {
+    "src": "places/rodos-kolacja.webp",
+    "small": "places/rodos-kolacja-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Wspólna kolacja podczas wyjazdu na Rodos",
+    "source": "../strona-www/sources/do doslania praso/CFB5B78E-08B1-4FAA-8154-7CDACB66A7EB.JPEG",
+    "bytes": 204368
+  },
+  "rodos-basen-relacja": {
+    "src": "places/rodos-basen-relacja.webp",
+    "small": "places/rodos-basen-relacja-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Chwila odpoczynku przy basenie na Rodos",
+    "source": "../strona-www/sources/do doslania praso/50746918-46F3-477D-8BC8-548C156231FC.JPEG",
+    "bytes": 140850
+  },
+  "rodos-zachod": {
+    "src": "places/rodos-zachod.webp",
+    "small": "places/rodos-zachod-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Wspólny wieczór na plaży na Prasonisi",
+    "source": "../strona-www/sources/do doslania praso/7F03F942-9390-46FB-B352-44ED410C7108.JPEG",
+    "bytes": 68912
+  },
+  "rodos-ekipa": {
+    "src": "places/rodos-ekipa.webp",
+    "small": "places/rodos-ekipa-small.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 600,
+    "alt": "Ekipa LONGWAVE podczas wyjazdu na Prasonisi",
+    "source": "../strona-www/sources/do doslania praso/86012A6E-4093-466D-A1F8-5B054B74B222.JPEG",
+    "bytes": 145800
   }
 }

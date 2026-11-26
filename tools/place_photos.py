@@ -4,6 +4,7 @@ from html import escape as E
 import json,re
 ROOT=Path(__file__).resolve().parents[1]
 LIB=json.loads((ROOT/'sources/photo-library.json').read_text())
+MOMENTS=json.loads((ROOT/'sources/place-moments.json').read_text())
 
 def image(key,prefix,sizes='(max-width: 700px) 92vw, 45vw',lazy=True):
  p=LIB[key]
@@ -27,6 +28,28 @@ def gallery(route):
  extra='<a class="pill" href="mailto:info@longwaveboards.com?subject=Wyjazd%20do%20Chorwacji">Zapytaj o Chorwację</a>' if croatia else ''
  return '<!-- PLACE_PHOTOS_START --><section class="place-photo-section" id="zdjecia"><div class="wrap section"><div class="place-photo-heading"><div><p class="kicker">'+E(kicker)+'</p><h2>'+E(title)+'</h2></div><p>'+note+'</p></div><div class="place-photo-grid">'+figures+'</div>'+extra+'</div></section><!-- PLACE_PHOTOS_END -->'
 
+def moments_gallery(route):
+ data=MOMENTS[route];prefix='../'*(len(route.split('/'))+1)+'assets/'
+ figures=''.join('<figure>'+image(key,prefix,'(max-width: 700px) 88vw, 30vw')+'<figcaption aria-hidden="true">'+E(LIB[key]['alt'])+'</figcaption></figure>' for key in data['keys'])
+ return '<!-- PLACE_MOMENTS_START --><section class="place-photo-section place-photo-moments" id="kadry"><div class="wrap section"><div class="place-photo-heading"><div><p class="kicker">'+E(data['kicker'])+'</p><h2>'+E(data['title'])+'</h2></div></div><div class="place-moments-grid">'+figures+'</div></div></section><!-- PLACE_MOMENTS_END -->'
+
+def build_moments():
+ for route in MOMENTS:
+  p=ROOT/'dist/amigos'/route/'index.html';s=p.read_text()
+  s=re.sub(r'<!-- PLACE_MOMENTS_START -->.*?<!-- PLACE_MOMENTS_END -->\n?','',s,flags=re.S)
+  anchors=['<!-- PLACE_PHOTOS_START -->','<section class="wrap section content-offers"','<section class="destination-faq']
+  anchor=next((a for a in anchors if a in s),None)
+  if not anchor:raise ValueError('No moments insertion point: '+route)
+  s=s.replace(anchor,moments_gallery(route)+'\n'+anchor,1)
+  css='../'*len(route.split('/'))+'place-photos.css?v=20261126'
+  if 'place-photos.css' not in s:s=s.replace('</head>',f'<link rel="stylesheet" href="{css}"></head>')
+  else:s=re.sub(r'place-photos.css\?v=[^"\s]+','place-photos.css?v=20261126',s)
+  if 'class="wrap location-tabs"' in s and 'href="#kadry"' not in s:
+   s=re.sub(r'(<nav class="wrap location-tabs"[^>]*>)',r'\1<a href="#kadry">Życie na wyjeździe</a>',s,count=1)
+  if 'class="content-jump"' in s and 'href="#kadry"' not in s:
+   s=re.sub(r'(<nav class="content-jump"[^>]*>)',r'\1<a href="#kadry">Kadry z wyjazdów</a>',s,count=1)
+  p.write_text("\n".join(line.rstrip() for line in s.splitlines())+"\n")
+
 def build():
  for route in GALLERIES:
   p=ROOT/'dist/amigos'/route/'index.html';s=p.read_text()
@@ -44,5 +67,7 @@ def build():
   if 'class="content-jump"' in s and 'href="#zdjecia"' not in s:
    s=re.sub(r'(<nav class="content-jump"[^>]*>)',r'\1<a href="#zdjecia">Zdjęcia</a>',s,count=1)
   p.write_text("\n".join(line.rstrip() for line in s.splitlines())+"\n")
+
+ build_moments()
 
 if __name__=='__main__':build()

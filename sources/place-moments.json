@@ -1,0 +1,47 @@
+{
+  "wyjazdy/dabki": {
+    "title": "Tak wygląda nasz camp.",
+    "kicker": "Dąbki · Ludzie i wspólne chwile",
+    "keys": [
+      "dabki-windsurf",
+      "dabki-sup",
+      "dabki-warsztaty",
+      "dabki-ognisko",
+      "dabki-sport",
+      "dabki-razem"
+    ]
+  },
+  "eventy": {
+    "title": "Festiwalowe wspomnienia.",
+    "kicker": "Rozpoczęcie sezonu z LONGWAVE",
+    "keys": [
+      "festiwal-ruch",
+      "festiwal-muzyka",
+      "festiwal-taniec",
+      "festiwal-koncert",
+      "festiwal-ekipa",
+      "festiwal-kamper"
+    ]
+  },
+  "wyjazdy/rodzinne": {
+    "title": "Łączymy pokolenia.",
+    "kicker": "Kadry z festiwalowego rozpoczęcia sezonu",
+    "keys": [
+      "festiwal-ruch",
+      "festiwal-taniec",
+      "festiwal-muzyka"
+    ]
+  },
+  "wyjazdy/rodos": {
+    "title": "Prasonisi. Nasz wspólny czas.",
+    "kicker": "Rodos · Na wodzie i po pływaniu",
+    "keys": [
+      "rodos-przygotowanie",
+      "rodos-windsurf",
+      "rodos-kolacja",
+      "rodos-basen-relacja",
+      "rodos-zachod",
+      "rodos-ekipa"
+    ]
+  }
+}
