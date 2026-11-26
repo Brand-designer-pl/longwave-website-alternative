@@ -50,6 +50,25 @@ def build_moments():
    s=re.sub(r'(<nav class="content-jump"[^>]*>)',r'\1<a href="#kadry">Kadry z wyjazdów</a>',s,count=1)
   p.write_text("\n".join(line.rstrip() for line in s.splitlines())+"\n")
 
+def build_heroes():
+ # Owner-selected photography replaces the background players on these routes.
+ for route,data in json.loads((ROOT/'sources/place-heroes.json').read_text()).items():
+  p=ROOT/'dist/amigos'/route/'index.html';s=p.read_text()
+  prefix='../'*(len(route.split('/'))+1)+'assets/'
+  desktop,mobile=data['desktop'],data['mobile']
+  picture=(f'<picture class="place-hero-photo" style="--place-position-mobile:{E(data.get("mobilePosition","50% 50%"))}"><source media="(max-width: 650px)" srcset="{prefix}{mobile["src"]}" width="{mobile["width"]}" height="{mobile["height"]}">'
+   f'<img src="{prefix}{desktop["src"]}" width="{desktop["width"]}" height="{desktop["height"]}" alt="" fetchpriority="high" decoding="async"></picture>')
+  if route.startswith('wyjazdy/'):
+   s=re.sub(r' data-hero-youtube="[^"]+"','',s,count=1)
+   s,n=re.subn(r'(<div class="location-screen" aria-hidden="true">).*?(</div>)',lambda m:m[1]+picture+m[2],s,count=1,flags=re.S)
+   # The anchor remains useful but no longer promises a film.
+   s=s.replace('</svg>Relacja</a>','</svg>Na początek</a>')
+  else:
+   s,n=re.subn(r'(<div class="content-hero-photo">).*?(</div>)',lambda m:m[1]+picture+m[2],s,count=1,flags=re.S)
+  if n!=1:raise ValueError('Missing hero: '+route)
+  s=re.sub(r'place-photos.css\?v=[^\"\s]+','place-photos.css?v=hero-20261126',s)
+  p.write_text(s)
+
 def build():
  for route in GALLERIES:
   p=ROOT/'dist/amigos'/route/'index.html';s=p.read_text()
@@ -69,5 +88,6 @@ def build():
   p.write_text("\n".join(line.rstrip() for line in s.splitlines())+"\n")
 
  build_moments()
+ build_heroes()
 
 if __name__=='__main__':build()

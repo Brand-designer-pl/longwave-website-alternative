@@ -123,3 +123,12 @@ body.home-refresh .hero .pill:focus-visible{color:#fffbea}
 @media(hover:hover) and (pointer:fine){body.home-refresh .hero .pill:hover{color:#fffbea}}
 
 @media(min-width:701px) and (max-width:1000px){.paper-tape{font-size:clamp(1.4rem,2.8vw,1.75rem);padding-inline:22px}}
+
+/* Owner photography: compact destination cards, with labels clear of the main subject. */
+.home-refresh .destination-photo{min-height:210px;overflow:hidden;border-radius:20px;align-items:flex-end;justify-content:space-between;color:#fff;padding:22px;transform:none;background:#101010}
+.destination-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none}
+.destination-photo::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 35%,#000b);pointer-events:none}
+.destination-photo.sketch-2>img{object-position:58% 45%}
+.destination-photo.sketch-3>img{object-position:50% 30%}
+.home-refresh .destination-photo>span{color:#fff}
+@media(max-width:700px){.home-refresh .destination-photo{min-height:190px;padding:16px 13px;border-radius:14px;gap:6px}}

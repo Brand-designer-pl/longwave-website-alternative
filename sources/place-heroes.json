@@ -1,0 +1,60 @@
+{
+  "wyjazdy/dabki": {
+    "key": "dabki-windsurf",
+    "center": [
+      0.59,
+      0.42
+    ],
+    "desktop": {
+      "src": "places/hero-dabki-desktop.webp",
+      "width": 1382,
+      "height": 864,
+      "bytes": 313834
+    },
+    "mobile": {
+      "src": "places/hero-dabki-mobile.webp",
+      "width": 576,
+      "height": 864,
+      "bytes": 125112
+    }
+  },
+  "wyjazdy/rodos": {
+    "key": "rodos-przygotowanie",
+    "center": [
+      0.5,
+      0.28
+    ],
+    "desktop": {
+      "src": "places/hero-rodos-desktop.webp",
+      "width": 1152,
+      "height": 720,
+      "bytes": 66664
+    },
+    "mobile": {
+      "src": "places/hero-rodos-mobile.webp",
+      "width": 720,
+      "height": 1080,
+      "bytes": 75248
+    },
+    "mobilePosition": "0% 50%"
+  },
+  "eventy": {
+    "key": "festiwal-muzyka",
+    "center": [
+      0.52,
+      0.36
+    ],
+    "desktop": {
+      "src": "places/hero-eventy-desktop.webp",
+      "width": 1920,
+      "height": 1200,
+      "bytes": 173820
+    },
+    "mobile": {
+      "src": "places/hero-eventy-mobile.webp",
+      "width": 720,
+      "height": 1080,
+      "bytes": 71758
+    }
+  }
+}

@@ -20,3 +20,5 @@
 .place-moments-grid img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:22px;display:block;background:#262626}
 .place-moments-grid figcaption{font-size:.85rem;line-height:1.5;margin-top:12px;color:#e1e1e1}
 @media(max-width:700px){.place-moments-grid{grid-template-columns:1fr;gap:26px}.place-moments-grid img{aspect-ratio:4/3;border-radius:18px;max-height:460px}.place-moments-grid figcaption{margin-top:9px}}
+
+@media(max-width:650px){.place-hero-photo img{object-position:var(--place-position-mobile,50% 50%)}}
