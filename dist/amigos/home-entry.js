@@ -41,6 +41,7 @@
   }
   function reveal(entries) {
     if (!active || document.hidden) return;
+    try {
     const groups = new Map();
     entries.filter(entry => entry.isIntersecting && pending.has(entry.target))
       .map(entry => entry.target)
@@ -59,6 +60,7 @@
           ease: 'power3.out', onComplete: () => finish(el)
         });
       });
+    } catch (_) {stop();} // A runtime failure must also restore every pending block.
   }
   function focus(event) {
     for (const el of pending.keys()) if (el === event.target || el.contains(event.target)) finish(el);
@@ -71,6 +73,7 @@
   function stop() {
     active = false; observer?.disconnect(); observer = null;
     for (const [el,state] of pending) {
+      if (state.tween) seen.add(el);
       state.tween?.kill(); restore(el,state); el.removeAttribute('data-home-enter');
     }
     pending.clear();
