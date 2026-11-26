@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="144" viewBox="0 0 640 144" preserveAspectRatio="none">
+<defs>
+ <linearGradient id="paper" x2=".1" y2="1"><stop stop-color="#e8dbaa"/><stop offset=".35" stop-color="#ecdfaf"/><stop offset=".75" stop-color="#e5d39b"/><stop offset="1" stop-color="#e8daa9"/></linearGradient>
+ <filter id="grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".42 .68" numOctaves="3" seed="24" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".22"/></feComponentTransfer><feBlend in="SourceGraphic" mode="multiply"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+ <clipPath id="edge"><path d="M13 7 99 5 183 8 285 4 398 7 501 3 621 5 617 13 625 20 621 28 629 33 623 41 629 50 625 57 632 65 625 73 633 83 625 90 629 101 621 108 627 120 619 128 622 137 533 135 448 139 344 135 251 138 157 134 64 138 14 135 19 126 11 117 16 109 8 100 15 91 9 83 16 75 7 66 14 59 8 48 15 41 9 32 17 25 11 17Z"/></clipPath>
+</defs>
+<g clip-path="url(#edge)" opacity=".95"><path fill="url(#paper)" filter="url(#grain)" d="M0 0H640V144H0Z"/>
+<g fill="none" stroke-linecap="round" stroke-width=".8" opacity=".23" stroke="#fff8da"><path d="M20 19Q160 14 290 20T623 16M10 28Q161 22 308 29T630 23M15 51Q180 47 359 54T628 49M8 85Q181 77 346 85T632 78M15 109Q177 103 327 112T629 104M19 128Q168 122 310 129T620 122"/></g>
+<g fill="none" stroke="#b9a369" stroke-width=".65" opacity=".17"><path d="M20 34Q205 30 386 36T624 31M12 66Q145 61 306 68T625 62M13 95Q156 88 312 96T628 90M17 119Q218 114 423 121T624 116"/></g></g></svg>

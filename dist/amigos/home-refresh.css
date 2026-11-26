@@ -57,8 +57,12 @@
 .featured-trips{max-width:1060px;gap:55px;margin:64px 0 24px auto;align-items:start}
 .taped-trip{background:transparent;padding:0;box-shadow:none;transform:rotate(-2deg)}.taped-trip:nth-child(even){transform:rotate(2deg);margin-top:35px}
 .taped-photo{aspect-ratio:1.8;border-radius:10px}.taped-caption{padding:18px 0 0}.taped-caption h3{font-size:clamp(1.3rem,2.1vw,2rem);line-height:1.2}
-.paper-tape{top:24px;left:-16px;max-width:85%;padding:14px 30px;background:linear-gradient(178deg,#f5d56de8,#ecd071f5 48%,#f3d879eb);color:#000;font:800 clamp(.78rem,1.1vw,1rem)/1.25 var(--display-font);letter-spacing:.09em;text-transform:uppercase;transform:rotate(-6deg);border-radius:0;clip-path:polygon(2% 2%,28% 0,64% 3%,98% 1%,97% 14%,99% 25%,97.5% 38%,100% 52%,98% 66%,99% 81%,97% 98%,66% 100%,30% 97%,1% 99%,2% 85%,0 73%,2.5% 60%,1% 47%,3% 32%,.5% 18%)}
-.taped-trip:nth-child(even) .paper-tape{left:auto;right:-12px;top:24px;bottom:auto;transform:rotate(5deg)}
+/* Paper masking tape: fibrous stock, torn ends and pen lettering. */
+@font-face{font-family:"Reenie Beanie";src:url(../assets/reenie-beanie.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+.paper-tape{isolation:isolate;top:-23px;left:-18px;max-width:calc(100% - 12px);padding:10px 28px 14px;background:none;color:#17150f;font:400 clamp(2rem,3.2vw,3rem)/1 "Reenie Beanie","Bradley Hand",cursive;letter-spacing:.025em;text-transform:uppercase;white-space:nowrap;transform:rotate(-9deg);border-radius:0;clip-path:none}
+.paper-tape::before{content:"";position:absolute;inset:0;z-index:-1;background:url(../assets/paper-tape.svg) center/100% 100% no-repeat;filter:drop-shadow(0 1px 1px #43341220);pointer-events:none}
+.taped-trip:nth-child(even) .paper-tape{left:auto;right:-14px;top:-17px;bottom:auto;transform:rotate(7deg)}
+.taped-trip:nth-child(even) .paper-tape::before{transform:scaleX(-1)}
 /* Larger photo share, shorter cards; text is never cropped or line-clamped. */
 .home-slide,.community-slide{grid-template-columns:1.35fr 1fr;padding:14px;gap:clamp(24px,3vw,48px);align-items:center}
 .home-slide figure,.community-slide figure{height:100%;aspect-ratio:1.65;min-height:340px;max-height:440px}
@@ -92,7 +96,7 @@
 @media(max-width:700px){
  .home-refresh .hero-mark{width:100px;margin-bottom:24px}.home-refresh .hero-row h1{font-size:clamp(2.1rem,8vw,3rem)}.home-refresh .hero-row{gap:24px}.home-refresh .hero-copy>p:not(.kicker){font-size:.94rem;line-height:1.6;margin-top:18px}
  .calendar-nav button{display:flex;flex:0 0 128px;font-size:1rem;min-height:110px;padding:10px 8px 34px}.calendar-nav button small{font-size:.68rem}.calendar-nav{padding-bottom:10px}.home-refresh .calendar-panel{padding:20px 16px}.home-refresh .calendar-term strong{font-size:1rem}
- .featured-trips{max-width:none;gap:40px;margin:52px 10px 20px}.taped-trip:nth-child(even){margin-top:0}.paper-tape{left:-12px;top:18px}.taped-trip:nth-child(even) .paper-tape{top:18px;bottom:auto}
+ .featured-trips{max-width:none;gap:40px;margin:52px 10px 20px}.taped-trip:nth-child(even){margin-top:0}.paper-tape{left:-12px;top:-20px;font-size:clamp(1.5rem,8vw,2rem);padding:10px 24px 12px}.taped-trip:nth-child(even) .paper-tape{right:-10px;top:-16px;bottom:auto}
  .home-slide,.community-slide{grid-template-columns:1fr;padding:10px;gap:16px;flex-basis:94%}.home-slide figure,.community-slide figure{height:auto;min-height:0;max-height:none;aspect-ratio:1.5}.home-slide>div,.why-slide:nth-child(even)>div{padding:8px 12px 18px}.home-slide h3{font-size:1.6rem}.home-slide p:not(.kicker){font-size:.9rem;line-height:1.6}
  .social-filmstrip figure,.social-filmstrip figure:nth-child(2n){flex-basis:76%;max-width:360px;aspect-ratio:3/4}.home-refresh #zycie .section-heading{flex-direction:row;gap:20px}.home-refresh #zycie .pill{font-size:.7rem;padding:10px 14px}
  .instagram-section>.section-heading{flex-direction:row;flex-wrap:wrap;justify-content:start;gap:20px}.instagram-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.instagram-grid a{aspect-ratio:3/4}.instagram-caption{font-size:.78rem;gap:10px;padding:14px}.instagram-caption small{font-size:.65rem}
@@ -117,3 +121,5 @@
 body.home-refresh .hero .pill{color:var(--contrast)}
 body.home-refresh .hero .pill:focus-visible{color:#fffbea}
 @media(hover:hover) and (pointer:fine){body.home-refresh .hero .pill:hover{color:#fffbea}}
+
+@media(min-width:701px) and (max-width:1000px){.paper-tape{font-size:clamp(1.4rem,2.8vw,1.75rem);padding-inline:22px}}
