@@ -113,7 +113,7 @@ def gallery(route,imgs,label,alts=None):
  alts=alts or []
  return '<section class="content-band content-gallery-band" id="galeria"><div class="wrap section"><p class="kicker">Kadry LONGWAVE</p><h2>'+E(label)+'</h2><div class="content-gallery">'+''.join('<figure>'+photo(route,x,alts[i] if i<len(alts) else '')+'</figure>' for i,x in enumerate(imgs))+'</div></div></section>' if imgs else ''
 INDEX={p['route']:(p['kicker'],p['image']) for p in PAGES}
-INDEX.update({'blog':('Historie i poradniki','wybor-longwave.webp'),'o-longwave/opinie':('Wasze opinie','together.webp'),'noclegi/home-spot-jastarnia':('Home Spot Jastarnia','home-spot-taras.webp'),'noclegi/home-spot-2-0':('Home Spot 2.0','home-spot-taras.webp')})
+INDEX.update({'blog':('Historie i poradniki','wybor-longwave.webp'),'o-longwave/opinie':('Wasze opinie','together.webp'),'noclegi/home-spot-jastarnia':('Home Spot Jastarnia','home-spot-taras.webp'),'noclegi/home-spot-2-0':('Home Spot 2.0','places/home-spot-2-front.webp')})
 for loc,label,img in [('lazy','Łazy','coast.webp'),('jastarnia','Jastarnia','wybor-oboz.webp'),('dabki','Dąbki','category-family.webp'),('rodos','Rodos','surf.webp')]:INDEX['wyjazdy/'+loc]=(label,img)
 def related(route,items):
  if route=='eventy':
