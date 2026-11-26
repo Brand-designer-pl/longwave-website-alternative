@@ -3,7 +3,7 @@
   const section = document.querySelector('#aplikacja');
   const stage = section?.querySelector('.app-depth-stage');
   if (!stage || !window.gsap || !window.isSecureContext || !window.DeviceOrientationEvent) return;
-  let media;
+  let media, userDisabled = false;
   const mount = () => {
     if (media) return;
     media = gsap.matchMedia();
@@ -15,6 +15,8 @@
       const movers = planes.map(el => ({depth: Number(el.dataset.appDepth), x: gsap.quickTo(el, 'x', {duration: .75, ease: 'power3.out'}), y: gsap.quickTo(el, 'y', {duration: .75, ease: 'power3.out'})}));
       const controls = document.createElement('div');
       controls.className = 'app-tilt-controls';
+      // Reserve space, but do not show an activation prompt while probing existing access.
+      controls.style.visibility = userDisabled ? '' : 'hidden';
       controls.innerHTML = '<button type="button" class="app-tilt-button" aria-pressed="false" aria-describedby="app-tilt-status"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2M3 8l-2 4 2 4m18-8 2 4-2 4"/></svg><span>Włącz ruch telefonu</span></button><p id="app-tilt-status" role="status" aria-live="polite">Porusz telefonem, aby zobaczyć głębię.</p>';
       stage.after(controls);
       const button = controls.querySelector('button');
@@ -44,6 +46,7 @@
         clearTimeout(timeout);
         if (!baseline) {
           baseline = {beta: event.beta, gamma: event.gamma, angle: screenAngle()};
+          controls.style.visibility = '';
           status.textContent = 'Przechyl telefon — warstwy podążą za ruchem.';
         }
         const angle = screenAngle();
@@ -72,12 +75,12 @@
         baseline = null; listening = true;
         window.addEventListener('deviceorientation', orientation, {passive: true});
         timeout = window.setTimeout(() => {
-          stop(); setEnabled(false);
-          status.textContent = 'Brak odczytu czujników. Możesz spróbować ponownie.';
+          stop(); setEnabled(false); controls.style.visibility = '';
+          status.textContent = 'Brak odczytu ruchu. Spróbuj włączyć dostęp przyciskiem.';
         }, 4000);
       };
       const toggle = async () => {
-        if (enabled) {setEnabled(false); sync(); status.textContent = 'Ruch wyłączony.'; return;}
+        if (enabled) {userDisabled = true; setEnabled(false); sync(); status.textContent = 'Ruch wyłączony.'; return;}
         button.disabled = true;
         try {
           // Must be invoked directly in this click handler for Safari user activation.
@@ -88,11 +91,13 @@
             status.textContent = 'Nie udzielono dostępu do ruchu. Podgląd pozostaje nieruchomy.';
             return;
           }
-          setEnabled(true); status.textContent = 'Przechyl telefon, gdy podgląd jest widoczny.'; sync();
+          userDisabled = false; setEnabled(true); status.textContent = 'Przechyl telefon, gdy podgląd jest widoczny.'; sync();
         } catch {
           if (!disposed) status.textContent = 'Nie udało się włączyć czujników w tej przeglądarce.';
         } finally {if (!disposed) button.disabled = false;}
       };
+      // Listening itself never opens a permission prompt. Ask only after an explicit click.
+      setEnabled(!userDisabled);
       const observer = new IntersectionObserver(([entry]) => {visible = entry.isIntersecting; sync();});
       observer.observe(stage);
       const menuObserver = menu ? new MutationObserver(sync) : null;
