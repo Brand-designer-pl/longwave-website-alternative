@@ -333,12 +333,22 @@ if (video) {
     }
 
     if (!video.src) {
-      video.src = smallScreen.matches
+      const mobile = smallScreen.matches;
+      const mp4 = mobile
         ? (video.dataset.mobileSrc || 'festival-mobile.mp4')
         : (video.dataset.desktopSrc || 'festival-desktop.mp4');
+      const webm = mobile ? video.dataset.mobileWebm : video.dataset.desktopWebm;
+      const useWebm = webm && video.canPlayType('video/webm; codecs="vp9"');
+      // Load one rendition only; keep native H.264 for unsupported/failed VP9.
+      if (useWebm) video.addEventListener('error', () => {
+        video.src = mp4;
+        updateFilm();
+      }, {once: true});
+      video.src = useWebm ? webm : mp4;
     }
+    const requestedSource = video.src;
     video.play().catch(error => {
-      if (error.name === 'AbortError') return;
+      if (error.name === 'AbortError' || video.src !== requestedSource) return;
       wantsPlayback = false;
       syncFilmControl(control, false, true);
     });
