@@ -15,6 +15,9 @@
   line-height:1.55;
   scroll-padding-top:24px;
 }
+/* Native anchor navigation, without intercepting wheel or touch gestures. */
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 body{margin:0}

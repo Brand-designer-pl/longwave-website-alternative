@@ -191,7 +191,7 @@ if (fullscreenMenu) {
     locked = false;
     document.body.classList.remove('mobile-menu-open');
     for (const [key, value] of Object.entries(savedStyle)) document.body.style[key] = value;
-    window.scrollTo(0, savedScroll);
+    window.scrollTo({top: savedScroll, left: 0, behavior: 'instant'});
   }
   function finishClose() {
     previewRequest++;
