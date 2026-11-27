@@ -95,10 +95,11 @@ if (fullscreenMenu) {
 
   const assetsBase = new URL('.', logo.querySelector('img').src);
   const categoryPhotos = [
-    {file: 'wybor-rodzina.webp', position: '50% 50%'},
-    {file: 'home-spot-taras.webp', position: '50% 50%'},
+    {file: 'wybor-oboz.webp', position: '50% 50%'},
+    {file: 'places/hero-eventy-desktop.webp', position: '50% 50%'},
     {file: 'world-eventy.webp', position: '50% 50%'},
-    {file: 'world-collection.webp', position: '50% 40%'},
+    {file: 'home-spot-taras.webp', position: '50% 50%'},
+    {file: 'world-boards.webp', position: '50% 50%'},
     {file: 'team.webp', position: '50% 50%'}
   ];
   const menuGroups = [...navigation.querySelectorAll(':scope > details')];
@@ -110,7 +111,7 @@ if (fullscreenMenu) {
 
   function photoFor(element, index) {
     const label = element.textContent.replace(/Nowość/g, '').trim();
-    let photo = categoryPhotos[index];
+    let photo = categoryPhotos[index] || categoryPhotos[0];
     if (/Obozy/.test(label)) photo = {file: 'wybor-oboz.webp', position: '50% 50%'};
     else if (/zagraniczne/.test(label)) photo = {file: 'surf.webp', position: '50% 50%'};
     else if (/Deski LONGWAVE/.test(label)) photo = {file: 'world-boards.webp', position: '50% 60%'};

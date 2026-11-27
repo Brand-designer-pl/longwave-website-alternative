@@ -115,7 +115,7 @@ def sync():
         replace(home,'HOME_TIMELINE',calendar)
         replace(home,'HOME_FEATURED',featured)
     for key,label in LOCATIONS.items():
-        terms=[t for t in all_terms if t['location']==key]
+        terms=[t for t in all_terms if t['location']==key and t['category'].casefold()=='camp']
         markup=''.join(card(t,'../../../') for t in terms)
         if not terms:
             markup=f'<div class="offers-empty"><h3>Wyjazdy: {esc(label)}.</h3><p>Nowe terminy pojawią się tutaj po dodaniu oferty. Chcesz wiedzieć więcej?</p><a class="pill" href="mailto:info@longwaveboards.com?subject={quote("Wyjazd " + label)}">Zapytaj o wyjazd{ARROW}</a></div>'
@@ -132,6 +132,8 @@ def sync():
         prefix='../'*len(page.parent.relative_to(ROOT).parts)
         markup=''.join(card(t,prefix) for t in terms) or '<p>Przygotowujemy kolejne terminy. <a href="mailto:info@longwaveboards.com">Zapytaj nas o planowany wyjazd.</a></p>'
         replace(page,'CONTENT_OFFERS',markup)
+    from menu_pages import build as build_menu
+    build_menu()
     print(f'Synchronized {len(public_terms)} public terms')
 
 if __name__=='__main__': sync()

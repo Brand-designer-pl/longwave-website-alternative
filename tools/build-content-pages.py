@@ -53,7 +53,6 @@ def header(route):
   return m[1]+'="'+prefix+url+'"'
  s=re.sub(r'(href|src)="([^"]+)"',shift,s)
  s=rewrite(s,route)
- s=s.replace('href="https://sklep.longwaveboards.com/"','href="'+rel(route,'sklep-i-boards/collection')+'"')
  s=s.replace('href="'+prefix+'#ludzie"','href="'+rel(route,'o-longwave')+'"')
  if '>Vanlife</a>' not in s:s=s.replace('>Surf Party</a>','>Surf Party</a><a href="'+rel(route,'eventy/vanlife')+'">Vanlife</a>')
  if '>Program liderski</a>' not in s:s=s.replace('>Blog i poradnik</a>','>Blog i poradnik</a><a href="'+rel(route,'o-longwave/program-liderski')+'">Program liderski</a><a href="'+rel(route,'o-longwave/opinie')+'">Opinie</a>')
@@ -183,4 +182,7 @@ def build():
  from place_photos import build as build_place_photos
  build_place_photos()
  print('Generated',len(generated),'pages; migrated all shared navigation links.')
-if __name__=='__main__':build()
+if __name__=='__main__':
+ build()
+ from menu_pages import build as build_menu
+ build_menu()
