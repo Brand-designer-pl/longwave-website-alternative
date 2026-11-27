@@ -25,7 +25,7 @@
   if(loading)return;loading=true;
   try{await objects[index].querySelector('img').decode();}catch(_){loading=false;root.querySelector('.boards-announcement').textContent='Nie udało się wczytać zdjęcia. Spróbuj ponownie.';return;}
   loading=false;if(!alive)return;if(requested!==index){select(requested);return;}if(!hasMotion()){settle(index);return;}
-  stopFloat();const outgoing=objects[current],incoming=objects[index];incoming.hidden=false;
+  stopFloat();const wake=boardWakePoint();if(canPlay())water?.disturb(wake.x,wake.y,.7);const outgoing=objects[current],incoming=objects[index];incoming.hidden=false;
   const finish=()=>{transition=null;current=index;outgoing.hidden=true;gsap.set([outgoing,incoming,copy],{clearProps:'transform,opacity'});if(volume){volume.state.turn=-.24;volume.setModel(index);}syncAmbient();if(requested!==index)select(requested);};
   transition=gsap.timeline({onComplete:finish});
   if(volume){
@@ -39,6 +39,7 @@
     if(swapped){const p=Math.min(1,Math.max(0,(turn.turn-swapAngle)/(end-swapAngle))),blend=p*p*(3-2*p);
      turn.modelWidth=fromWidth+(1-fromWidth)*blend;turn.modelLength=fromLength+(1-fromLength)*blend;
     }
+    if(canPlay())water?.stir(wake.x,wake.y,turn.turn,Math.min(1,(turn.turn+.24)/(Math.PI*2)));
     volume.draw();
    }},0)
     .to(turn,{tilt:-.16,roll:.065,y:.08,duration:.44,ease:'sine.inOut'},0)
@@ -57,6 +58,19 @@
  root.querySelector('[data-board-prev]').addEventListener('click',()=>select(requested-1));root.querySelector('[data-board-next]').addEventListener('click',()=>select(requested+1));
  root.querySelector('.boards-models').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();const index=(requested+(event.key==='ArrowRight'?1:-1)+2)%2;buttons[index].focus();select(index);}});
  const stage=root.querySelector('.boards-stage');let touch=null;
+ function waterPoint(x,y){const r=root.getBoundingClientRect();return {x:(x-r.left)/r.width,y:(y-r.top)/r.height};}
+ function boardWakePoint(){const r=stage.getBoundingClientRect();return waterPoint(r.left+r.width*.5,r.top+r.height*.46);}
+ let lastPointer=0,previousPointer=null;
+ const pointerMove=e=>{
+  if(e.pointerType==='touch'||!canPlay()||!water)return;
+  const now=performance.now();if(now-lastPointer<65)return;
+  if(previousPointer&&Math.hypot(e.clientX-previousPointer.x,e.clientY-previousPointer.y)<5)return;
+  lastPointer=now;previousPointer={x:e.clientX,y:e.clientY};const p=waterPoint(e.clientX,e.clientY);water.disturb(p.x,p.y,.22);
+ };
+ const waterClick=e=>{if(!canPlay()||!water||e.button!==0||e.target.closest('[data-board],[data-board-prev],[data-board-next],.boards-motion-toggle'))return;const p=waterPoint(e.clientX,e.clientY);water.disturb(p.x,p.y,.85);};
+ const pointerLeave=()=>{previousPointer=null;};
+ root.addEventListener('pointermove',pointerMove,{passive:true});root.addEventListener('click',waterClick,{passive:true});root.addEventListener('pointerleave',pointerLeave);
+
  stage.addEventListener('pointerdown',e=>{if(e.pointerType==='touch')touch={x:e.clientX,y:e.clientY};});
  stage.addEventListener('pointerup',e=>{if(!touch)return;const dx=e.clientX-touch.x,dy=e.clientY-touch.y;touch=null;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5)select(requested+(dx<0?1:-1));});stage.addEventListener('pointercancel',()=>touch=null);
  pause.addEventListener('click',()=>{userPaused=!userPaused;if(userPaused)settle(requested,false);else syncAmbient();});
@@ -65,7 +79,7 @@
  const intersection=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(!visible&&transition)settle(requested,false);syncAmbient();},{threshold:0});intersection.observe(root);
  const menuObserver=new MutationObserver(()=>{if(document.body.classList.contains('mobile-menu-open')&&transition)settle(requested,false);syncAmbient();});menuObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
  let waterLoading=false;
- async function loadWater(){if(water||waterLoading||motion.matches||!alive)return;waterLoading=true;try{const module=await import(new URL('boards-water.js?v=volume-20261118',base));if(alive&&!motion.matches){water=module.createWater(root.querySelector('canvas'));syncAmbient();}}catch(_){/* The static pale-water background stays visible. */}finally{waterLoading=false;}}
+ async function loadWater(){if(water||waterLoading||motion.matches||!alive)return;waterLoading=true;try{const module=await import(new URL('boards-water.js?v=interactive-water-20261127',base));if(alive&&!motion.matches){water=module.createWater(root.querySelector('canvas'),()=>{const old=water;water=null;old?.dispose();loadWater();});syncAmbient();}}catch(_){/* The static pale-water background stays visible. */}finally{waterLoading=false;}}
  async function loadVolume(){
   if(volume||volumeLoading||!alive)return;volumeLoading=true;
   try{const module=await import(new URL('boards-volume.js?v=wide-tyres-20261118',base));
@@ -76,7 +90,7 @@
  }
  const startWater=()=>{loadVolume();if('requestIdleCallback'in window)requestIdleCallback(loadWater,{timeout:1500});else setTimeout(loadWater,300);};
  if(document.readyState==='complete')startWater();else window.addEventListener('load',startWater,{once:true});
- window.addEventListener('pagehide',event=>{alive=false;settle(requested,false);water?.setPlaying(false);volume?.setPlaying(false);if(!event.persisted){volume?.dispose();volume=null;water?.dispose();water=null;intersection.disconnect();menuObserver.disconnect();motion.removeEventListener('change',preference);document.removeEventListener('visibilitychange',visibility);}});
+ window.addEventListener('pagehide',event=>{alive=false;settle(requested,false);water?.setPlaying(false);volume?.setPlaying(false);if(!event.persisted){volume?.dispose();volume=null;water?.dispose();water=null;root.removeEventListener('pointermove',pointerMove);root.removeEventListener('click',waterClick);root.removeEventListener('pointerleave',pointerLeave);intersection.disconnect();menuObserver.disconnect();motion.removeEventListener('change',preference);document.removeEventListener('visibilitychange',visibility);}});
  window.addEventListener('pageshow',e=>{if(e.persisted){alive=true;syncAmbient();loadWater();loadVolume();}});
  syncAmbient();
 })();
