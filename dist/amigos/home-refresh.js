@@ -1,6 +1,81 @@
 /* 0471ef0cc78bf239. Native controls first; premium-web-agent 1.0.0 motion-accessibility. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  // Shared liquid selection, adapted from the owner's 27 Nov video reference.
+  // Only this small SVG path animates; no blur filter or permanent animation loop.
+  function monthPanel(panel) {
+    const buttons = [...panel.querySelectorAll('[data-trip-month]')];
+    const strip = document.createElement('div'); strip.className = 'home-trip-months';
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.classList.add('month-selection'); svg.setAttribute('aria-hidden','true');
+    svg.innerHTML = '<defs><linearGradient id="month-ink" x2="0" y2="1"><stop stop-color="#292929"/><stop offset="1" stop-color="#080808"/></linearGradient></defs><path fill="url(#month-ink)"/>';
+    const selectionPath = svg.querySelector('path');
+    strip.append(svg); buttons.forEach(button => strip.append(button));
+    const arrow = (direction,label) => {
+      const button = document.createElement('button'); button.type = 'button';
+      button.className = 'month-step'; button.setAttribute('aria-label',label);
+      button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${direction < 0 ? 'M14 5l-7 7 7 7' : 'M10 5l7 7-7 7'}"/></svg>`;
+      button.addEventListener('click',() => buttons[Math.max(0,Math.min(buttons.length-1,selected+direction))].click());
+      return button;
+    };
+    let selected = 0, frame = 0, last = 0;
+    const previous = arrow(-1,'Poprzedni miesiąc'), next = arrow(1,'Następny miesiąc');
+    panel.replaceChildren(previous,strip,next); panel.classList.add('has-liquid-selection');
+    const state = {x:0,y:0,w:0,h:0}, velocity = {x:0,y:0,w:0,h:0};
+    let target = {...state};
+    const draw = () => {
+      const speed = Math.hypot(velocity.x,velocity.y);
+      const stretch = Math.min(18,speed*.018), tail = Math.min(26,Math.abs(velocity.x)*.035);
+      const x = state.x-stretch/2, y = state.y+Math.min(3,speed*.003);
+      const w = state.w+stretch, h = state.h-Math.min(6,speed*.006), r = Math.min(15,h/2), mid=y+h/2;
+      const left = velocity.x>0 ? tail : 0, right = velocity.x<0 ? tail : 0;
+      selectionPath.setAttribute('d',
+        `M${x+r} ${y}H${x+w-r}Q${x+w} ${y} ${x+w} ${y+r}V${mid-10}`+
+        `C${x+w} ${mid-3} ${x+w+right} ${mid-7} ${x+w+right} ${mid}C${x+w+right} ${mid+7} ${x+w} ${mid+3} ${x+w} ${mid+10}`+
+        `V${y+h-r}Q${x+w} ${y+h} ${x+w-r} ${y+h}H${x+r}Q${x} ${y+h} ${x} ${y+h-r}V${mid+10}`+
+        `C${x} ${mid+3} ${x-left} ${mid+7} ${x-left} ${mid}C${x-left} ${mid-7} ${x} ${mid-3} ${x} ${mid-10}V${y+r}Q${x} ${y} ${x+r} ${y}Z`);
+    };
+    const snap = () => {
+      cancelAnimationFrame(frame); frame=0; last=0;
+      Object.assign(state,target); Object.keys(velocity).forEach(key => velocity[key]=0); draw();
+    };
+    const tick = time => {
+      const dt = Math.min((time-(last||time-16.67))/1000,.032); last=time;
+      let moving=false;
+      for (const key of Object.keys(state)) {
+        velocity[key] += ((target[key]-state[key])*330-velocity[key]*25)*dt;
+        state[key] += velocity[key]*dt;
+        if (Math.abs(target[key]-state[key])>.08 || Math.abs(velocity[key])>.3) moving=true;
+      }
+      draw();
+      if (moving) frame=requestAnimationFrame(tick); else snap();
+    };
+    const move = (animate=true) => {
+      const rect=buttons[selected].getBoundingClientRect(), base=strip.getBoundingClientRect();
+      target={x:rect.left-base.left,y:rect.top-base.top,w:rect.width,h:rect.height};
+      svg.setAttribute('viewBox',`0 0 ${base.width} ${base.height}`);
+      previous.disabled=selected===0; next.disabled=selected===buttons.length-1;
+      if (!animate || reduced.matches || document.hidden) snap();
+      else if (!frame) {last=0;frame=requestAnimationFrame(tick);}
+    };
+    panel.addEventListener('click',event => {
+      const index=buttons.indexOf(event.target.closest('[data-trip-month]'));
+      if(index<0)return; selected=index; move();
+    });
+    strip.addEventListener('keydown',event => {
+      const index=buttons.indexOf(event.target.closest('[data-trip-month]')); if(index<0)return;
+      const indices={ArrowLeft:Math.max(0,index-1),ArrowRight:Math.min(buttons.length-1,index+1),Home:0,End:buttons.length-1};
+      if(event.key in indices){event.preventDefault();buttons[indices[event.key]].focus();buttons[indices[event.key]].click();}
+    });
+    const resize = new ResizeObserver(() => move(false)); resize.observe(strip);
+    const settle = () => move(false);
+    const visibility = () => {if(document.hidden)snap();else move(false);};
+    reduced.addEventListener('change',settle); document.addEventListener('visibilitychange',visibility);
+    document.fonts?.ready.then(settle); move(false);
+    window.addEventListener('pagehide',event => {
+      snap(); if(!event.persisted){resize.disconnect();reduced.removeEventListener('change',settle);document.removeEventListener('visibilitychange',visibility);}
+    });
+  }
   const catalog = document.querySelector('[data-home-catalog]');
   if (catalog) {
     const filters = catalog.querySelector('.home-trip-filters');
@@ -15,7 +90,7 @@
         if (!button || button.getAttribute('aria-pressed') === 'true') return;
         stop();
         const month = button.dataset.tripMonth;
-        filters.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        filters.querySelectorAll('[data-trip-month]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
         let count = 0;
         cards.forEach(card => {
           const label = dates.get(card)[month];
@@ -33,6 +108,7 @@
         catalog.querySelector('.home-trip-count').textContent = `Wyjazdy: ${count} · ${button.textContent}`;
         window.ScrollTrigger?.refresh();
       });
+      monthPanel(filters);
     }
     catalog.addEventListener('focusin',stop);
     reduced.addEventListener('change',stop);

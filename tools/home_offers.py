@@ -33,10 +33,10 @@ def render_catalog(terms):
     offers=defaultdict(list)
     for t in terms: offers[str(t['offerId'])].append(t)
     months=sorted({t['start'][:7] for t in terms})
-    filters=['<button type="button" data-trip-month="all" aria-pressed="true" aria-controls="home-trip-grid">Wszystkie</button>']
+    filters=['<button type="button" data-trip-month="all" aria-pressed="true" aria-controls="home-trip-grid"><span>Wszystkie</span></button>']
     for month in months:
         year,number=month.split('-')
-        filters.append(f'<button type="button" data-trip-month="{month}" aria-pressed="false" aria-controls="home-trip-grid">{MONTHS[int(number)-1]} {year}</button>')
+        filters.append(f'<button type="button" data-trip-month="{month}" aria-pressed="false" aria-controls="home-trip-grid"><span>{MONTHS[int(number)-1]}</span> <small>{year}</small></button>')
     cards=[]
     for ident,items in offers.items():
         t=items[0]; by_month={'all':dates_label(items)}
