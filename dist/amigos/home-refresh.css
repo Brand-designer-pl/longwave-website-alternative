@@ -159,3 +159,10 @@ body.home-refresh .hero .pill:focus-visible{color:#fffbea}
 @media(prefers-reduced-motion:reduce){[data-home-enter]{translate:none}}
 
 @media(min-width:701px) and (max-width:1050px){.home-refresh .instagram-heading{align-items:flex-start;flex-direction:column}.home-refresh .instagram-account{align-self:flex-end}}
+
+/* Calendar motion: one continuous shell, native details retained without JavaScript. */
+.calendar-panels{position:relative;display:flow-root}
+.calendar-panels>.calendar-month{display:flow-root}
+.calendar-panels.is-animating{overflow:hidden}
+.calendar-panels.is-animating>.calendar-month{position:absolute;inset:0 0 auto}
+@media(prefers-reduced-motion:no-preference){.calendar-nav button::after{transition:background .2s,box-shadow .25s,transform .25s}.calendar-nav button:hover::after,.calendar-nav button:focus-visible::after{transform:translateX(-50%) rotate(-8deg) scale(1.15)}}
