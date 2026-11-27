@@ -29,7 +29,7 @@
 
 /* Client checklist 25.11: black type, compact editorial cards and unframed photography.
    Display/hand font variables are ready for the client's licensed webfont files. */
-.home-refresh{--contrast:#000;--ocean:var(--contrast);--ink:var(--contrast);--teal:#000;--display-font:"Reenie Beanie",cursive;--hand-font:"Reenie Beanie",cursive;color:var(--contrast)}
+.home-refresh{--contrast:#000;--ocean:var(--contrast);--ink:var(--contrast);--teal:#000;--display-font:"Druk Wide",Manrope,Arial,sans-serif;--hand-font:"Reenie Beanie",cursive;color:var(--contrast)}
 .home-refresh h1,.home-refresh h2,.home-refresh h3{font-family:var(--display-font)}
 .home-refresh .hero-copy h1,.home-refresh .hero-copy>p{color:#fff}
 .home-refresh .hero-row h1{max-width:17ch;font-size:clamp(2.5rem,5.6vw,6rem);line-height:1.05;letter-spacing:-.045em}
@@ -191,9 +191,9 @@ body.home-refresh .hero .pill:focus-visible{color:#fffbea}
 @media(max-width:700px){.home-slide,.community-slide{grid-template-columns:1fr;min-height:0;gap:10px;padding:8px}.home-slide figure,.community-slide figure{aspect-ratio:1.3;min-height:0}.home-slide>div,.why-slide:nth-child(even)>div{padding:12px 12px 18px}.home-slide h3{font-size:1.5rem}.home-slide p:not(.kicker){font-size:.9rem;line-height:1.55}.featured-trips{gap:54px;padding-top:20px;margin-inline:14px}.paper-tape,.taped-trip:nth-child(even) .paper-tape{font-size:clamp(1.5rem,7.5vw,2rem);padding:10px 18px 12px;left:-10px;top:-20px}.taped-trip:nth-child(even) .paper-tape{left:auto;right:-10px;top:auto;bottom:-16px}.taped-caption{padding-top:30px}.taped-photo{aspect-ratio:1.4}}
 @media(prefers-reduced-motion:reduce){.taped-visual,.taped-trip:nth-child(even) .taped-visual{transform:none}}
 
-/* Restored timeline retains the current handwritten heading treatment. */
-.calendar-nav button>span,.home-refresh .calendar-term strong{font-family:var(--hand-font);font-weight:400;letter-spacing:.01em;line-height:1.15}
-.calendar-nav button>span{font-size:1.8rem;white-space:nowrap}
-.home-refresh .calendar-term strong{font-size:1.65rem}
-.home-refresh .calendar-panel h4{font-size:1.8rem}
-@media(max-width:700px){.calendar-nav button>span{font-size:1.65rem}.home-refresh .calendar-term strong{font-size:1.5rem}}
+/* Timeline titles follow the approved display face; dates and prices remain readable. */
+.calendar-nav button>span,.home-refresh .calendar-term strong{font-family:var(--display-font);font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.calendar-nav button>span{font-size:clamp(.8rem,1.25vw,1.15rem);white-space:nowrap}
+.home-refresh .calendar-term strong{font-size:1rem}
+.home-refresh .calendar-panel h4{font-size:1.15rem}
+@media(max-width:700px){.calendar-nav button>span{font-size:.82rem}.home-refresh .calendar-term strong{font-size:.95rem}}
