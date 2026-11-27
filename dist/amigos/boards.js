@@ -82,7 +82,7 @@
  async function loadWater(){if(water||waterLoading||motion.matches||!alive)return;waterLoading=true;try{const module=await import(new URL('boards-water.js?v=interactive-water-20261127',base));if(alive&&!motion.matches){water=module.createWater(root.querySelector('canvas'),()=>{const old=water;water=null;old?.dispose();loadWater();});syncAmbient();}}catch(_){/* The static pale-water background stays visible. */}finally{waterLoading=false;}}
  async function loadVolume(){
   if(volume||volumeLoading||!alive)return;volumeLoading=true;
-  try{const module=await import(new URL('boards-volume.js?v=wide-tyres-20261118',base));
+  try{const module=await import(new URL('boards-volume.js?v=deck-finish-20261127',base));
    const created=await module.createBoards(stage,()=>{const failed=volume;volume=null;settle(requested,false);failed?.dispose();});
    if(!created)return;if(!alive){created.dispose();return;}
    volume=created;settle(requested,false);

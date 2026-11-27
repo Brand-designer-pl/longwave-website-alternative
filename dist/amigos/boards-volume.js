@@ -34,11 +34,32 @@ export async function createBoards(stage, onLost) {
    const length=index?5.05:6.2,width=length*p.ratio,thickness=.075;
    const group=new THREE.Group();scene.add(group);models.push(group);dimensions.push({length,width});
    // Smooth the photographed outline, excluding the wheels outside the bamboo deck.
-   const smooth=p.samples.map((s,i,a)=>[s[0],s[1]].map((_,k)=>{let v=0,n=0;for(let j=Math.max(0,i-2);j<=Math.min(a.length-1,i+2);j++){v+=a[j][k];n++;}return v/n;}).concat(s[2]));
-   const points=[...smooth.map(s=>new THREE.Vector2((s[0]-.5)*width,(.5-s[2])*length)),...smooth.slice().reverse().map(s=>new THREE.Vector2((s[1]-.5)*width,(.5-s[2])*length))];
-   const shape=new THREE.Shape(points);
+   const smooth=p.samples.map((s,i,a)=>{
+    const edge=[s[0],s[1]].map((value,k)=>{
+     if(i<2||i>a.length-3)return value;
+     let sum=0,count=0;for(let j=i-2;j<=i+2;j++){sum+=a[j][k];count++;}return sum/count;
+    });
+    // Keep the bevel inside the photographed bamboo, away from transparent edge pixels.
+    return [edge[0]+.006,edge[1]-.006,s[2]];
+   });
+   const point=(x,y)=>new THREE.Vector2((x-.5)*width,(.5-y)*length);
+   const first=smooth[0],lastRow=smooth.at(-1),center=(first[0]+first[1])/2;
+   const shape=new THREE.Shape();
+   const move=(x,y)=>{const p=point(x,y);shape.moveTo(p.x,p.y);};
+   const line=(x,y)=>{const p=point(x,y);shape.lineTo(p.x,p.y);};
+   const quad=(cx,cy,x,y)=>{const c=point(cx,cy),p=point(x,y);shape.quadraticCurveTo(c.x,c.y,p.x,p.y);};
+   const curve=(ax,ay,bx,by,x,y)=>{const a=point(ax,ay),b=point(bx,by),p=point(x,y);shape.bezierCurveTo(a.x,a.y,b.x,b.y,p.x,p.y);};
+   // Rounded nose and the photographed shallow swallow tail, rather than straight caps.
+   const nose=first[2]+.002,tail=lastRow[2]-.002,notch=.973;
+   move(center,nose);
+   quad(center-.025,nose,smooth[1][0],smooth[1][2]);
+   smooth.slice(2,-1).forEach(s=>line(s[0],s[2]));line(lastRow[0],tail);
+   curve(lastRow[0]+.04,tail+.002,center-.06,notch,center,notch);
+   curve(center+.06,notch,lastRow[1]-.04,tail+.002,lastRow[1],tail);
+   smooth.slice(1,-1).reverse().forEach(s=>line(s[1],s[2]));
+   quad(center+.025,nose,center,nose);shape.closePath();
    const uv={generateTopUV(g,v,a,b,c){return[a,b,c].map(i=>new THREE.Vector2(v[i*3]/width+.5,v[i*3+1]/length+.5));},generateSideWallUV(g,v,a,b,c,d){return[a,b,c,d].map(i=>new THREE.Vector2(v[i*3+1]/length+.5,v[i*3+2]/thickness));}};
-   const geometry=new THREE.ExtrudeGeometry(shape,{depth:thickness,bevelEnabled:true,bevelThickness:.018,bevelSize:.012,bevelSegments:3,steps:1,UVGenerator:uv});
+   const geometry=new THREE.ExtrudeGeometry(shape,{depth:thickness,bevelEnabled:true,bevelThickness:.018,bevelSize:.006,bevelSegments:3,steps:1,UVGenerator:uv});
    // Separate top from underside: the grip photograph must never appear on the back.
    const positions=geometry.attributes.position;const groups=geometry.groups.slice();geometry.clearGroups();
    groups.forEach(g=>{for(let i=g.start;i<g.start+g.count;i+=3){const back=g.materialIndex===0&&positions.getZ(i)<.001;geometry.addGroup(i,3,back?2:g.materialIndex);}});
