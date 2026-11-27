@@ -35,5 +35,5 @@ def render(terms, today=None):
         if not t:
             warnings.warn(f"Homepage featured offer {offer_id} ({label}) has no future public terms; update the editorial selection.", stacklevel=2)
             continue
-        featured.append(f'<a class="taped-trip" href="{link(t)}"><span class="paper-tape">{label}</span><div class="taped-photo"><img src="../{E(t["image"])}" alt="{E(t["title"])}" width="720" height="480" loading="lazy" decoding="async"></div><div class="taped-caption"><div><p>{E(t["dates"])}</p><h3>{E(t["title"])}</h3><span>{E(t["priceLabel"])}</span></div>{ARROW}</div></a>')
+        featured.append(f'<a class="taped-trip" href="{link(t)}"><div class="taped-visual"><span class="paper-tape">{label}</span><div class="taped-photo"><img src="../{E(t["image"])}" alt="{E(t["title"])}" width="720" height="480" loading="lazy" decoding="async"></div></div><div class="taped-caption"><div><p>{E(t["dates"])}</p><h3>{E(t["title"])}</h3><span>{E(t["priceLabel"])}</span></div>{ARROW}</div></a>')
     return ''.join(calendar),''.join(featured)
