@@ -13,7 +13,7 @@ export async function createBoards(stage, onLost) {
  const rim=new THREE.DirectionalLight(0xf5e7cf,2);rim.position.set(5,-1,-4);scene.add(rim);
  const loader=new THREE.TextureLoader(),models=[],dimensions=[],textures=[],geometries=new Set(),materials=new Set();
  let disposed=false,lost=false,playing=false,raf=0,last=0,elapsed=0,current=0;
- const state={turn:-.24,tilt:.075,roll:-.035,y:0,scale:1,modelWidth:1,modelLength:1};
+ const state={turn:-.24,tilt:.075,roll:-.035,sway:0,y:0,scale:1,modelWidth:1,modelLength:1};
  const remember=m=>{materials.add(m);return m;};
  function mesh(geometry,material,parent){geometries.add(geometry);const m=new THREE.Mesh(geometry,material);parent.add(m);return m;}
  function cleanup(){cancelAnimationFrame(raf);geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());renderer.dispose();canvas.remove();stage.classList.remove('has-volume');}
@@ -94,7 +94,7 @@ export async function createBoards(stage, onLost) {
   });
  }catch(error){cleanup();return null;}
  stage.append(canvas);
- function draw(){if(disposed||lost)return;const g=models[current];g.rotation.set(state.tilt+Math.sin(elapsed*.42)*.012,state.turn+Math.sin(elapsed*.33)*.018,state.roll+Math.sin(elapsed*.38)*.009);g.position.y=state.y+Math.sin(elapsed*.6)*.035;g.scale.set(state.scale*state.modelWidth,state.scale*state.modelLength,state.scale);renderer.render(scene,camera);}
+ function draw(){if(disposed||lost)return;const g=models[current];g.rotation.set(state.tilt+Math.sin(elapsed*.42)*.012,state.turn+Math.sin(elapsed*.33)*.018,state.roll+state.sway+Math.sin(elapsed*.38)*.009);g.position.y=state.y+Math.sin(elapsed*.6)*.035;g.scale.set(state.scale*state.modelWidth,state.scale*state.modelLength,state.scale);renderer.render(scene,camera);}
  function resize(){if(disposed||lost)return;const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.position.z=Math.max(13.5,6.3/camera.aspect);camera.updateProjectionMatrix();draw();}
  function frame(now){if(!playing||disposed||lost)return;elapsed+=Math.min((now-last)/1000,.05);last=now;draw();raf=requestAnimationFrame(frame);}
  function setPlaying(value){playing=!!value&&!disposed&&!lost;cancelAnimationFrame(raf);if(playing){last=performance.now();raf=requestAnimationFrame(frame);}else draw();}

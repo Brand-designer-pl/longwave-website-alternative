@@ -6,22 +6,28 @@
  const base=new URL('.',document.currentScript.src),objects=[...root.querySelectorAll('[data-object]')],buttons=[...root.querySelectorAll('[data-board]')];
  const copy=root.querySelector('.boards-copy-motion'),pause=root.querySelector('.boards-motion-toggle'),motion=matchMedia('(prefers-reduced-motion: reduce)');
  const models=[{name:'LONGWAVE BOARD 140',title:'Długa linia.<br>Swobodny ruch.',description:'Surferskie czucie na lądzie. Wydłużony bambusowy deck, charakterystyczny kształt i czarne pady LONGWAVE.'},{name:'LONGWAVE BOARD 100',title:'Krótsza forma.<br>Ta sama zajawka.',description:'Surferskie czucie na lądzie. Krótszy bambusowy deck z charakterystycznym czarnym padem LONGWAVE.'}];
- let current=0,requested=0,transition=null,float=null,water=null,volume=null,volumeLoading=false,userPaused=false,visible=true,alive=true,loading=false;
+ let current=0,requested=0,transition=null,float=null,water=null,volume=null,volumeLoading=false,userPaused=false,visible=true,alive=true,loading=false,swayTween=null;
  const hasMotion=()=>!!window.gsap&&!motion.matches&&!userPaused;
  const canPlay=()=>alive&&visible&&!document.hidden&&!document.body.classList.contains('mobile-menu-open')&&hasMotion();
  function copyFor(index,announce=true){const model=models[index];root.querySelector('[data-board-name]').textContent=model.name;root.querySelector('[data-board-title]').innerHTML=model.title;root.querySelector('[data-board-description]').textContent=model.description;root.querySelector('[data-board-count]').textContent=`0${index+1} / 02`;buttons.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));if(announce)root.querySelector('.boards-announcement').textContent='Wybrano '+model.name;}
  function stopFloat(){float?.kill();float=null;objects.forEach(o=>o.querySelector('.board-float').style.removeProperty('transform'));}
+ function resetSway(immediate=false){
+  swayTween?.kill();swayTween=null;if(!volume)return;
+  if(immediate||!canPlay()){volume.state.sway=0;volume.draw();}
+  else swayTween=gsap.to(volume.state,{sway:0,duration:.65,ease:'power2.out',onComplete(){swayTween=null;}});
+ }
  function syncAmbient(){
+  if(!canPlay())resetSway(true);
   if(!canInspect())stopDrag();
   water?.setPlaying(canPlay());volume?.setPlaying(canPlay()&&!drag);stopFloat();
   if(canPlay()&&!transition&&!volume)float=gsap.to(objects[current].querySelector('.board-float'),{y:7,rotation:1.15,duration:3.8,ease:'sine.inOut',repeat:-1,yoyo:true});
   pause.disabled=motion.matches;pause.setAttribute('aria-pressed',String(userPaused));pause.querySelector('span').textContent=motion.matches?'Ruch ograniczony':userPaused?'Włącz ruch':'Wstrzymaj ruch';
  }
- function settle(index,announce=true){stopDrag();transition?.kill();transition=null;stopFloat();current=requested=index;objects.forEach((o,i)=>{o.hidden=i!==index;o.style.removeProperty('transform');o.style.removeProperty('opacity');});copy.style.removeProperty('transform');copy.style.removeProperty('opacity');copyFor(index,announce);if(volume){Object.assign(volume.state,{turn:-.24,tilt:.075,roll:-.035,y:0,scale:1});volume.setModel(index);}syncAmbient();}
+ function settle(index,announce=true){stopDrag();resetSway(true);transition?.kill();transition=null;stopFloat();current=requested=index;objects.forEach((o,i)=>{o.hidden=i!==index;o.style.removeProperty('transform');o.style.removeProperty('opacity');});copy.style.removeProperty('transform');copy.style.removeProperty('opacity');copyFor(index,announce);if(volume){Object.assign(volume.state,{turn:-.24,tilt:.075,roll:-.035,y:0,scale:1});volume.setModel(index);}syncAmbient();}
  async function select(index){
   index=(index+objects.length)%objects.length;requested=index;
   if(transition||index===current)return;
-  stopDrag();
+  stopDrag();resetSway();
   if(!hasMotion()){settle(index);return;}
   // Decode before moving so even a cold-cache switch never reveals an empty product.
   if(loading)return;loading=true;
@@ -68,11 +74,12 @@
  function stopDrag(){
   const held=drag;drag=null;stage.classList.remove('is-dragging');
   if(held&&stage.hasPointerCapture(held.id))stage.releasePointerCapture(held.id);
-  if(held)volume?.setPlaying(canPlay());
+  if(held){volume?.setPlaying(canPlay());resetSway();}
  }
  const dragStart=e=>{
   if(e.button!==0||!e.isPrimary||drag||transition||loading||!canInspect()||e.target.closest('button,a'))return;
   if(e.pointerType==='mouse'){e.preventDefault();stage.focus({preventScroll:true});}
+  swayTween?.kill();swayTween=null;
   drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};
   stage.setPointerCapture(e.pointerId);stage.classList.add('is-dragging');volume?.setPlaying(false);
  };
@@ -88,7 +95,7 @@
   stopDrag();
   if(canInspect()&&!transition&&!loading&&Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5)select(requested+(dx>0?1:-1));
  };
- const dragCancel=()=>stopDrag();
+ const dragCancel=()=>{stopDrag();resetSway();};
  const switchKey=e=>{
   if(e.target!==stage||transition||loading||!canInspect()||!['ArrowLeft','ArrowRight'].includes(e.key))return;
   e.preventDefault();stopDrag();select(requested+(e.key==='ArrowRight'?1:-1));
@@ -102,13 +109,18 @@
  function boardWakePoint(){const r=stage.getBoundingClientRect();return waterPoint(r.left+r.width*.5,r.top+r.height*.46);}
  let lastPointer=0,previousPointer=null;
  const pointerMove=e=>{
-  if(e.pointerType==='touch'||!canPlay()||!water)return;
+  if(e.pointerType==='touch'||!canPlay())return;
+  if(volume&&!drag&&!transition&&!loading){
+   const r=root.getBoundingClientRect(),x=Math.max(-1,Math.min(1,(e.clientX-r.left)/r.width*2-1));
+   swayTween?.kill();swayTween=gsap.to(volume.state,{sway:-x*.055,duration:.65,ease:'power2.out',onComplete(){swayTween=null;}});
+  }
+  if(!water)return;
   const now=performance.now();if(now-lastPointer<65)return;
   if(previousPointer&&Math.hypot(e.clientX-previousPointer.x,e.clientY-previousPointer.y)<5)return;
   lastPointer=now;previousPointer={x:e.clientX,y:e.clientY};const p=waterPoint(e.clientX,e.clientY);water.disturb(p.x,p.y,.22);
  };
  const waterClick=e=>{if(stage.contains(e.target)&&performance.now()<suppressClickUntil)return;if(!canPlay()||!water||e.button!==0||e.target.closest('[data-board],[data-board-prev],[data-board-next],.boards-motion-toggle'))return;const p=waterPoint(e.clientX,e.clientY);water.disturb(p.x,p.y,.85);};
- const pointerLeave=()=>{previousPointer=null;};
+ const pointerLeave=()=>{previousPointer=null;resetSway();};
  root.addEventListener('pointermove',pointerMove,{passive:true});root.addEventListener('click',waterClick,{passive:true});root.addEventListener('pointerleave',pointerLeave);
 
  pause.addEventListener('click',()=>{userPaused=!userPaused;if(userPaused)settle(requested,false);else syncAmbient();});
@@ -120,7 +132,7 @@
  async function loadWater(){if(water||waterLoading||motion.matches||!alive)return;waterLoading=true;try{const module=await import(new URL('boards-water.js?v=interactive-water-20261127',base));if(alive&&!motion.matches){water=module.createWater(root.querySelector('canvas'),()=>{const old=water;water=null;old?.dispose();loadWater();});syncAmbient();}}catch(_){/* The static pale-water background stays visible. */}finally{waterLoading=false;}}
  async function loadVolume(){
   if(volume||volumeLoading||!alive)return;volumeLoading=true;
-  try{const module=await import(new URL('boards-volume.js?v=deck-finish-20261127',base));
+  try{const module=await import(new URL('boards-volume.js?v=cursor-sway-20261127',base));
    const created=await module.createBoards(stage,()=>{const failed=volume;volume=null;settle(requested,false);failed?.dispose();});
    if(!created)return;if(!alive){created.dispose();return;}
    volume=created;settle(requested,false);
