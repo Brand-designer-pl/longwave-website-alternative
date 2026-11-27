@@ -2841,7 +2841,7 @@
           "text": "Dużo natury, żeglarskiej zajawki, dobrych ludzi i jeszcze trochę wakacyjnego lata!"
         }
       ],
-      "hero": "chorwacja-katamaran",
+      "hero": "sailing-wrzesien-jacht",
       "features": [
         {
           "title": "7 NOCY POD ŻAGLAMI",
@@ -2885,7 +2885,7 @@
               "text": "Bez napiętego harmonogramu, za to z pięknymi widokami i ekstra ludźmi!"
             }
           ],
-          "image": "chorwacja-poklad",
+          "image": "sailing-wrzesien-kokpit",
           "kind": "split",
           "id": "opis"
         },
@@ -2933,7 +2933,7 @@
               "text": "Szczegóły konkretnej jednostki i podziału kabin będą przedstawione przed rezerwacją."
             }
           ],
-          "image": "chorwacja-kabina",
+          "image": "sailing-wrzesien-kabina",
           "kind": "split",
           "id": "zakwaterowanie"
         },
@@ -2981,7 +2981,7 @@
               "text": "Oba kierunki są propozycjami inspiracyjnymi, a nie gwarantowanymi trasami. Ostateczny plan rejsu będzie zależał od portu rozpoczęcia, pogody, warunków żeglarskich i decyzji skippera."
             }
           ],
-          "image": "chorwacja-poklad",
+          "image": "sailing-wrzesien-zatoka",
           "kind": "split"
         },
         {
@@ -3052,7 +3052,7 @@
               "text": "Odpoczynek w kameralnym gronie."
             }
           ],
-          "image": "chorwacja-katamaran",
+          "image": "sailing-wrzesien-jacht",
           "kind": "split"
         },
         {
@@ -3352,7 +3352,7 @@
               "text": "Harmonogram jest przykładowy. Godziny, postoje i przebieg rejsu zależą od pogody oraz decyzji skippera."
             }
           ],
-          "image": "chorwacja-poklad",
+          "image": "sailing-wrzesien-salon",
           "kind": "day",
           "id": "dzien"
         },
@@ -3381,11 +3381,17 @@
         }
       ],
       "gallery": [
-        "chorwacja-katamaran",
-        "chorwacja-kabina",
-        "chorwacja-poklad"
+        "sailing-wrzesien-zatoka",
+        "sailing-wrzesien-jacht",
+        "sailing-wrzesien-kokpit"
       ],
-      "inquiry": true
+      "inquiry": true,
+      "rooms": [
+        "sailing-wrzesien-kabina",
+        "sailing-wrzesien-koje",
+        "sailing-wrzesien-salon",
+        "sailing-wrzesien-kuchnia"
+      ]
     },
     {
       "route": "wyjazdy/rejsy-chorwacja/majowka",
@@ -3409,7 +3415,7 @@
           "text": "Ekstra ludzie, ekstra widoki i ekstra żeglarskiej przygoda!"
         }
       ],
-      "hero": "chorwacja-katamaran",
+      "hero": "sailing-maj-zatoka",
       "features": [
         {
           "title": "7 NOCY NA ADRIATYKU",
@@ -3457,7 +3463,7 @@
               "text": "Dużo morza, pięknych widoków i dobrej atmosfery - po naszemu!"
             }
           ],
-          "image": "chorwacja-poklad",
+          "image": "sailing-maj-katamaran",
           "kind": "split",
           "id": "opis"
         },
@@ -3505,7 +3511,7 @@
               "text": "Port bazowy katamaranu: Sukošan - Marina Dalmacija."
             }
           ],
-          "image": "chorwacja-kabina",
+          "image": "sailing-maj-kabina",
           "kind": "split",
           "id": "zakwaterowanie"
         },
@@ -3553,7 +3559,7 @@
               "text": "Nie zakładamy odwiedzenia wszystkich wymienionych miejsc."
             }
           ],
-          "image": "chorwacja-katamaran",
+          "image": "sailing-maj-zatoka",
           "kind": "split"
         },
         {
@@ -3624,7 +3630,7 @@
               "text": "Dużo czasu z EKSTRA ludźmi."
             }
           ],
-          "image": "chorwacja-poklad",
+          "image": "sailing-maj-poklad",
           "kind": "split"
         },
         {
@@ -3850,7 +3856,7 @@
               "text": "Plan dnia i kierunek żeglugi dostosowujemy do pogody oraz decyzji skippera."
             }
           ],
-          "image": "chorwacja-poklad",
+          "image": "sailing-maj-stol",
           "kind": "day",
           "id": "dzien"
         },
@@ -3875,11 +3881,16 @@
         }
       ],
       "gallery": [
-        "chorwacja-katamaran",
-        "chorwacja-poklad",
-        "chorwacja-kabina"
+        "sailing-maj-katamaran",
+        "sailing-maj-poklad",
+        "sailing-maj-morze"
       ],
-      "inquiry": true
+      "inquiry": true,
+      "rooms": [
+        "sailing-maj-kabina",
+        "sailing-maj-salon",
+        "sailing-maj-stol"
+      ]
     },
     {
       "route": "eventy/dla-firm",
@@ -4837,7 +4848,7 @@
           "text": "A w tym wszystkim najlepsze jest to, że tę historię tworzymy razem z Wami!"
         }
       ],
-      "hero": "team.webp",
+      "hero": "historia-pasja",
       "features": [
         {
           "title": "PASJA",
@@ -4893,7 +4904,7 @@
               "text": "Robimy to, co kochamy. I uwielbiamy dzielić się tym z innymi!"
             }
           ],
-          "image": "world-boards.webp",
+          "image": "historia-deski",
           "kind": "split",
           "id": "opis"
         },
@@ -4929,7 +4940,7 @@
               "text": "Bo doskonale wiemy, że w tych małych szczegółach ukryty jest cały klimat LONGWAVE."
             }
           ],
-          "image": "festiwal-muzyka",
+          "image": "historia-stoisko",
           "kind": "split"
         },
         {
@@ -4964,7 +4975,7 @@
               "text": "Najbardziej zależy nam jednak na tym, żeby każdy uczestnik czuł się komfortowo, swobodnie i mógł wynieść z wyjazdu jak najwięcej."
             }
           ],
-          "image": "lazy-grupa",
+          "image": "historia-oboz",
           "kind": "split"
         },
         {
@@ -5003,7 +5014,7 @@
               "text": "Chcemy pokazywać, ile radości może dawać aktywny styl życia, wspierać rozwój i tworzyć przestrzeń, w której ludzie dobrze się ze sobą czują."
             }
           ],
-          "image": "together.webp",
+          "image": "historia-pasja",
           "kind": "split"
         },
         {
@@ -5038,15 +5049,17 @@
               "text": "Ściskamy! Zuzia i Tomek"
             }
           ],
-          "image": "festiwal-ekipa",
+          "image": "historia-razem",
           "kind": "split"
         }
       ],
       "gallery": [
-        "team.webp",
-        "lazy-grupa",
-        "festiwal-muzyka",
-        "together.webp"
+        "historia-gory",
+        "historia-kamper",
+        "historia-longboard",
+        "historia-deski",
+        "historia-oboz",
+        "historia-stoisko"
       ],
       "story": true
     },
@@ -5084,7 +5097,7 @@
           "text": "#longwavefamilyvibes"
         }
       ],
-      "hero": "together.webp",
+      "hero": "community-ekipa",
       "features": [
         {
           "title": "WSPÓLNA ZAJAWKA",
@@ -5140,7 +5153,7 @@
               "text": "Nie bez powodu nasi uczestnicy sami zaczęli nazywać to, co dzieje się podczas wyjazdów, rodziną LONGWAVE."
             }
           ],
-          "image": "festiwal-ekipa",
+          "image": "community-zachod",
           "kind": "split",
           "id": "opis"
         },
@@ -5172,7 +5185,7 @@
               "text": "I wtedy dzieje się coś naprawdę magicznego, a zarazem tak bardzo prawdziwego! <3"
             }
           ],
-          "image": "jastarnia-ekipa",
+          "image": "community-przyjazn",
           "kind": "split"
         },
         {
@@ -5207,7 +5220,7 @@
               "text": "Bo najfajniejsze wspomnienia często powstają właśnie wtedy, kiedy spotykają się różne pokolenia i różne spojrzenia na świat."
             }
           ],
-          "image": "festiwal-ruch",
+          "image": "community-pokolenia",
           "kind": "split"
         },
         {
@@ -5246,7 +5259,7 @@
               "text": "Chodzi o odwagę, samodzielność, przyjaźnie, rozwój i odkrywanie własnych możliwości."
             }
           ],
-          "image": "lazy-nauka",
+          "image": "community-sport",
           "kind": "split"
         },
         {
@@ -5285,7 +5298,7 @@
               "text": "To ludzie, przyjaźnie i historie, które tworzymy razem."
             }
           ],
-          "image": "dabki-razem",
+          "image": "community-kamper",
           "kind": "split"
         },
         {
@@ -5312,15 +5325,17 @@
               "text": "Super jest tworzyć to wszystko razem z Wami! 🧡🩵"
             }
           ],
-          "image": "festiwal-koncert",
+          "image": "community-spacer",
           "kind": "split"
         }
       ],
       "gallery": [
-        "festiwal-ekipa",
-        "jastarnia-ekipa",
-        "lazy-grupa",
-        "dabki-razem"
+        "community-marka",
+        "community-kamper",
+        "community-koncert",
+        "community-zachod",
+        "community-odpoczynek",
+        "community-pokolenia"
       ],
       "story": true
     },

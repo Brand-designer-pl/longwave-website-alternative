@@ -508,5 +508,334 @@
     "alt": "Ekipa LONGWAVE podczas wyjazdu na Prasonisi",
     "source": "../strona-www/sources/do doslania praso/86012A6E-4093-466D-A1F8-5B054B74B222.JPEG",
     "bytes": 145800
+  },
+  "community-ekipa": {
+    "src": "places/community-ekipa.webp",
+    "small": "places/community-ekipa-small.webp",
+    "width": 1920,
+    "height": 1080,
+    "smallWidth": 640,
+    "alt": "Społeczność LONGWAVE podczas wspólnego spotkania",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_14.jpg",
+    "bytes": 196478,
+    "mobile": "places/community-ekipa-mobile.webp",
+    "mobileSource": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_01.jpg"
+  },
+  "community-zachod": {
+    "src": "places/community-zachod.webp",
+    "small": "places/community-zachod-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Wspólne chwile w bluzach LONGWAVE przy zachodzie słońca",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_01.jpg",
+    "bytes": 119542
+  },
+  "community-przyjazn": {
+    "src": "places/community-przyjazn.webp",
+    "small": "places/community-przyjazn-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Wspólny spacer po plaży",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_07.jpg",
+    "bytes": 133374
+  },
+  "community-pokolenia": {
+    "src": "places/community-pokolenia.webp",
+    "small": "places/community-pokolenia-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Rodzinne spotkanie przy wspólnym stole",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_10.jpg",
+    "bytes": 148622
+  },
+  "community-sport": {
+    "src": "places/community-sport.webp",
+    "small": "places/community-sport-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Ekipa po wspólnej aktywności sportowej",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/867C04EF-2E26-421B-8C29-3ECC4FF3E265.JPEG",
+    "bytes": 128852
+  },
+  "community-kamper": {
+    "src": "places/community-kamper.webp",
+    "small": "places/community-kamper-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Spotkanie przy kamperze LONGWAVE",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_11.jpg",
+    "bytes": 170820
+  },
+  "community-marka": {
+    "src": "places/community-marka.webp",
+    "small": "places/community-marka-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Stoisko LONGWAVE Boards podczas wydarzenia",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_08.jpg",
+    "bytes": 93154
+  },
+  "community-spacer": {
+    "src": "places/community-spacer.webp",
+    "small": "places/community-spacer-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Spacer w bluzach LONGWAVE",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_02.jpg",
+    "bytes": 151516
+  },
+  "community-odpoczynek": {
+    "src": "places/community-odpoczynek.webp",
+    "small": "places/community-odpoczynek-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Chwila odpoczynku przy kamperze",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_05.jpg",
+    "bytes": 135544
+  },
+  "community-koncert": {
+    "src": "places/community-koncert.webp",
+    "small": "places/community-koncert-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Muzyka na żywo i wspólne spotkanie",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/community piach/Sand_Surf_04.jpg",
+    "bytes": 70586
+  },
+  "sailing-maj-zatoka": {
+    "src": "places/sailing-maj-zatoka.webp",
+    "small": "places/sailing-maj-zatoka-small.webp",
+    "width": 1920,
+    "height": 1078,
+    "smallWidth": 640,
+    "alt": "Katamaran na turkusowej wodzie przy wybrzeżu",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_Jubilo_drone14.jpg",
+    "bytes": 377310,
+    "mobile": "places/sailing-maj-zatoka-mobile.webp",
+    "mobileSource": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_Jubilo_drone14.jpg"
+  },
+  "sailing-maj-katamaran": {
+    "src": "places/sailing-maj-katamaran.webp",
+    "small": "places/sailing-maj-katamaran-small.webp",
+    "width": 1280,
+    "height": 719,
+    "smallWidth": 640,
+    "alt": "Katamaran widziany z góry",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_Jubilo_drone6.jpg",
+    "bytes": 131962
+  },
+  "sailing-maj-kabina": {
+    "src": "places/sailing-maj-kabina.webp",
+    "small": "places/sailing-maj-kabina-small.webp",
+    "width": 1280,
+    "height": 855,
+    "smallWidth": 640,
+    "alt": "Kabina z podwójnym łóżkiem na katamaranie",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_DSC00745.jpg",
+    "bytes": 66572
+  },
+  "sailing-maj-salon": {
+    "src": "places/sailing-maj-salon.webp",
+    "small": "places/sailing-maj-salon-small.webp",
+    "width": 1280,
+    "height": 773,
+    "smallWidth": 640,
+    "alt": "Jasny salon katamaranu",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_IMG_1857.jpg",
+    "bytes": 76388
+  },
+  "sailing-maj-stol": {
+    "src": "places/sailing-maj-stol.webp",
+    "small": "places/sailing-maj-stol-small.webp",
+    "width": 1280,
+    "height": 823,
+    "smallWidth": 640,
+    "alt": "Zadaszony stół na pokładzie katamaranu",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_IMG_1900.jpg",
+    "bytes": 81324
+  },
+  "sailing-maj-poklad": {
+    "src": "places/sailing-maj-poklad.webp",
+    "small": "places/sailing-maj-poklad-small.webp",
+    "width": 1280,
+    "height": 765,
+    "smallWidth": 640,
+    "alt": "Przestrzeń do odpoczynku na przednim pokładzie",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_IMG_1930.jpg",
+    "bytes": 79882
+  },
+  "sailing-maj-morze": {
+    "src": "places/sailing-maj-morze.webp",
+    "small": "places/sailing-maj-morze-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Katamaran Lagoon 42 na morzu",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing maj katamaran/SAND_SURF_L42-MILLENIUM-EXT-1920x1280-2.jpg",
+    "bytes": 167868
+  },
+  "sailing-wrzesien-jacht": {
+    "src": "places/sailing-wrzesien-jacht.webp",
+    "small": "places/sailing-wrzesien-jacht-small.webp",
+    "width": 1536,
+    "height": 1024,
+    "smallWidth": 640,
+    "alt": "Jacht pod żaglami na otwartym morzu",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_12_Sun-Odyssey-490-Bertrand_DUQUENNE-18130-scaled.jpg",
+    "bytes": 133196,
+    "mobile": "places/sailing-wrzesien-jacht-mobile.webp",
+    "mobileSource": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_12_Sun-Odyssey-490-Bertrand_DUQUENNE-18130-scaled.jpg",
+    "mobilePosition": "right"
+  },
+  "sailing-wrzesien-zatoka": {
+    "src": "places/sailing-wrzesien-zatoka.webp",
+    "small": "places/sailing-wrzesien-zatoka-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Jacht żaglowy na spokojnej wodzie",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_10_e098d934aa0f-Jeanneau-Sun-Odyssey-490-02.jpg",
+    "bytes": 107078
+  },
+  "sailing-wrzesien-kokpit": {
+    "src": "places/sailing-wrzesien-kokpit.webp",
+    "small": "places/sailing-wrzesien-kokpit-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Kokpit jachtu z miejscem do wspólnego siedzenia",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_03_61e053cf5113-Jeanneau-Sun-Odyssey-490-04.jpg",
+    "bytes": 114482
+  },
+  "sailing-wrzesien-kabina": {
+    "src": "places/sailing-wrzesien-kabina.webp",
+    "small": "places/sailing-wrzesien-kabina-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Kabina z podwójnym łóżkiem na jachcie",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_06_9515dd1532cb-Jeanneau-Sun-Odyssey-490-09.jpg",
+    "bytes": 36084
+  },
+  "sailing-wrzesien-koje": {
+    "src": "places/sailing-wrzesien-koje.webp",
+    "small": "places/sailing-wrzesien-koje-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Kabina z oddzielnymi kojami",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_01_0ba4ac583152-Jeanneau-Sun-Odyssey-490-11.jpg",
+    "bytes": 41818
+  },
+  "sailing-wrzesien-salon": {
+    "src": "places/sailing-wrzesien-salon.webp",
+    "small": "places/sailing-wrzesien-salon-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Salon jachtu ze stołem i kanapami",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_09_dffa161c6f9d-Jeanneau-Sun-Odyssey-490-07.jpg",
+    "bytes": 62560
+  },
+  "sailing-wrzesien-kuchnia": {
+    "src": "places/sailing-wrzesien-kuchnia.webp",
+    "small": "places/sailing-wrzesien-kuchnia-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Kuchnia na pokładzie jachtu",
+    "source": "../strona-www/sources/wetransfer_sailing-maj-katamaran_2026-11-27_1529/sailing jacht wrzesien/SAND_SURF_07_b6654200dd3a-Jeanneau-Sun-Odyssey-490-06.jpg",
+    "bytes": 72454
+  },
+  "historia-deski": {
+    "src": "places/historia-deski.webp",
+    "small": "places/historia-deski-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Praca nad bambusową deską LONGWAVE",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/7B9D67B2-1746-444E-9A17-9D60239AFF36.JPEG",
+    "bytes": 335358
+  },
+  "historia-stoisko": {
+    "src": "places/historia-stoisko.webp",
+    "small": "places/historia-stoisko-small.webp",
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "alt": "Spotkanie przy stoisku LONGWAVE Boards",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/SAND_SURF_DSC_8528 2(1).jpg",
+    "bytes": 92358
+  },
+  "historia-oboz": {
+    "src": "places/historia-oboz.webp",
+    "small": "places/historia-oboz-small.webp",
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "alt": "Ekipa z deskami i żaglami nad wodą",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/57B4500B-B6E4-40CA-840B-9C18B19B13C3.JPEG",
+    "bytes": 191148
+  },
+  "historia-pasja": {
+    "src": "places/historia-pasja.webp",
+    "small": "places/historia-pasja-small.webp",
+    "width": 1536,
+    "height": 1024,
+    "smallWidth": 640,
+    "alt": "Wspólna pasja, która łączy LONGWAVE",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/C49AE1DF-4C37-4DB1-9B8C-8BAE6FC621D8.JPEG",
+    "bytes": 70094,
+    "mobile": "places/historia-pasja-mobile.webp",
+    "mobileSource": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/7C11EB32-D1D7-4E05-8F8F-A6A3C0264DA0.JPEG"
+  },
+  "historia-razem": {
+    "src": "places/historia-razem.webp",
+    "small": "places/historia-razem-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Rozmowa przy drewnianej ścianie",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/7C11EB32-D1D7-4E05-8F8F-A6A3C0264DA0.JPEG",
+    "bytes": 184880
+  },
+  "historia-gory": {
+    "src": "places/historia-gory.webp",
+    "small": "places/historia-gory-small.webp",
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Wspólna wyprawa w góry",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/CDA7E5F4-FED5-40E9-8F22-1C878752FD57.JPEG",
+    "bytes": 296472
+  },
+  "historia-kamper": {
+    "src": "places/historia-kamper.webp",
+    "small": "places/historia-kamper-small.webp",
+    "width": 1276,
+    "height": 1280,
+    "smallWidth": 640,
+    "alt": "Chwile w podróży kamperem",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/SAND_SURF_392B9B21-FEC2-42C8-9BEE-6574AFF1F826.jpg",
+    "bytes": 217018
+  },
+  "historia-longboard": {
+    "src": "places/historia-longboard.webp",
+    "small": "places/historia-longboard-small.webp",
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "alt": "Jazda na longboardzie przy nadmorskiej promenadzie",
+    "source": "../strona-www/sources/wetransfer_community-piach_2026-11-27_1519/o na piach/FAC78BCC-6E93-4971-8BFF-A829BF13843F.JPEG",
+    "bytes": 306972
   }
 }

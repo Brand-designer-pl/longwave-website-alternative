@@ -21,7 +21,7 @@
       "position": "50% 50%"
     },
     "O LONGWAVE": {
-      "file": "menu/team.webp",
+      "file": "places/historia-razem-small.webp",
       "position": "50% 50%"
     }
   },
@@ -51,7 +51,7 @@
       "position": "50% 50%"
     },
     "wyjazdy/rejsy-chorwacja/": {
-      "file": "places/chorwacja-katamaran.webp",
+      "file": "places/sailing-maj-katamaran-small.webp",
       "position": "50% 50%"
     },
     "wyjazdy/rodos-dla-kazdego/": {
@@ -87,7 +87,7 @@
       "position": "50% 62%"
     },
     "o-longwave/": {
-      "file": "menu/team.webp",
+      "file": "places/historia-razem-small.webp",
       "position": "50% 50%"
     },
     "o-longwave/bezpieczenstwo/": {
@@ -95,7 +95,7 @@
       "position": "40% 42%"
     },
     "o-longwave/club/": {
-      "file": "menu/together.webp",
+      "file": "places/community-zachod-small.webp",
       "position": "50% 50%"
     },
     "o-longwave/program-liderski/": {

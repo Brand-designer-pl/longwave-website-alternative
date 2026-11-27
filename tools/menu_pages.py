@@ -41,7 +41,7 @@ def image(route,key,hero=False):
  data=LIB.get(key,{'src':key,'width':1440,'height':960,'alt':''})
  url=prefix(route)+'../assets/'
  attrs=f' width="{data["width"]}" height="{data["height"]}" alt="{E(data["alt"])}" decoding="async" '+('fetchpriority="high"' if hero else 'loading="lazy"')
- srcset=f' srcset="{url+data["small"]} {data["smallWidth"]}w, {url+data["src"]} {data["width"]}w" sizes="(max-width:700px) 100vw, 60vw"' if data.get('small') else ''
+ srcset=f' srcset="{url+data["small"]} {data["smallWidth"]}w, {url+data["src"]} {data["width"]}w" sizes="(max-width:700px) 100vw, 60vw"' if data.get('small') and not hero else ''
  tag=f'<img src="{url+data["src"]}"{srcset}{attrs}>'
  if hero and data.get('mobile'):tag=f'<picture><source media="(max-width:700px)" srcset="{url+data["mobile"]}">{tag}</picture>'
  return tag
@@ -131,9 +131,9 @@ def build():
    items=['Czapka po pływaniu i nakrycie głowy chroniące przed słońcem','Legitymacja szkolna','Kieszonkowe — około 100 zł','Mały plecak','Krem z filtrem UV','Strój kąpielowy na przebranie','Kurtka przeciwdeszczowa','Dwa ręczniki: pod prysznic i na plażę','Dres i wygodne ubrania do aktywności']
    body+='<section class="wrap brief-packing"><h2>Nie zapomnij!</h2><ul>'+''.join('<li>'+E(x)+'</li>' for x in items)+'</ul><p>Chcesz połączyć sąsiednie turnusy? Ustalimy możliwość dłuższego pobytu indywidualnie.</p></section><section class="brief-camp-faq" id="faq"><div class="wrap"><p class="kicker">Przed przyjazdem</p><h2>Dobrze wiedzieć.</h2><p>Masz inne pytanie? Zadzwoń: <a href="tel:+48882334889">+48 882 334 889</a>.</p></div>'+faq_markup([faq[0]])+'</section>'
   body+=contact(r)
-  related=[('Łazy','wyjazdy/lazy/','lazy-grupa'),('Jastarnia','wyjazdy/jastarnia/','jastarnia-ekipa'),('Dąbki','wyjazdy/dabki/','dabki-windsurf'),('Grecja','wyjazdy/rodos/','rodos-windsurf')] if loc else [('Festiwal LONGWAVE','wyjazdy/festiwal-longwave/','festiwal-ekipa'),('Rodos dla każdego','wyjazdy/rodos-dla-kazdego/','rodos-windsurf'),('Rejsy Chorwacja','wyjazdy/rejsy-chorwacja/','chorwacja-katamaran')]
+  related=[('Łazy','wyjazdy/lazy/','lazy-grupa'),('Jastarnia','wyjazdy/jastarnia/','jastarnia-ekipa'),('Dąbki','wyjazdy/dabki/','dabki-windsurf'),('Grecja','wyjazdy/rodos/','rodos-windsurf')] if loc else [('Festiwal LONGWAVE','wyjazdy/festiwal-longwave/','festiwal-ekipa'),('Rodos dla każdego','wyjazdy/rodos-dla-kazdego/','rodos-windsurf'),('Rejsy Chorwacja','wyjazdy/rejsy-chorwacja/','sailing-maj-zatoka')]
   if r.startswith('o-longwave') or r=='faq':
-   related=[('Nasza historia','o-longwave/','team.webp'),('Community','o-longwave/club/','together.webp'),('Program liderski','o-longwave/program-liderski/','jastarnia-ekipa'),('Bezpieczeństwo','o-longwave/bezpieczenstwo/','lazy-grupa')]
+   related=[('Nasza historia','o-longwave/','historia-pasja'),('Community','o-longwave/club/','community-ekipa'),('Program liderski','o-longwave/program-liderski/','jastarnia-ekipa'),('Bezpieczeństwo','o-longwave/bezpieczenstwo/','lazy-grupa')]
   elif r.startswith('eventy/'):
    related=[('Oferty dla grup','eventy/dla-firm/','festiwal-ekipa'),('Zielone szkoły','eventy/zielone-szkoly/','jastarnia-ekipa'),('Home Spot Jastarnia','noclegi/home-spot-jastarnia/','jastarnia-domek')]
   related=[x for x in related if x[1].rstrip('/')!=r][:3]
@@ -149,7 +149,7 @@ def build():
  # Sailing overview links the two distinct offers rather than mixing dates and prices.
  r='wyjazdy/rejsy-chorwacja'
  body='<section class="wrap brief-intro" id="opis"><p class="kicker">Wyjazdy dla każdego</p><h1>Chorwacja pod żaglami.</h1><p>Wybierz majówkę na katamaranie albo wrześniowy rejs. Poznaj bazę, plan i warunki każdego wyjazdu.</p></section><section class="wrap brief-sailing-grid">'
- for route,title,date,img in [('majowka','Majówka na katamaranie','1–8 maja 2027','chorwacja-katamaran'),('wrzesien','Wrzesień pod żaglami','11–18 lub 18–25 września 2027','chorwacja-poklad')]:
+ for route,title,date,img in [('majowka','Majówka na katamaranie','1–8 maja 2027','sailing-maj-zatoka'),('wrzesien','Wrzesień pod żaglami','11–18 lub 18–25 września 2027','sailing-wrzesien-jacht')]:
   body+='<a href="'+route+'/">'+image(r,img)+'<div><p class="kicker">'+date+'</p><h2>'+title+'</h2><span>Poznaj rejs '+ARROW+'</span></div></a>'
  body+='</section>'+contact(r)
  mod.shell(r,'Rejsy Chorwacja','Rejsy LONGWAVE w Chorwacji: majówka na katamaranie i wrześniowe wyjazdy pod żaglami w 2027 roku.',body)
