@@ -1,0 +1,122 @@
+{
+  "groups": {
+    "Obozy dla dzieci i młodzieży": {
+      "file": "places/lazy-grupa-small.webp",
+      "position": "50% 50%"
+    },
+    "Wyjazdy dla każdego": {
+      "file": "places/rodos-ekipa-small.webp",
+      "position": "50% 50%"
+    },
+    "Eventy": {
+      "file": "places/festiwal-taniec.webp",
+      "position": "50% 50%"
+    },
+    "Noclegi Jastarnia": {
+      "file": "menu/home-spot-taras.webp",
+      "position": "50% 50%"
+    },
+    "Sklep i LONGWAVE Boards": {
+      "file": "world-collection.webp",
+      "position": "50% 50%"
+    },
+    "O LONGWAVE": {
+      "file": "menu/team.webp",
+      "position": "50% 50%"
+    }
+  },
+  "links": {
+    "#wyjazdy": {
+      "file": "places/jastarnia-ekipa-small.webp",
+      "position": "50% 50%"
+    },
+    "wyjazdy/lazy/": {
+      "file": "places/lazy-longboard-small.webp",
+      "position": "50% 42%"
+    },
+    "wyjazdy/jastarnia/": {
+      "file": "places/jastarnia-zagle.webp",
+      "position": "50% 50%"
+    },
+    "wyjazdy/dabki/": {
+      "file": "places/dabki-windsurf.webp",
+      "position": "55% 50%"
+    },
+    "wyjazdy/rodos/": {
+      "file": "places/rodos-windsurf-small.webp",
+      "position": "50% 50%"
+    },
+    "wyjazdy/festiwal-longwave/": {
+      "file": "places/festiwal-koncert.webp",
+      "position": "50% 50%"
+    },
+    "wyjazdy/rejsy-chorwacja/": {
+      "file": "places/chorwacja-katamaran.webp",
+      "position": "50% 50%"
+    },
+    "wyjazdy/rodos-dla-kazdego/": {
+      "file": "places/rodos-ekipa-small.webp",
+      "position": "50% 50%"
+    },
+    "eventy/dla-firm/": {
+      "file": "places/festiwal-ruch-small.webp",
+      "position": "50% 38%"
+    },
+    "eventy/zielone-szkoly/": {
+      "file": "places/lazy-ruch-small.webp",
+      "position": "50% 50%"
+    },
+    "eventy/": {
+      "file": "places/festiwal-taniec.webp",
+      "position": "50% 50%"
+    },
+    "noclegi/home-spot-jastarnia/": {
+      "file": "menu/home-spot-taras.webp",
+      "position": "50% 50%"
+    },
+    "noclegi/home-spot-2-0/": {
+      "file": "places/home-spot-2-front.webp",
+      "position": "50% 50%"
+    },
+    "https://sklep.longwaveboards.com/": {
+      "file": "world-collection.webp",
+      "position": "50% 50%"
+    },
+    "sklep-i-boards/boards/": {
+      "file": "menu/world-boards.webp",
+      "position": "50% 62%"
+    },
+    "o-longwave/": {
+      "file": "menu/team.webp",
+      "position": "50% 50%"
+    },
+    "o-longwave/bezpieczenstwo/": {
+      "file": "places/rodos-przygotowanie-small.webp",
+      "position": "40% 42%"
+    },
+    "o-longwave/club/": {
+      "file": "menu/together.webp",
+      "position": "50% 50%"
+    },
+    "o-longwave/program-liderski/": {
+      "file": "places/lazy-nauka-small.webp",
+      "position": "50% 40%"
+    },
+    "blog/": {
+      "file": "places/rodos-zachod-small.webp",
+      "position": "50% 50%"
+    },
+    "o-longwave/opinie/": {
+      "file": "places/jastarnia-wspomnienia-small.webp",
+      "position": "50% 50%"
+    },
+    "faq/": {
+      "file": "places/jastarnia-relaks-small.webp",
+      "position": "50% 40%"
+    },
+    "kontakt/": {
+      "file": "places/festiwal-kamper.webp",
+      "position": "50% 50%"
+    }
+  }
+}

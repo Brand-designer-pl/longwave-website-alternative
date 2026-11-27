@@ -111,10 +111,9 @@ if (fullscreenMenu) {
 
   function photoFor(element, index) {
     const label = element.textContent.replace(/Nowość/g, '').trim();
-    let photo = categoryPhotos[index] || categoryPhotos[0];
-    if (/Obozy/.test(label)) photo = {file: 'wybor-oboz.webp', position: '50% 50%'};
-    else if (/zagraniczne/.test(label)) photo = {file: 'surf.webp', position: '50% 50%'};
-    else if (/Deski LONGWAVE/.test(label)) photo = {file: 'world-boards.webp', position: '50% 60%'};
+    const photo = element.dataset.menuPhoto
+      ? {file: element.dataset.menuPhoto, position: element.dataset.menuPosition || '50% 50%'}
+      : categoryPhotos[index] || categoryPhotos[0];
     return {...photo, label};
   }
   function clearPreviewMotion() {

@@ -1,7 +1,7 @@
 """Prepare metadata for the GitHub Pages preview.
 Production indexing, canonical URLs and sitemap require an approved final domain.
 """
-import html,json,re
+import html,json,re,hashlib
 from pathlib import Path
 from urllib.parse import urljoin
 ROOT=Path(__file__).resolve().parents[1]
@@ -27,6 +27,7 @@ def mark_action_arrows(text):
 
 def prepare():
  output=ROOT/'dist'
+ editorial_version='editorial-'+hashlib.sha256((output/'amigos/editorial.js').read_bytes()).hexdigest()[:12]
  settings=json.loads((ROOT/'sources/site-settings.json').read_text())
  base=settings['preview_url'].rstrip('/')+'/'
  urls=[]
@@ -36,7 +37,7 @@ def prepare():
   text=text.replace('<span>Panel uczestnika<small>Aplikacja LONGWAVE</small></span>','<span class="account-label-full">Panel uczestnika<small>Aplikacja LONGWAVE</small></span><svg class="icon account-user" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg><span class="account-label-short">Panel</span>')
   text=re.sub(r'editorial\.css\?v=[^\"\']+','editorial.css?v=arrow-turn-20261126',text)
   text=text.replace('M5 19 19 5M5 5h14v14','M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15')
-  text=re.sub(r'editorial\.js\?v=[^\"\']+','editorial.js?v=menu-20261127',text)
+  text=re.sub(r'editorial\.js\?v=[^\"\']+','editorial.js?v='+editorial_version,text)
   text=text.replace('M19 12H5m7-7-7 7 7 7','M20 12C15 11 10 13 4 12M10 5C8 8 6 10 4 12C6 14 8 16 10 19')
   text=text.replace('M5 12h14m-7-7 7 7-7 7','M4 12C8 11 14 13 20 12M14 5C16 8 18 10 20 12C18 14 16 16 14 19')
   text=mark_action_arrows(text)

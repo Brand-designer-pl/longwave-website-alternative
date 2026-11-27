@@ -6,6 +6,8 @@ ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/'dist/amigos'
 E=lambda x:html.escape(str(x),quote=True)
 VERSION='menu-'+hashlib.sha256((SITE/'brief-pages.css').read_bytes()+(SITE/'brief-pages.js').read_bytes()).hexdigest()[:12]
+EDITORIAL_VERSION='editorial-'+hashlib.sha256((SITE/'editorial.js').read_bytes()).hexdigest()[:12]
+MENU_PHOTOS=json.loads((ROOT/'sources/menu-photos.json').read_text())
 ARROW='<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15"/></svg>'
 MENU=[('Obozy dla dzieci i młodzieży',[('Kalendarz','#wyjazdy'),('Łazy','wyjazdy/lazy/'),('Jastarnia','wyjazdy/jastarnia/'),('Dąbki','wyjazdy/dabki/'),('Grecja','wyjazdy/rodos/')]),('Wyjazdy dla każdego',[('Festiwal LONGWAVE','wyjazdy/festiwal-longwave/'),('Rejsy Chorwacja','wyjazdy/rejsy-chorwacja/'),('Grecja Rodos','wyjazdy/rodos-dla-kazdego/')]),('Eventy',[('Oferty dla grup','eventy/dla-firm/'),('Zielone szkoły','eventy/zielone-szkoly/'),('Wydarzenia','eventy/')]),('Noclegi Jastarnia',[('LONGWAVE Home Spot','noclegi/home-spot-jastarnia/'),('LONGWAVE Home Spot 2.0','noclegi/home-spot-2-0/')]),('Sklep i LONGWAVE Boards',[('Merch','https://sklep.longwaveboards.com/'),('Deski LONGWAVE','sklep-i-boards/boards/')]),('O LONGWAVE',[('Nasza historia','o-longwave/'),('Bezpieczeństwo','o-longwave/bezpieczenstwo/'),('Community','o-longwave/club/'),('Program liderski','o-longwave/program-liderski/'),('Blog','blog/'),('Opinie','o-longwave/opinie/'),('FAQ','faq/'),('Kontakt','kontakt/')])]
 ICONS=[ '<path d="M3 15c3-5 6 5 9 0s6 5 9 0M3 20c3-5 6 5 9 0s6 5 9 0M12 3v9m-5-5 5-4 5 4"/>', '<path d="m3 11 9-8 9 8v10H3Zm6 10v-8h6v8"/>', '<circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M20 4l-2 2M6 18l-2 2"/>', '<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m2-17a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 5v2"/>' ]
@@ -21,8 +23,11 @@ def feature_icon(title,index):
 def prefix(route):return '../'*len(route.split('/')) if route else ''
 def href(route,target):return target if target.startswith(('https:','mailto:','tel:')) else prefix(route)+target
 
+def menu_photo_attrs(kind,key):
+ photo=MENU_PHOTOS[kind][key]
+ return f' data-menu-photo="{E(photo["file"])}" data-menu-position="{E(photo["position"])}"'
 def nav(route):
- return '<nav aria-label="Menu główne">'+''.join('<details><summary>'+E(label)+'</summary><div class="dropdown">'+''.join(f'<a href="{E(href(route,url))}">{E(name)}</a>' for name,url in links)+'</div></details>' for label,links in MENU)+'</nav>'
+ return '<nav aria-label="Menu główne">'+''.join('<details><summary'+menu_photo_attrs('groups',label)+'>'+E(label)+'</summary><div class="dropdown">'+''.join(f'<a href="{E(href(route,url))}"'+menu_photo_attrs('links',url)+'>'+E(name)+'</a>' for name,url in links)+'</div></details>' for label,links in MENU)+'</nav>'
 def patch_menu(text,route):return re.sub(r'<nav aria-label="Menu główne">.*?</nav>',lambda _:nav(route),text,flags=re.S)
 LIB=json.loads((ROOT/'sources/photo-library.json').read_text())
 LIB.update({
@@ -156,7 +161,7 @@ def build():
  for f in SITE.rglob('index.html'):
   r=str(f.parent.relative_to(SITE));r='' if r=='.' else r
   text=patch_menu(f.read_text(),r)
-  text=re.sub(r'editorial.js\?v=[^"\s]+','editorial.js?v='+VERSION,text)
+  text=re.sub(r'editorial.js\?v=[^"\s]+','editorial.js?v='+EDITORIAL_VERSION,text)
   # Previous homepage content links must follow the new audience split too.
   if not r:text=text.replace('href="wyjazdy/rodzinne/"','href="wyjazdy/festiwal-longwave/"')
   f.write_text(text)
