@@ -190,3 +190,29 @@ body.home-refresh .hero .pill:focus-visible{color:#fffbea}
 @media(max-width:1000px) and (min-width:701px){.home-slide,.community-slide{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px}.home-slide>div,.why-slide:nth-child(even)>div{padding:18px 14px 18px 0}.paper-tape,.taped-trip:nth-child(even) .paper-tape{font-size:1.9rem;padding-inline:18px}}
 @media(max-width:700px){.home-slide,.community-slide{grid-template-columns:1fr;min-height:0;gap:10px;padding:8px}.home-slide figure,.community-slide figure{aspect-ratio:1.3;min-height:0}.home-slide>div,.why-slide:nth-child(even)>div{padding:12px 12px 18px}.home-slide h3{font-size:1.5rem}.home-slide p:not(.kicker){font-size:.9rem;line-height:1.55}.featured-trips{gap:54px;padding-top:20px;margin-inline:14px}.paper-tape,.taped-trip:nth-child(even) .paper-tape{font-size:clamp(1.5rem,7.5vw,2rem);padding:10px 18px 12px;left:-10px;top:-20px}.taped-trip:nth-child(even) .paper-tape{left:auto;right:-10px;top:auto;bottom:-16px}.taped-caption{padding-top:30px}.taped-photo{aspect-ratio:1.4}}
 @media(prefers-reduced-motion:reduce){.taped-visual,.taped-trip:nth-child(even) .taped-visual{transform:none}}
+
+/* Public app catalog: one card per offer, with independent description and booking links. */
+.home-catalog{margin-top:30px}
+.home-trip-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.home-trip-filters[hidden],.home-trip-card[hidden]{display:none}
+.home-trip-filters button{border:1px solid #0003;border-radius:100px;background:transparent;color:#000;padding:12px 20px;min-height:44px;font:800 .85rem/1.3 Manrope,Arial,sans-serif;cursor:pointer}
+.home-trip-filters button[aria-pressed=true]{background:#000;color:#fff;border-color:#000}
+.home-trip-filters button:focus-visible,.home-trip-actions a:focus-visible{outline:3px solid currentColor;outline-offset:4px}
+.home-trip-count{font-size:.8rem;margin:0 0 20px;line-height:1.5}
+.home-trip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+.home-trip-card{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;min-width:0;min-height:530px;border-radius:24px;overflow:hidden;background:#242424;color:#fff}
+.home-trip-card>img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.home-trip-card::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0001 0%,#0002 22%,#000b 52%,#101010 100%)}
+.home-trip-category{position:absolute;top:20px;left:20px;max-width:calc(100% - 40px);padding:7px 12px;border-radius:8px;background:#fff;color:#000;font-size:.65rem;font-weight:800;line-height:1.3;text-transform:uppercase;letter-spacing:.035em}
+.home-trip-copy{padding:180px 24px 24px}
+.home-trip-place{font-size:.75rem;line-height:1.5;margin:0 0 10px}
+.home-trip-copy h4{font:800 clamp(1.15rem,1.65vw,1.55rem)/1.2 Manrope,Arial,sans-serif;letter-spacing:-.03em;color:#fff;margin:0 0 14px;overflow-wrap:anywhere}
+.home-trip-dates{font-size:.76rem;line-height:1.65;margin:0 0 18px}
+.home-trip-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.home-trip-price strong{font-size:1.45rem;font-weight:800;line-height:1.2}.home-trip-price small{font-size:.65rem}
+.home-trip-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.home-trip-actions a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;min-height:46px;border-radius:100px;border:1px solid #fff8;color:#fff;font:800 .72rem/1.3 Manrope,Arial,sans-serif;text-decoration:none;white-space:nowrap}
+.home-trip-actions .home-trip-book{background:#fff;color:#000;border-color:#fff}.home-trip-actions .icon{width:17px;height:17px;flex-shrink:0}
+@media(hover:hover){.home-trip-filters button:hover{border-color:#000}.home-trip-actions a:hover{background:#fff;color:#000}.home-trip-actions .home-trip-book:hover{background:#eaeaea}}
+@media(max-width:1050px){.home-trip-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.home-trip-copy h4{font-size:1.35rem}}
+@media(max-width:600px){.home-trip-grid{grid-template-columns:1fr;gap:20px}.home-trip-card{min-height:490px}.home-trip-copy{padding:180px 20px 22px}.home-trip-copy h4{font-size:1.35rem}.home-trip-filters{gap:8px}.home-trip-filters button{font-size:.72rem;padding:11px 14px}.home-trip-actions a{font-size:.72rem;padding-inline:8px}}

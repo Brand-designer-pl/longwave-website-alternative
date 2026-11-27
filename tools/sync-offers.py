@@ -29,7 +29,7 @@ def normalize(offers, draft=False, today=None):
         for term in o.get('terms',[]):
             if term['end_date'] < today: continue
             start=datetime.fromisoformat(term['start_date']); end=datetime.fromisoformat(term['end_date'])
-            result.append(dict(offerId=o['id'],termId=term['id'],location=location(o['place']),draft=draft,
+            result.append(dict(offerId=o['id'],termId=term['id'],location=location(o['place']) or location(o['title']),draft=draft,
                 title=o['title'],place=o['place'],category=o['category'],image='assets/offers/'+slug+'.webp',
                 start=term['start_date'],end=term['end_date'],dates=f'{start:%d.%m} – {end:%d.%m.%Y}',
                 age='Każdy wiek' if o.get('age_unrestricted') else f"{o['age_min']}–{o['age_max']} lat",
@@ -105,14 +105,14 @@ def sync():
     updated=datetime.now(timezone.utc).isoformat()
     (ROOT/'offers.json').write_text(json.dumps(dict(updatedAt=updated,items=public_terms),ensure_ascii=False))
     (ROOT/'amigos/location-offers.json').write_text(json.dumps(dict(updatedAt=updated,draftsExportedAt=snapshot['exportedAt'],items=[t for t in all_terms if t['location']]),ensure_ascii=False))
-    # Legacy preview keeps offer cards; /amigos uses only the calendar and featured trips.
+    # Legacy preview and the homepage both use the public catalog.
     replace(ROOT/'index.html','OFFERS',homepage_cards(public_terms,''))
-    # Homepage brief 0471ef0cc78bf239: calendar and featured cards share this live catalog.
+    # Homepage cards and featured trips share this live catalog.
     home=ROOT/'amigos/index.html'
-    if '<!-- HOME_TIMELINE_START -->' in home.read_text():
+    if '<!-- HOME_CATALOG_START -->' in home.read_text():
         from home_offers import render
-        calendar,featured=render(public_terms)
-        replace(home,'HOME_TIMELINE',calendar)
+        catalog,featured=render(public_terms)
+        replace(home,'HOME_CATALOG',catalog)
         replace(home,'HOME_FEATURED',featured)
     for key,label in LOCATIONS.items():
         terms=[t for t in all_terms if t['location']==key and t['category'].casefold()=='camp']

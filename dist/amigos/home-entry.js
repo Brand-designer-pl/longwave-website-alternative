@@ -10,7 +10,7 @@
     'main > section > .kicker', 'main .section-heading > *',
     '.brand-card', '.brand-story > *', '.launch-section .campaign-copy > *',
     '.journey-intro > div:first-child > *', '.sketch-link', '.calendar-heading > *',
-    '.home-calendar', '.taped-trip', '.home-slide', '.home-slider-controls',
+    '.home-trip-card', '.taped-trip', '.home-slide', '.home-slider-controls',
     '.social-gallery', '.vibe-marquee', '#home-spot .photo-card',
     '.reviews-actions', '.reviews-row', '.community-title',
     '.app-copy > :not(ul)', '.app-copy > ul > li', '.instagram-grid > a',

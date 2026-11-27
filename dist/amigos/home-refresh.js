@@ -1,65 +1,42 @@
 /* 0471ef0cc78bf239. Native controls first; premium-web-agent 1.0.0 motion-accessibility. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const calendar = document.querySelector('[data-home-calendar]');
-  if (calendar) {
-    const months = [...calendar.querySelectorAll('details')];
-    const nav = document.createElement('div'); nav.className = 'calendar-nav'; nav.setAttribute('role','group'); nav.setAttribute('aria-label','Wybierz miesiąc');
-    const panels = document.createElement('div'); panels.className = 'calendar-panels';
-    const buttons = new Map();
-    let selected = null, animation = null;
-    const clear = element => ['opacity','visibility','transform'].forEach(name => element.style.removeProperty(name));
-    const resetContent = month => { clear(month.querySelector('.calendar-panel')); month.querySelectorAll('.calendar-panel h4,.calendar-term').forEach(clear); };
-    const accessibility = () => months.forEach(month => {
-      const active = month === selected;
-      buttons.get(month).setAttribute('aria-expanded',String(active));
-      month.inert = !active; month.setAttribute('aria-hidden',String(!active));
-    });
-    const finish = () => {
-      animation?.kill(); animation = null;
-      months.forEach(month => { month.open = month === selected; resetContent(month); });
-      panels.classList.remove('is-animating'); panels.style.removeProperty('height'); accessibility();
-    };
-    const show = (month, animate = true) => {
-      if (selected === month) return;
-      const height = panels.getBoundingClientRect().height, previous = selected;
-      animation?.kill(); animation = null; selected = month;
-      if (previous?.contains(document.activeElement)) buttons.get(month || previous).focus({preventScroll:true});
-      accessibility();
-      if (!animate || reduced.matches || !window.gsap) { finish(); return; }
-      months.forEach(item => { item.open = item === previous || item === month; if (item !== previous) resetContent(item); });
-      panels.style.height = `${height}px`; panels.classList.add('is-animating');
-      const nextHeight = month ? month.getBoundingClientRect().height : 0;
-      animation = gsap.timeline({onComplete:finish});
-      animation.to(panels,{height:nextHeight,duration:month ? .45 : .36,ease:'power2.inOut'},0);
-      if (previous) animation.to(previous.querySelector('.calendar-panel'),{autoAlpha:0,duration:.15,ease:'power1.out'},0);
-      if (month) {
-        const panel = month.querySelector('.calendar-panel');
-        animation.fromTo(panel,{autoAlpha:0},{autoAlpha:1,duration:.22,ease:'power1.out'},previous ? .13 : 0);
-        animation.fromTo(panel.querySelectorAll('h4,.calendar-term'),{y:12,opacity:0},{y:0,opacity:1,duration:.32,stagger:.05,ease:'power2.out'},previous ? .16 : .08);
-      }
-    };
-    calendar.classList.add('is-enhanced');
-    calendar.style.setProperty('--months', Math.min(6, months.length));
-    months.forEach((month,index) => {
-      const summary = month.querySelector('summary');
-      const button = document.createElement('button'); button.type='button'; button.innerHTML=summary.innerHTML;
-      button.id = `${month.id}-trigger`; button.setAttribute('aria-expanded','false'); button.setAttribute('aria-controls',month.id);
-      month.setAttribute('aria-labelledby',button.id);buttons.set(month,button);nav.append(button);panels.append(month);
-      button.addEventListener('click', () => show(selected === month ? null : month));
-      button.addEventListener('keydown', event => {
-        const directions = {ArrowLeft:(index-1+months.length)%months.length,ArrowRight:(index+1)%months.length,Home:0,End:months.length-1};
-        if (event.key in directions) { event.preventDefault();buttons.get(months[directions[event.key]]).focus(); }
+  const catalog = document.querySelector('[data-home-catalog]');
+  if (catalog) {
+    const filters = catalog.querySelector('.home-trip-filters');
+    const cards = [...catalog.querySelectorAll('.home-trip-card')];
+    const dates = new Map(cards.map(card => [card, JSON.parse(card.dataset.tripDates)]));
+    const animations = new Set();
+    const stop = () => { animations.forEach(animation => animation.cancel()); animations.clear(); };
+    if (filters) {
+      filters.hidden = false;
+      filters.addEventListener('click', event => {
+        const button = event.target.closest('button[data-trip-month]');
+        if (!button || button.getAttribute('aria-pressed') === 'true') return;
+        stop();
+        const month = button.dataset.tripMonth;
+        filters.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        let count = 0;
+        cards.forEach(card => {
+          const label = dates.get(card)[month];
+          card.hidden = !label;
+          if (!label) return;
+          card.querySelector('.home-trip-dates').textContent = label;
+          if (!reduced.matches && card.animate) {
+            const animation = card.animate([{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}],
+              {duration:360,delay:Math.min(count*55,220),easing:'cubic-bezier(.22,.61,.36,1)',fill:'backwards'});
+            animations.add(animation);
+            animation.onfinish = () => {animation.cancel();animations.delete(animation);};
+          }
+          count++;
+        });
+        catalog.querySelector('.home-trip-count').textContent = `Wyjazdy: ${count} · ${button.textContent}`;
+        window.ScrollTrigger?.refresh();
       });
-    });
-    calendar.append(nav,panels);
-    calendar.addEventListener('keydown',event => {if(event.key === 'Escape' && selected){event.preventDefault();show(null);}});
-    if (months.length) show(months.find(m => m.querySelector('.calendar-term')) || months[0],false);
-    let width = panels.clientWidth;
-    const resize = new ResizeObserver(() => {if(panels.clientWidth !== width){width=panels.clientWidth;finish();}});resize.observe(panels);
-    const preference = () => finish();reduced.addEventListener('change',preference);
-    document.fonts?.ready.then(() => {if(animation)finish();});
-    window.addEventListener('pagehide',event => {finish();if(!event.persisted){resize.disconnect();reduced.removeEventListener('change',preference);}});
+    }
+    catalog.addEventListener('focusin',stop);
+    reduced.addEventListener('change',stop);
+    window.addEventListener('pagehide',event => {stop();if(!event.persisted)reduced.removeEventListener('change',stop);});
   }
   document.querySelectorAll('[data-home-slider]').forEach(slider => {
     const track = slider.querySelector('.home-slides');
