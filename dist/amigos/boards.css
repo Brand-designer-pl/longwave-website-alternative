@@ -57,3 +57,7 @@ body.boards-page .nav-shell .account-link{color:#191b1a}
 .boards-stage.has-volume .board-object{visibility:hidden}
 .boards-water::before{display:none}
 @media(max-width:700px){.boards-volume{bottom:48px;height:calc(100% - 48px)}}
+
+/* Mouse inspection keeps native vertical touch scrolling and the existing mobile swipe. */
+@media(hover:hover) and (pointer:fine){.boards-stage.has-volume{cursor:grab;user-select:none}.boards-stage.has-volume.is-dragging{cursor:grabbing}}
+.boards-stage:focus-visible{outline:2px solid #191b1a;outline-offset:6px;border-radius:16px}
