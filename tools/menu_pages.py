@@ -1,11 +1,11 @@
 """Render the approved MENU copy; shared by manual builds and hourly offer refreshes."""
 from pathlib import Path
-import html, json, re, importlib.util
+import html, json, re, importlib.util, hashlib
 from urllib.parse import quote
 ROOT=Path(__file__).resolve().parents[1]
 SITE=ROOT/'dist/amigos'
 E=lambda x:html.escape(str(x),quote=True)
-VERSION='menu-20261127'
+VERSION='menu-'+hashlib.sha256((SITE/'brief-pages.css').read_bytes()+(SITE/'brief-pages.js').read_bytes()).hexdigest()[:12]
 ARROW='<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20C8 18 13 11 20 4M9 4C13 5 17 4 20 4C19 8 20 12 19 15"/></svg>'
 MENU=[('Obozy dla dzieci i młodzieży',[('Kalendarz','#wyjazdy'),('Łazy','wyjazdy/lazy/'),('Jastarnia','wyjazdy/jastarnia/'),('Dąbki','wyjazdy/dabki/'),('Grecja','wyjazdy/rodos/')]),('Wyjazdy dla każdego',[('Festiwal LONGWAVE','wyjazdy/festiwal-longwave/'),('Rejsy Chorwacja','wyjazdy/rejsy-chorwacja/'),('Grecja Rodos','wyjazdy/rodos-dla-kazdego/')]),('Eventy',[('Oferty dla grup','eventy/dla-firm/'),('Zielone szkoły','eventy/zielone-szkoly/'),('Wydarzenia','eventy/')]),('Noclegi Jastarnia',[('LONGWAVE Home Spot','noclegi/home-spot-jastarnia/'),('LONGWAVE Home Spot 2.0','noclegi/home-spot-2-0/')]),('Sklep i LONGWAVE Boards',[('Merch','https://sklep.longwaveboards.com/'),('Deski LONGWAVE','sklep-i-boards/boards/')]),('O LONGWAVE',[('Nasza historia','o-longwave/'),('Bezpieczeństwo','o-longwave/bezpieczenstwo/'),('Community','o-longwave/club/'),('Program liderski','o-longwave/program-liderski/'),('Blog','blog/'),('Opinie','o-longwave/opinie/'),('FAQ','faq/'),('Kontakt','kontakt/')])]
 ICONS=[ '<path d="M3 15c3-5 6 5 9 0s6 5 9 0M3 20c3-5 6 5 9 0s6 5 9 0M12 3v9m-5-5 5-4 5 4"/>', '<path d="m3 11 9-8 9 8v10H3Zm6 10v-8h6v8"/>', '<circle cx="12" cy="12" r="4"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M20 4l-2 2M6 18l-2 2"/>', '<circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m2-17a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 5v2"/>' ]
