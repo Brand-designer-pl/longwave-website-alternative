@@ -62,54 +62,42 @@
  buttons.forEach((button,index)=>button.addEventListener('click',()=>select(index)));
  root.querySelector('[data-board-prev]').addEventListener('click',()=>select(requested-1));root.querySelector('[data-board-next]').addEventListener('click',()=>select(requested+1));
  root.querySelector('.boards-models').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();const index=(requested+(event.key==='ArrowRight'?1:-1)+2)%2;buttons[index].focus();select(index);}});
- const stage=root.querySelector('.boards-stage');let touch=null,drag=null,poseTween=null,suppressClickUntil=0;
+ const stage=root.querySelector('.boards-stage');let drag=null,suppressClickUntil=0;
  const canInspect=()=>alive&&visible&&!document.hidden&&!document.body.classList.contains('mobile-menu-open');
+ stage.tabIndex=0;stage.setAttribute('role','group');stage.setAttribute('aria-label','Modele desek. Przeciągnij w prawo lub w lewo, aby zmienić deskę. Klawiatura: strzałki w lewo i w prawo zmieniają model.');
  function stopDrag(){
-  poseTween?.kill();poseTween=null;
   const held=drag;drag=null;stage.classList.remove('is-dragging');
   if(held&&stage.hasPointerCapture(held.id))stage.releasePointerCapture(held.id);
   if(held)volume?.setPlaying(canPlay());
  }
- function pose(turn,tilt){
-  if(!volume)return;poseTween?.kill();
-  const draw=()=>{volume?.draw();if(canPlay()){const p=boardWakePoint();water?.stir(p.x,p.y,volume.state.turn,.5);}};
-  if(hasMotion())poseTween=gsap.to(volume.state,{turn,tilt,duration:.16,ease:'power2.out',onUpdate:draw,onComplete(){poseTween=null;}});
-  else{Object.assign(volume.state,{turn,tilt});volume.draw();}
- }
  const dragStart=e=>{
-  if(e.pointerType!=='mouse'||e.button!==0||!e.isPrimary||!volume||transition||loading||!canInspect()||e.target.closest('button,a'))return;
-  stopDrag();e.preventDefault();stage.focus({preventScroll:true});
-  drag={id:e.pointerId,x:e.clientX,y:e.clientY,turn:volume.state.turn,tilt:volume.state.tilt,width:stage.clientWidth,moved:false};
-  stage.setPointerCapture(e.pointerId);stage.classList.add('is-dragging');volume.setPlaying(false);
+  if(e.button!==0||!e.isPrimary||drag||transition||loading||!canInspect()||e.target.closest('button,a'))return;
+  if(e.pointerType==='mouse'){e.preventDefault();stage.focus({preventScroll:true});}
+  drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};
+  stage.setPointerCapture(e.pointerId);stage.classList.add('is-dragging');volume?.setPlaying(false);
  };
  const dragMove=e=>{
   if(!drag||e.pointerId!==drag.id)return;
-  if(!(e.buttons&1)){dragEnd(e);return;}
-  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-  if(Math.hypot(dx,dy)>3)drag.moved=true;
-  if(drag.moved)pose(drag.turn+dx/drag.width*Math.PI*2,Math.max(-.65,Math.min(.65,drag.tilt+dy/drag.width*1.6)));
+  if(e.pointerType==='mouse'&&!(e.buttons&1)){dragCancel();return;}
+  if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;
  };
  const dragEnd=e=>{
   if(!drag||e.pointerId!==drag.id)return;
-  if(drag.moved)suppressClickUntil=performance.now()+400;
-  const id=drag.id;drag=null;stage.classList.remove('is-dragging');
-  if(stage.hasPointerCapture(id))stage.releasePointerCapture(id);
-  volume?.setPlaying(canPlay());
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(drag.moved||Math.hypot(dx,dy)>6)suppressClickUntil=performance.now()+400;
+  stopDrag();
+  if(canInspect()&&!transition&&!loading&&Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5)select(requested+(dx>0?1:-1));
  };
- const dragCancel=()=>{stopDrag();volume?.setPlaying(canPlay());};
- const rotateKey=e=>{
-  if(e.target!==stage||!volume||transition||loading||!canInspect())return;
-  if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home'].includes(e.key))return;
-  e.preventDefault();stopDrag();
-  const turn=volume.state.turn+(e.key==='ArrowLeft'?-.3:e.key==='ArrowRight'?.3:0);
-  const tilt=Math.max(-.65,Math.min(.65,volume.state.tilt+(e.key==='ArrowUp'?-.15:e.key==='ArrowDown'?.15:0)));
-  pose(e.key==='Home'?-.24:turn,e.key==='Home'?.075:tilt);
+ const dragCancel=()=>stopDrag();
+ const switchKey=e=>{
+  if(e.target!==stage||transition||loading||!canInspect()||!['ArrowLeft','ArrowRight'].includes(e.key))return;
+  e.preventDefault();stopDrag();select(requested+(e.key==='ArrowRight'?1:-1));
  };
  stage.addEventListener('pointerdown',dragStart);stage.addEventListener('pointermove',dragMove);
  stage.addEventListener('pointerup',dragEnd);stage.addEventListener('pointercancel',dragCancel);
  const captureLost=e=>{if(drag&&e.pointerId===drag.id)dragCancel();};
  stage.addEventListener('lostpointercapture',captureLost);
- stage.addEventListener('keydown',rotateKey);window.addEventListener('blur',dragCancel);
+ stage.addEventListener('keydown',switchKey);window.addEventListener('blur',dragCancel);
  function waterPoint(x,y){const r=root.getBoundingClientRect();return {x:(x-r.left)/r.width,y:(y-r.top)/r.height};}
  function boardWakePoint(){const r=stage.getBoundingClientRect();return waterPoint(r.left+r.width*.5,r.top+r.height*.46);}
  let lastPointer=0,previousPointer=null;
@@ -123,8 +111,6 @@
  const pointerLeave=()=>{previousPointer=null;};
  root.addEventListener('pointermove',pointerMove,{passive:true});root.addEventListener('click',waterClick,{passive:true});root.addEventListener('pointerleave',pointerLeave);
 
- stage.addEventListener('pointerdown',e=>{if(e.pointerType==='touch')touch={x:e.clientX,y:e.clientY};});
- stage.addEventListener('pointerup',e=>{if(!touch)return;const dx=e.clientX-touch.x,dy=e.clientY-touch.y;touch=null;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5)select(requested+(dx<0?1:-1));});stage.addEventListener('pointercancel',()=>touch=null);
  pause.addEventListener('click',()=>{userPaused=!userPaused;if(userPaused)settle(requested,false);else syncAmbient();});
  const preference=()=>{settle(requested,false);if(!motion.matches)loadWater();};motion.addEventListener('change',preference);
  const visibility=()=>{if(document.hidden&&transition)settle(requested,false);syncAmbient();};document.addEventListener('visibilitychange',visibility);
@@ -135,14 +121,14 @@
  async function loadVolume(){
   if(volume||volumeLoading||!alive)return;volumeLoading=true;
   try{const module=await import(new URL('boards-volume.js?v=deck-finish-20261127',base));
-   const created=await module.createBoards(stage,()=>{const failed=volume;volume=null;stage.removeAttribute('tabindex');stage.removeAttribute('aria-label');stage.removeAttribute('role');settle(requested,false);failed?.dispose();});
+   const created=await module.createBoards(stage,()=>{const failed=volume;volume=null;settle(requested,false);failed?.dispose();});
    if(!created)return;if(!alive){created.dispose();return;}
-   volume=created;stage.tabIndex=0;stage.setAttribute('role','group');stage.setAttribute('aria-label','Model deski 3D. Przeciągnij myszką, aby obrócić. Klawiatura: strzałki obracają, Home przywraca widok.');settle(requested,false);
+   volume=created;settle(requested,false);
   }catch(_){/* Keep the original, accessible product photograph. */}finally{volumeLoading=false;}
  }
  const startWater=()=>{loadVolume();if('requestIdleCallback'in window)requestIdleCallback(loadWater,{timeout:1500});else setTimeout(loadWater,300);};
  if(document.readyState==='complete')startWater();else window.addEventListener('load',startWater,{once:true});
- window.addEventListener('pagehide',event=>{alive=false;settle(requested,false);water?.setPlaying(false);volume?.setPlaying(false);if(!event.persisted){volume?.dispose();volume=null;water?.dispose();water=null;stage.removeEventListener('pointerdown',dragStart);stage.removeEventListener('pointermove',dragMove);stage.removeEventListener('pointerup',dragEnd);stage.removeEventListener('pointercancel',dragCancel);stage.removeEventListener('keydown',rotateKey);stage.removeEventListener('lostpointercapture',captureLost);window.removeEventListener('blur',dragCancel);root.removeEventListener('pointermove',pointerMove);root.removeEventListener('click',waterClick);root.removeEventListener('pointerleave',pointerLeave);intersection.disconnect();menuObserver.disconnect();motion.removeEventListener('change',preference);document.removeEventListener('visibilitychange',visibility);}});
+ window.addEventListener('pagehide',event=>{alive=false;settle(requested,false);water?.setPlaying(false);volume?.setPlaying(false);if(!event.persisted){volume?.dispose();volume=null;water?.dispose();water=null;stage.removeEventListener('pointerdown',dragStart);stage.removeEventListener('pointermove',dragMove);stage.removeEventListener('pointerup',dragEnd);stage.removeEventListener('pointercancel',dragCancel);stage.removeEventListener('keydown',switchKey);stage.removeEventListener('lostpointercapture',captureLost);window.removeEventListener('blur',dragCancel);root.removeEventListener('pointermove',pointerMove);root.removeEventListener('click',waterClick);root.removeEventListener('pointerleave',pointerLeave);intersection.disconnect();menuObserver.disconnect();motion.removeEventListener('change',preference);document.removeEventListener('visibilitychange',visibility);}});
  window.addEventListener('pageshow',e=>{if(e.persisted){alive=true;syncAmbient();loadWater();loadVolume();}});
  syncAmbient();
 })();
