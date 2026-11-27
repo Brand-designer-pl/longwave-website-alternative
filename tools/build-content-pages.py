@@ -116,7 +116,7 @@ INDEX.update({'blog':('Historie i poradniki','wybor-longwave.webp'),'o-longwave/
 for loc,label,img in [('lazy','Łazy','coast.webp'),('jastarnia','Jastarnia','wybor-oboz.webp'),('dabki','Dąbki','category-family.webp'),('rodos','Rodos','surf.webp')]:INDEX['wyjazdy/'+loc]=(label,img)
 def related(route,items):
  if route=='eventy':
-  labels={'eventy/dla-firm':'Dla firm','eventy/surf-party':'Surf Party','eventy/vanlife':'Vanlife'}
+  labels={'eventy/dla-firm':'Oferty dla grup','eventy/surf-party':'Surf Party','eventy/vanlife':'Vanlife'}
   rows=''.join(f'<a class="event-format" href="{rel(route,x)}"><div class="event-format-image">{photo(route,INDEX[x][1],"")}</div><div class="event-format-copy"><p class="kicker">0{i+1} / Wybierz swój klimat</p><h3>{E(labels[x])}</h3><p>{E(next((p["lead"] for p in PAGES if p["route"]==x),""))}</p><span class="event-format-link">Poznaj ten format {ARROW}</span></div></a>' for i,x in enumerate(items))
   return '<section class="content-related event-formats"><div class="wrap section"><p class="kicker">Nie tylko jeden sposób na spotkanie</p><h2>Jaki masz plan?</h2><div class="event-format-grid">'+rows+'</div></div></section>'
  cards=''.join(f'<a class="content-card" href="{rel(route,x)}">{photo(route,INDEX[x][1],INDEX[x][0])}<div><h3>{E(INDEX[x][0])}</h3>{ARROW}</div></a>' for x in items)

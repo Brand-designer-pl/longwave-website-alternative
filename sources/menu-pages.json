@@ -3214,7 +3214,33 @@
           ],
           "image": null,
           "kind": "prices",
-          "id": "ceny"
+          "id": "ceny",
+          "priceOptions": [
+            {
+              "date": "11–18 września 2027 · 7 nocy",
+              "label": "Jacht żaglowy",
+              "regular": "6190",
+              "promo": "5990"
+            },
+            {
+              "date": "11–18 września 2027 · 7 nocy",
+              "label": "Katamaran",
+              "regular": "7190",
+              "promo": "6990"
+            },
+            {
+              "date": "18–25 września 2027 · 7 nocy",
+              "label": "Jacht żaglowy",
+              "regular": "6190",
+              "promo": "5990"
+            },
+            {
+              "date": "18–25 września 2027 · 7 nocy",
+              "label": "Katamaran",
+              "regular": "7190",
+              "promo": "6990"
+            }
+          ]
         },
         {
           "title": "CENA OBEJMUJE",
@@ -3704,7 +3730,15 @@
           ],
           "image": null,
           "kind": "prices",
-          "id": "ceny"
+          "id": "ceny",
+          "priceOptions": [
+            {
+              "date": "1–8 maja 2027 · 7 nocy",
+              "label": "Katamaran Lagoon 42",
+              "regular": "6190",
+              "promo": "5990"
+            }
+          ]
         },
         {
           "title": "Cena obejmuje",

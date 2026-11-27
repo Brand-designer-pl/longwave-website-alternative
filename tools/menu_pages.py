@@ -25,6 +25,11 @@ def nav(route):
  return '<nav aria-label="Menu główne">'+''.join('<details><summary>'+E(label)+'</summary><div class="dropdown">'+''.join(f'<a href="{E(href(route,url))}">{E(name)}</a>' for name,url in links)+'</div></details>' for label,links in MENU)+'</nav>'
 def patch_menu(text,route):return re.sub(r'<nav aria-label="Menu główne">.*?</nav>',lambda _:nav(route),text,flags=re.S)
 LIB=json.loads((ROOT/'sources/photo-library.json').read_text())
+LIB.update({
+ 'team.webp':{'src':'team.webp','width':1000,'height':750,'alt':'Ekipa LONGWAVE przy bazie sportów wodnych'},
+ 'together.webp':{'src':'together.webp','width':1000,'height':750,'alt':'Wspólne chwile społeczności LONGWAVE'},
+ 'world-boards.webp':{'src':'world-boards.webp','width':1000,'height':750,'alt':'Jazda na desce LONGWAVE przy nadmorskiej promenadzie'}
+})
 for key in ('dabki','rodos','eventy'):
  LIB['hero-'+key]={'src':f'places/hero-{key}-desktop.webp','mobile':f'places/hero-{key}-mobile.webp','width':1920,'height':1200,'alt':{'dabki':'Windsurfing w bazie WIND4YOU nad jeziorem Bukowo','rodos':'Windsurfing na Prasonisi, Rodos','eventy':'Wspólne chwile podczas festiwalu LONGWAVE'}[key]}
 def image(route,key,hero=False):
@@ -58,6 +63,8 @@ def section(route,s,i):
     current={'title':b['text'],'blocks':[]};steps.append(current)
    elif current:current['blocks'].append(b)
   content='<ol class="brief-steps">'+''.join('<li><h3>'+E(x['title'])+'</h3>'+copy(x['blocks'])+'</li>' for x in steps)+'</ol>'
+ if kind=='prices' and s.get('priceOptions'):
+  content='<div class="brief-price-options">'+''.join('<article><p class="kicker">'+E(x['date'])+'</p><h3>'+E(x['label'])+'</h3><p>Cena regularna: '+E(x['regular'])+' zł / osoba</p><strong>'+E(x['promo'])+' zł</strong><p>Cena promocyjna za osobę</p></article>' for x in s['priceOptions'])+'</div>'
  if kind=='day':content='<div class="brief-day">'+content+'</div>'
  pic=f'<figure class="brief-section-photo">{image(route,s["image"])}</figure>' if s.get('image') else ''
  if kind=='note':heading='<span class="brief-tape">OFFLINE IS THE NEW LUXURY</span>'+heading
@@ -78,7 +85,7 @@ def build():
   r=p['route'];loc=p.get('location');booking=bool(loc or p.get('offerId') or p.get('inquiry'))
   cta=('#dostepnosc' if loc or p.get('offerId') else '#ceny' if '/rejsy-chorwacja/' in r else '#kontakt-strony' if p.get('contact') or p.get('inquiry') else '#opis')
   label='Sprawdź terminy' if loc or p.get('offerId') else 'Terminy i ceny' if '#ceny'==cta else 'Porozmawiajmy' if cta=='#kontakt-strony' else 'Poznaj nas'
-  herocta=f'<a class="pill" href="{cta}"'+(' data-location-cta="hero"' if loc else '')+'>'+label+ARROW+'</a>'
+  herocta=f'<a class="pill" href="{cta}"'+(' data-location-cta="hero" aria-label="Sprawdź terminy: '+E(p['title'])+'"' if loc else '')+'>'+label+ARROW+'</a>'
   body=f'<section class="brief-hero'+(' brief-hero--short' if p.get('faq') else '')+'">'+image(r,p['hero'],True)+'<div class="brief-hero-veil"></div><div class="wrap brief-hero-copy"><p class="kicker">'+E(p['kicker'])+'</p><h1>'+E(p['title'])+'</h1>'+herocta+'</div></section>'
   jumps=[('#opis','Opis campu' if p.get('camp') or loc=='rodos' else 'Poznaj szczegóły')]
   if any(s.get('id')=='zakwaterowanie' for s in p['sections']):jumps.append(('#zakwaterowanie','Zakwaterowanie'))
@@ -111,19 +118,25 @@ def build():
    spec=importlib.util.spec_from_file_location('offer_sync',ROOT/'tools/sync-offers.py');offers=importlib.util.module_from_spec(spec);spec.loader.exec_module(offers)
    markup=''.join(offers.card(t,prefix(r)+'../') for t in terms) or '<p>Zapytaj nas o najbliższy termin i dostępność miejsc.</p>'+button(r,'Zapytaj o wyjazd','mailto:info@longwaveboards.com')
    marker='LOCATION_OFFERS' if loc else 'BRIEF_OFFERS'
-   body+='<section class="wrap brief-booking" id="dostepnosc"><div><p class="kicker">Twój kolejny wyjazd</p><h2>Wybierz termin.</h2><p>Zapisy odbywają się w aplikacji LONGWAVE. Przy aktywnym terminie przejdziesz bezpośrednio do oferty.</p><p>Przy zapowiedziach zapisy nie są jeszcze otwarte.</p></div><div class="brief-terms"><!-- '+marker+'_START -->'+markup+'<!-- '+marker+'_END --></div></section>'
+   body+='<section class="wrap brief-booking" id="dostepnosc"><div class="brief-booking-intro"><p class="kicker">Twój kolejny wyjazd</p><h2>Wybierz termin.</h2><p>Zapisy odbywają się w aplikacji LONGWAVE. Przy aktywnym terminie przejdziesz bezpośrednio do oferty.</p><p>Przy zapowiedziach zapisy nie są jeszcze otwarte.</p></div><div class="brief-terms"><!-- '+marker+'_START -->'+markup+'<!-- '+marker+'_END --></div><aside class="brief-booking-app"><img src="'+prefix(r)+'../assets/app-phone.webp" alt="Podgląd aplikacji LONGWAVE do zapisów na wyjazdy" width="640" height="1200" loading="lazy"><p>Wybierz swój termin i dokończ zapis w aplikacji.</p>'+button(r,'Otwórz aplikację','https://app.longwaveboards.com/')+'</aside></section>'
    if loc:
     link,text,aria,kicker=offers.destination_cta(terms,p['title'])
-    body+='<aside class="brief-dock"><div><span data-location-offer-label>'+E(kicker)+'</span><strong>'+E(p['title'])+'</strong></div><a class="pill" data-location-cta="dock" href="'+E(link)+'">'+E(text)+ARROW+'</a></aside>'
+    body+='<aside class="brief-dock"><div><span data-location-offer-label>'+E(kicker)+'</span><strong>'+E(p['title'])+'</strong></div><a class="pill" data-location-cta="dock" href="'+E(link)+'" aria-label="'+E(aria)+'">'+E(text)+ARROW+'</a></aside>'
   if p.get('camp'):
    items=['Czapka po pływaniu i nakrycie głowy chroniące przed słońcem','Legitymacja szkolna','Kieszonkowe — około 100 zł','Mały plecak','Krem z filtrem UV','Strój kąpielowy na przebranie','Kurtka przeciwdeszczowa','Dwa ręczniki: pod prysznic i na plażę','Dres i wygodne ubrania do aktywności']
    body+='<section class="wrap brief-packing"><h2>Nie zapomnij!</h2><ul>'+''.join('<li>'+E(x)+'</li>' for x in items)+'</ul><p>Chcesz połączyć sąsiednie turnusy? Ustalimy możliwość dłuższego pobytu indywidualnie.</p></section><section class="brief-camp-faq" id="faq"><div class="wrap"><p class="kicker">Przed przyjazdem</p><h2>Dobrze wiedzieć.</h2><p>Masz inne pytanie? Zadzwoń: <a href="tel:+48882334889">+48 882 334 889</a>.</p></div>'+faq_markup([faq[0]])+'</section>'
   body+=contact(r)
   related=[('Łazy','wyjazdy/lazy/','lazy-grupa'),('Jastarnia','wyjazdy/jastarnia/','jastarnia-ekipa'),('Dąbki','wyjazdy/dabki/','dabki-windsurf'),('Grecja','wyjazdy/rodos/','rodos-windsurf')] if loc else [('Festiwal LONGWAVE','wyjazdy/festiwal-longwave/','festiwal-ekipa'),('Rodos dla każdego','wyjazdy/rodos-dla-kazdego/','rodos-windsurf'),('Rejsy Chorwacja','wyjazdy/rejsy-chorwacja/','chorwacja-katamaran')]
+  if r.startswith('o-longwave') or r=='faq':
+   related=[('Nasza historia','o-longwave/','team.webp'),('Community','o-longwave/club/','together.webp'),('Program liderski','o-longwave/program-liderski/','jastarnia-ekipa'),('Bezpieczeństwo','o-longwave/bezpieczenstwo/','lazy-grupa')]
+  elif r.startswith('eventy/'):
+   related=[('Oferty dla grup','eventy/dla-firm/','festiwal-ekipa'),('Zielone szkoły','eventy/zielone-szkoly/','jastarnia-ekipa'),('Home Spot Jastarnia','noclegi/home-spot-jastarnia/','jastarnia-domek')]
+  related=[x for x in related if x[1].rstrip('/')!=r][:3]
   body+='<section class="wrap brief-related"><h2>Widzimy się też tutaj.</h2><div>'+''.join('<a href="'+href(r,u)+'">'+image(r,img)+'<h3>'+E(t)+ARROW+'</h3></a>' for t,u,img in related if u.rstrip('/')!=r)+'</div></section>'
   desc=' '.join(p['intro'][0]['text'].split())+' '+p['kicker']
   mod.shell(r,p['title'],desc[:165],body)
   file=SITE/r/'index.html';htmltext=file.read_text().replace('class="content-page ', 'class="brief-page content-page ')
+  htmltext=re.sub(r'<link rel="stylesheet" href="[^"]*support-layouts.css[^"]*">','',htmltext)
   htmltext=re.sub(r'<script defer src="[^"]*content-motion.js[^"]*"></script>','',htmltext)
   htmltext=htmltext.replace('</head>',f'<link rel="stylesheet" href="{prefix(r)}brief-pages.css?v={VERSION}"><script defer src="{prefix(r)}brief-pages.js?v={VERSION}"></script></head>')
   htmltext=htmltext.replace('<span>LONGWAVE Zuzanna Przybylska · NIP 5842812617</span>','')
@@ -136,6 +149,10 @@ def build():
  body+='</section>'+contact(r)
  mod.shell(r,'Rejsy Chorwacja','Rejsy LONGWAVE w Chorwacji: majówka na katamaranie i wrześniowe wyjazdy pod żaglami w 2027 roku.',body)
  file=SITE/r/'index.html';file.write_text(file.read_text().replace('class="content-page ','class="brief-page content-page ').replace('</head>',f'<link rel="stylesheet" href="{prefix(r)}brief-pages.css?v={VERSION}"></head>'))
+ overview=file.read_text()
+ overview=re.sub(r'<script defer src="[^"]*content-motion.js[^"]*"></script>','',overview)
+ overview=overview.replace('<span>LONGWAVE Zuzanna Przybylska · NIP 5842812617</span>','')
+ file.write_text(overview)
  for f in SITE.rglob('index.html'):
   r=str(f.parent.relative_to(SITE));r='' if r=='.' else r
   text=patch_menu(f.read_text(),r)
