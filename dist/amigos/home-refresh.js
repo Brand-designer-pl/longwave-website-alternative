@@ -1,118 +1,65 @@
 /* 0471ef0cc78bf239. Native controls first; premium-web-agent 1.0.0 motion-accessibility. */
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  // Shared liquid selection, adapted from the owner's 27 Nov video reference.
-  // Only this small SVG path animates; no blur filter or permanent animation loop.
-  function monthPanel(panel) {
-    const buttons = [...panel.querySelectorAll('[data-trip-month]')];
-    const strip = document.createElement('div'); strip.className = 'home-trip-months';
-    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.classList.add('month-selection'); svg.setAttribute('aria-hidden','true');
-    svg.innerHTML = '<defs><linearGradient id="month-ink" x2="0" y2="1"><stop stop-color="#292929"/><stop offset="1" stop-color="#080808"/></linearGradient></defs><path fill="url(#month-ink)"/>';
-    const selectionPath = svg.querySelector('path');
-    strip.append(svg); buttons.forEach(button => strip.append(button));
-    const arrow = (direction,label) => {
-      const button = document.createElement('button'); button.type = 'button';
-      button.className = 'month-step'; button.setAttribute('aria-label',label);
-      button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${direction < 0 ? 'M14 5l-7 7 7 7' : 'M10 5l7 7-7 7'}"/></svg>`;
-      button.addEventListener('click',() => buttons[Math.max(0,Math.min(buttons.length-1,selected+direction))].click());
-      return button;
+  const calendar = document.querySelector('[data-home-calendar]');
+  if (calendar) {
+    const months = [...calendar.querySelectorAll('details')];
+    const nav = document.createElement('div'); nav.className = 'calendar-nav'; nav.setAttribute('role','group'); nav.setAttribute('aria-label','Wybierz miesiąc');
+    const panels = document.createElement('div'); panels.className = 'calendar-panels';
+    const buttons = new Map();
+    let selected = null, animation = null;
+    const clear = element => ['opacity','visibility','transform'].forEach(name => element.style.removeProperty(name));
+    const resetContent = month => { clear(month.querySelector('.calendar-panel')); month.querySelectorAll('.calendar-panel h4,.calendar-term').forEach(clear); };
+    const accessibility = () => months.forEach(month => {
+      const active = month === selected;
+      buttons.get(month).setAttribute('aria-expanded',String(active));
+      month.inert = !active; month.setAttribute('aria-hidden',String(!active));
+    });
+    const finish = () => {
+      animation?.kill(); animation = null;
+      months.forEach(month => { month.open = month === selected; resetContent(month); });
+      panels.classList.remove('is-animating'); panels.style.removeProperty('height'); accessibility();
     };
-    let selected = 0, frame = 0, last = 0;
-    const previous = arrow(-1,'Poprzedni miesiąc'), next = arrow(1,'Następny miesiąc');
-    panel.replaceChildren(previous,strip,next); panel.classList.add('has-liquid-selection');
-    const state = {x:0,y:0,w:0,h:0}, velocity = {x:0,y:0,w:0,h:0};
-    let target = {...state};
-    const draw = () => {
-      const speed = Math.hypot(velocity.x,velocity.y);
-      const stretch = Math.min(18,speed*.018), tail = Math.min(26,Math.abs(velocity.x)*.035);
-      const x = state.x-stretch/2, y = state.y+Math.min(3,speed*.003);
-      const w = state.w+stretch, h = state.h-Math.min(6,speed*.006), r = Math.min(15,h/2), mid=y+h/2;
-      const left = velocity.x>0 ? tail : 0, right = velocity.x<0 ? tail : 0;
-      selectionPath.setAttribute('d',
-        `M${x+r} ${y}H${x+w-r}Q${x+w} ${y} ${x+w} ${y+r}V${mid-10}`+
-        `C${x+w} ${mid-3} ${x+w+right} ${mid-7} ${x+w+right} ${mid}C${x+w+right} ${mid+7} ${x+w} ${mid+3} ${x+w} ${mid+10}`+
-        `V${y+h-r}Q${x+w} ${y+h} ${x+w-r} ${y+h}H${x+r}Q${x} ${y+h} ${x} ${y+h-r}V${mid+10}`+
-        `C${x} ${mid+3} ${x-left} ${mid+7} ${x-left} ${mid}C${x-left} ${mid-7} ${x} ${mid-3} ${x} ${mid-10}V${y+r}Q${x} ${y} ${x+r} ${y}Z`);
-    };
-    const snap = () => {
-      cancelAnimationFrame(frame); frame=0; last=0;
-      Object.assign(state,target); Object.keys(velocity).forEach(key => velocity[key]=0); draw();
-    };
-    const tick = time => {
-      const dt = Math.min((time-(last||time-16.67))/1000,.032); last=time;
-      let moving=false;
-      for (const key of Object.keys(state)) {
-        velocity[key] += ((target[key]-state[key])*330-velocity[key]*25)*dt;
-        state[key] += velocity[key]*dt;
-        if (Math.abs(target[key]-state[key])>.08 || Math.abs(velocity[key])>.3) moving=true;
+    const show = (month, animate = true) => {
+      if (selected === month) return;
+      const height = panels.getBoundingClientRect().height, previous = selected;
+      animation?.kill(); animation = null; selected = month;
+      if (previous?.contains(document.activeElement)) buttons.get(month || previous).focus({preventScroll:true});
+      accessibility();
+      if (!animate || reduced.matches || !window.gsap) { finish(); return; }
+      months.forEach(item => { item.open = item === previous || item === month; if (item !== previous) resetContent(item); });
+      panels.style.height = `${height}px`; panels.classList.add('is-animating');
+      const nextHeight = month ? month.getBoundingClientRect().height : 0;
+      animation = gsap.timeline({onComplete:finish});
+      animation.to(panels,{height:nextHeight,duration:month ? .45 : .36,ease:'power2.inOut'},0);
+      if (previous) animation.to(previous.querySelector('.calendar-panel'),{autoAlpha:0,duration:.15,ease:'power1.out'},0);
+      if (month) {
+        const panel = month.querySelector('.calendar-panel');
+        animation.fromTo(panel,{autoAlpha:0},{autoAlpha:1,duration:.22,ease:'power1.out'},previous ? .13 : 0);
+        animation.fromTo(panel.querySelectorAll('h4,.calendar-term'),{y:12,opacity:0},{y:0,opacity:1,duration:.32,stagger:.05,ease:'power2.out'},previous ? .16 : .08);
       }
-      draw();
-      if (moving) frame=requestAnimationFrame(tick); else snap();
     };
-    const move = (animate=true) => {
-      const rect=buttons[selected].getBoundingClientRect(), base=strip.getBoundingClientRect();
-      target={x:rect.left-base.left,y:rect.top-base.top,w:rect.width,h:rect.height};
-      svg.setAttribute('viewBox',`0 0 ${base.width} ${base.height}`);
-      previous.disabled=selected===0; next.disabled=selected===buttons.length-1;
-      if (!animate || reduced.matches || document.hidden) snap();
-      else if (!frame) {last=0;frame=requestAnimationFrame(tick);}
-    };
-    panel.addEventListener('click',event => {
-      const index=buttons.indexOf(event.target.closest('[data-trip-month]'));
-      if(index<0)return; selected=index; move();
-    });
-    strip.addEventListener('keydown',event => {
-      const index=buttons.indexOf(event.target.closest('[data-trip-month]')); if(index<0)return;
-      const indices={ArrowLeft:Math.max(0,index-1),ArrowRight:Math.min(buttons.length-1,index+1),Home:0,End:buttons.length-1};
-      if(event.key in indices){event.preventDefault();buttons[indices[event.key]].focus();buttons[indices[event.key]].click();}
-    });
-    const resize = new ResizeObserver(() => move(false)); resize.observe(strip);
-    const settle = () => move(false);
-    const visibility = () => {if(document.hidden)snap();else move(false);};
-    reduced.addEventListener('change',settle); document.addEventListener('visibilitychange',visibility);
-    document.fonts?.ready.then(settle); move(false);
-    window.addEventListener('pagehide',event => {
-      snap(); if(!event.persisted){resize.disconnect();reduced.removeEventListener('change',settle);document.removeEventListener('visibilitychange',visibility);}
-    });
-  }
-  const catalog = document.querySelector('[data-home-catalog]');
-  if (catalog) {
-    const filters = catalog.querySelector('.home-trip-filters');
-    const cards = [...catalog.querySelectorAll('.home-trip-card')];
-    const dates = new Map(cards.map(card => [card, JSON.parse(card.dataset.tripDates)]));
-    const animations = new Set();
-    const stop = () => { animations.forEach(animation => animation.cancel()); animations.clear(); };
-    if (filters) {
-      filters.hidden = false;
-      filters.addEventListener('click', event => {
-        const button = event.target.closest('button[data-trip-month]');
-        if (!button || button.getAttribute('aria-pressed') === 'true') return;
-        stop();
-        const month = button.dataset.tripMonth;
-        filters.querySelectorAll('[data-trip-month]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-        let count = 0;
-        cards.forEach(card => {
-          const label = dates.get(card)[month];
-          card.hidden = !label;
-          if (!label) return;
-          card.querySelector('.home-trip-dates').textContent = label;
-          if (!reduced.matches && card.animate) {
-            const animation = card.animate([{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}],
-              {duration:360,delay:Math.min(count*55,220),easing:'cubic-bezier(.22,.61,.36,1)',fill:'backwards'});
-            animations.add(animation);
-            animation.onfinish = () => {animation.cancel();animations.delete(animation);};
-          }
-          count++;
-        });
-        catalog.querySelector('.home-trip-count').textContent = `Wyjazdy: ${count} · ${button.textContent}`;
-        window.ScrollTrigger?.refresh();
+    calendar.classList.add('is-enhanced');
+    calendar.style.setProperty('--months', Math.min(6, months.length));
+    months.forEach((month,index) => {
+      const summary = month.querySelector('summary');
+      const button = document.createElement('button'); button.type='button'; button.innerHTML=summary.innerHTML;
+      button.id = `${month.id}-trigger`; button.setAttribute('aria-expanded','false'); button.setAttribute('aria-controls',month.id);
+      month.setAttribute('aria-labelledby',button.id);buttons.set(month,button);nav.append(button);panels.append(month);
+      button.addEventListener('click', () => show(selected === month ? null : month));
+      button.addEventListener('keydown', event => {
+        const directions = {ArrowLeft:(index-1+months.length)%months.length,ArrowRight:(index+1)%months.length,Home:0,End:months.length-1};
+        if (event.key in directions) { event.preventDefault();buttons.get(months[directions[event.key]]).focus(); }
       });
-      monthPanel(filters);
-    }
-    catalog.addEventListener('focusin',stop);
-    reduced.addEventListener('change',stop);
-    window.addEventListener('pagehide',event => {stop();if(!event.persisted)reduced.removeEventListener('change',stop);});
+    });
+    calendar.append(nav,panels);
+    calendar.addEventListener('keydown',event => {if(event.key === 'Escape' && selected){event.preventDefault();show(null);}});
+    if (months.length) show(months.find(m => m.querySelector('.calendar-term')) || months[0],false);
+    let width = panels.clientWidth;
+    const resize = new ResizeObserver(() => {if(panels.clientWidth !== width){width=panels.clientWidth;finish();}});resize.observe(panels);
+    const preference = () => finish();reduced.addEventListener('change',preference);
+    document.fonts?.ready.then(() => {if(animation)finish();});
+    window.addEventListener('pagehide',event => {finish();if(!event.persisted){resize.disconnect();reduced.removeEventListener('change',preference);}});
   }
   document.querySelectorAll('[data-home-slider]').forEach(slider => {
     const track = slider.querySelector('.home-slides');

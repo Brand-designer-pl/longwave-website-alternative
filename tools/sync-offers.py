@@ -107,12 +107,12 @@ def sync():
     (ROOT/'amigos/location-offers.json').write_text(json.dumps(dict(updatedAt=updated,draftsExportedAt=snapshot['exportedAt'],items=[t for t in all_terms if t['location']]),ensure_ascii=False))
     # Legacy preview and the homepage both use the public catalog.
     replace(ROOT/'index.html','OFFERS',homepage_cards(public_terms,''))
-    # Homepage cards and featured trips share this live catalog.
+    # Homepage timeline and featured trips share this live catalog.
     home=ROOT/'amigos/index.html'
-    if '<!-- HOME_CATALOG_START -->' in home.read_text():
+    if '<!-- HOME_TIMELINE_START -->' in home.read_text():
         from home_offers import render
-        catalog,featured=render(public_terms)
-        replace(home,'HOME_CATALOG',catalog)
+        timeline,featured=render(public_terms)
+        replace(home,'HOME_TIMELINE',timeline)
         replace(home,'HOME_FEATURED',featured)
     for key,label in LOCATIONS.items():
         terms=[t for t in all_terms if t['location']==key and t['category'].casefold()=='camp']
