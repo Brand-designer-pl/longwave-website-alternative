@@ -611,15 +611,12 @@ body.mobile-menu-open .destination-dock{visibility:hidden}
 .mobile-menu-header .account-link small{display:block;font-size:.6rem;font-weight:400}.mobile-menu-header .account-link span{line-height:1.2}
 @media(max-width:700px){.mobile-menu-header .account-link{max-width:118px;white-space:normal}.mobile-menu-header .account-link small{font-size:.5rem}.mobile-menu-header .account-link>.icon{display:none}}
 
-/* Compact, unbroken participant link in phone headers, including the open menu. */
-body .account-link>.account-label-short,body .account-link>.account-user{display:none}
-@media(max-width:700px){
+/* Shared compact participant link on every screen, including the open menu. */
  body :is(.nav-shell,.mobile-menu-header)>.account-link,body.home-refresh .nav-shell>.account-link{max-width:none;min-width:44px;min-height:44px;gap:7px;padding:10px 8px;white-space:nowrap;flex-shrink:0}
  body :is(.nav-shell,.mobile-menu-header)>.account-link>.account-label-full{display:none}
  body :is(.nav-shell,.mobile-menu-header)>.account-link>.account-label-short{display:block;max-width:none;font:800 .8rem/1.2 Manrope,Arial,sans-serif;white-space:nowrap}
  body :is(.nav-shell,.mobile-menu-header)>.account-link>.account-user,body.home-refresh .nav-shell>.account-link>.account-user{display:block;flex:0 0 20px;width:20px;height:20px;transform:none}
  body :is(.nav-shell,.mobile-menu-header)>.account-link>.icon:not(.account-user){display:none}
-}
 
 /* Shared action arrows: one quarter-turn, replacing local hover transforms.
    !important deliberately overrides component sheets loaded after this file. */
